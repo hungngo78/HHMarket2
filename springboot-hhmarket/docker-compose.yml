@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  mysql-docker-container:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=Password1!
+      - MYSQL_DATABASE=hhmarketdb
+      - MYSQL_USER=hhmarket_user
+      - MYSQL_PASSWORD=test123
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+  hhmarket-container:
+    image: hhmarket-image
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-docker-container
+    ports:
+      - 80:8080
+    volumes:
+      - /data/app

@@ -1,0 +1,420 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model HHMarketWebApp.ViewModels.ShoppingCart
+
+@{
+    var listItem = Model.listItemCart;
+}
+
+    <style type="text/css"></style>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="~/Content/shoppingCart.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="~/Content/hhstyle.css">
+
+    <div class="container" style="margin-top: 50px;">
+        <div>
+            @{  var listItemNo = 0;
+                if (listItem != null)
+                {
+                    listItemNo = @Model.listItemCart.Sum(item => item.Amount);
+                }
+
+
+                <h2 id="quantity"> Your cart:  @listItemNo items </h2>
+            }
+            
+            <table width="96%" style="margin: 20px;">
+                @{  
+                    if (listItem != null) {
+                        var i = -1;
+                        foreach (var item in listItem) {                         
+                            i++;
+                            <tr>
+                                <td width="70%" style="vertical-align:top">
+                                    <table cellspacing="10px" id="tableItem/@item.CartDetailsId">
+                                        <tr id="item/@item.CartDetailsId" style="height:0px;">
+                                            <td width="15%">
+                                                <a href="../Production/ProductDetail?id=@item.ProductID">
+                                                    <img id="image/@item.ProductDetailsId" src="/assets/common_img/no_image.png" alt="Mainstays Faux Leather Bucket Accent Chair" width="100">
+                                                </a>
+                                            </td>
+                                            <td width="50%" style="vertical-align:top">
+                                                <span class="title-production" id="TitleProduction">
+                                                    @Html.DisplayFor(model => item.ProductName)
+                                                </span>
+                                                <span class="customer-info">Sold by HHMarket</span>
+                                            </td>
+
+                                            <td width="20%" style="vertical-align:top; padding-left:10px;">
+                                                <span class="customer-info"> Qty:</span>
+                                                <div id="quantityUI/@item.ProductDetailsId">
+                                                    <select id="quantity/@item.ProductDetailsId" onchange="changeQuantity(@item.ProductDetailsId)"></select>
+                                                </div>
+                                            </td>
+
+                                            <td style="text-align:right; padding-right: 10px;">
+                                                <span class="customer-info" id="priceForEachID">
+                                                    $ @Html.DisplayFor(model => item.Price) ea
+                                                </span>
+                                                <span class="production-price" id="productionTotalPrice/@item.ProductDetailsId"></span>
+                                                <span class="customer-info"><button id="btnRemove/@item.CartDetailsId" class="btn" value="@item.CartDetailsId" onclick="removeItem(@item.CartDetailsId)">Remove</button></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="4">
+                                                <div style="width: 100%; height: 0.5px; background-color: lightgray; margin-top: 10px; margin-bottom:10px;"></div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+
+                                <td style="width:30%; vertical-align:top; ">
+                                    @using (Ajax.BeginForm("Order", "ShoppingCart",
+                                    new AjaxOptions { HttpMethod = "POST", OnSuccess = "onAjaxRequestSuccess" },
+                                    new { @id = "AjaxformId", @class = "form-horizontal", role = "form" }))
+                                    {
+                                        if (i == 0)
+                                        {
+                                            <table width="89%" cellspacing="10" style="background-color: #F5F5F5;  padding-right: 10px;">
+                                                <tr>
+                                                    <td style="text-align:left" id="subTotal">
+                                                        Subtotal( @Model.listItemCart.Sum(model => model.Amount) items)
+                                                    </td>
+
+                                                    <td style="text-align:right">
+                                                        <span id="Subtotalprice"> free </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left">
+                                                        <span>Shipping</span>
+                                                    </td>
+
+                                                    <td style="text-align:right">
+                                                        <span> free </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <div style="width: 100%; height: 0.5px; background-color: lightgray; margin-top: 10px; margin-bottom:10px;"></div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="text-align:left">
+                                                        <span>Estimated Total</span>
+                                                    </td>
+
+                                                    <td style="text-align:right">
+                                                        <span id="EstimatedPrice"> $431.74 </span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" style="text-align:center">
+                                                        <!--button class="btn" onclick="submitOrder()">Check out</!--button-->
+                                                        <button type="submit" class="btn">Check out</button>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        }
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var shoppingCart;
+
+        $(document).ready(function () {
+            shoppingCart = @Html.Raw(Json.Encode(Model.listItemCart));
+            setupQuantityUI();
+            calTotalBill();
+            showImage();
+           
+        });
+
+        //function submitOrder() {
+        $("#AjaxformId").submit(function (event) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+			
+			alert('submitOrder');
+
+            if (shoppingCart != null && shoppingCart != "undefined") {
+                if (shoppingCart.length == 0) {
+                    return;
+                }
+                var action = $("#AjaxformId").attr("action");
+
+                $.ajax({
+                    type: "POST",
+                    url: action, // the method we are calling
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ model: shoppingCart[0]}),
+                    dataType: "json",
+                    success: function (result) {
+                        onAjaxRequestSuccess(result);
+                    },
+                    error: function (result) {
+                        alert('You have error when submit order. Could you please try again!');
+                        document.location.href = "../Category/Index";
+                    }
+                });
+
+                var onAjaxRequestSuccess = function (result) {
+                    alert(result.Msg);
+                    if (result.ResponseType == '2')
+                        document.location.href = "../User/Login";
+                    else
+                        document.location.href = "../Category/Index";
+                }
+            }
+            return false;
+        });
+
+        function changeQuantity(id) {
+            if (id != null && id != "undefined") {
+                var k = -1;
+                
+                if (shoppingCart != null && shoppingCart != "undefined") {
+                    for (var i = 0; i < shoppingCart.length; i++) {
+                        if (shoppingCart[i].ProductDetailsId == id) {
+                            k = i;
+                            break;
+                        }
+                    }
+                } else return;
+
+                if (k == -1) return;
+
+                alert("shoppingCart[k].CartDetailsId " + shoppingCart[k].CartDetailsId);
+                var amount = document.getElementById("quantity/" + shoppingCart[k].ProductDetailsId).options.item(document.getElementById("quantity/" + shoppingCart[k].ProductDetailsId).selectedIndex).value;
+                var data = {
+                    "Amount": amount,
+                    "ProductDetailsId": id,
+                    "CartDetailsId": shoppingCart[k].CartDetailsId,
+                    "CartId": shoppingCart[k].CartId,
+                };
+
+                $.ajax({
+                    type: "POST",
+                    url: "UpdateQuantity", // the method we are calling
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ model: data }),
+                    dataType: "json",
+                    success: function (result) {
+                         //alert('You updated quantity successfully!');
+                         shoppingCart[k].Amount = amount;
+                         calTotalBill();
+                       
+                    },
+                    error: function (result) {
+                        alert('You have error when submit quantity. Could you please try again!');
+                        document.getElementById("quantity/" + shoppingCart[k].ProductDetailsId).selectedIndex = shoppingCart[k].Amount - 1;
+                    }
+
+                });
+            }
+
+            return false;
+        }
+        function exRemoveItem(CartDetailsId, CartId, ProductDetailsId) {
+            var data = {
+                "CartDetailsId": CartDetailsId,
+                "CartId": CartId,
+                "ProductDetailsId": ProductDetailsId
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "RemoveCartItem", // the method we are calling
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify({ model: data }),
+                dataType: "json",
+                success: function (result) {
+                    alert('Thank you for your order!');
+                    var rowItem = document.getElementById("item/" + CartDetailsId);
+                    // var tableItem = document.getElementById("tableItem/" + id);
+                    rowItem.setAttribute("style", "height: 0px");
+                    rowItem.parentNode.removeChild(rowItem);
+                    for (var i = 0; i < shoppingCart.length; i++) {
+                        if (shoppingCart[i].CartDetailsId == CartDetailsId) {
+                            shoppingCart.splice(i, 1);
+                            calTotalBill();
+                            //remove item on server
+                            break;
+                        }
+                    }
+
+                },
+                error: function (result) {
+                    alert('You have error when submit quantity. Could you please try again!');
+                }
+
+            });
+            return false;
+        }
+        function removeItem(id) {
+            //alert("removeItem");
+            var retValue = confirm("Do you want to remove?");
+            if (retValue == true) {
+                // remove item from server
+                if (id != null && id != "undefined") {
+                    var k = -1;
+                    //alert(" id = " + id);
+                    if (shoppingCart != null && shoppingCart != "undefined") {
+                        for (var i = 0; i < shoppingCart.length; i++) {
+                            if (shoppingCart[i].CartDetailsId == id) {
+                                k = shoppingCart[i].CartId;
+                                p = shoppingCart[i].ProductDetailsId;
+                                break;
+                            }
+                        }
+                    } else return;
+                    if (k == -1) return;
+
+                    //alert(" k = " + k);
+
+                    exRemoveItem(id, k, p);
+                    return false;
+                }
+
+                /*
+                var updateUI = function (id) {
+                    var rowItem = document.getElementById("item/" + id);
+                    // var tableItem = document.getElementById("tableItem/" + id);
+                    rowItem.setAttribute("style", "height: 0px");
+                    rowItem.parentNode.removeChild(rowItem);
+                    for (var i = 0; i < shoppingCart.length; i++) {
+                        if (shoppingCart[i].CartDetailsId == id) {
+                            shoppingCart.splice(i, 1);
+                            calTotalBill();
+                            //remove item on server
+                            break;
+                        }
+                    }
+                }
+                */
+              
+            }
+
+        }
+        function showImage() {
+            if (shoppingCart != null && shoppingCart != "undefined") {
+                for (var i = 0; i < shoppingCart.length; i++) {
+                    var image = document.getElementById("image/" + shoppingCart[i].ProductDetailsId);
+                    var pict = shoppingCart[i].Picture.split(',');
+                    if (pict != null && pict != "undefined" && pict.length > 0) {
+                        //alert('src: ' + + '/assets/production/' + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
+                        image.setAttribute("src", '/assets/production/' + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
+                    } //else {
+                        //alert("AA: " + pict);
+                    //}
+                }
+            }
+
+        }
+        function calTotalBill() {
+            if (shoppingCart != null && shoppingCart != "undefined") {
+                var total = 0;
+                var shippingFee = 0; // we not set shipping Fee now
+                var subTotal = 0;
+                for (var i = 0; i < shoppingCart.length; i++) {
+                    var productionQuantity = document.getElementById("quantity/" + shoppingCart[i].ProductDetailsId).options.item(document.getElementById("quantity/" + shoppingCart[i].ProductDetailsId).selectedIndex).value;
+                    total += shoppingCart[i].Price * productionQuantity;
+                    subTotal +=  parseInt(shoppingCart[i].Amount);
+                }
+                // update price total
+                var Subtotalprice = document.getElementById("Subtotalprice");
+                Subtotalprice.innerHTML = "$" + total;
+                document.getElementById("EstimatedPrice").innerHTML = "$" + (total + shippingFee);
+                document.getElementById("subTotal").textContent = " Subtotal( " + subTotal + " items)";
+                document.getElementById("quantity").innerHTML = " Your cart:  " + subTotal + " items";
+            }
+        }
+        function updateTotalPricePro(prodItem) {
+            // alert(" prodItem.ProductDetailsId = " + prodItem.ProductDetailsId);
+            var productionTotalPrice = document.getElementById("productionTotalPrice/" + prodItem.ProductDetailsId);
+
+            //get quantity
+            var index = document.getElementById("quantity/" + prodItem.ProductDetailsId).selectedIndex;
+            var productionQuantity = document.getElementById("quantity/" + prodItem.ProductDetailsId).options.item(index).value;
+               
+            // if (productionTotalPrice != "+10")
+            productionTotalPrice.innerHTML = "$" + prodItem.Price * productionQuantity;
+        }
+        function setupQuantityUI() {
+            if (shoppingCart != null && shoppingCart != "undefined") {
+               for (var i = 0; i < shoppingCart.length; i++) {
+                   var quantitySelect = document.getElementById("quantity/"+shoppingCart[i].ProductDetailsId);
+                   quantitySelect.style = "width:60px;"
+
+                   // make up all combobox items
+                   if (shoppingCart[i].TotalAmountProduction > 30) {
+                       for (var j = 1; j <= 10; j++) {
+                           var option = document.createElement("option");
+                           option.text = "" + j;
+                           option.value = j;
+                           quantitySelect.add(option);
+                       }
+                      // var option = document.createElement("option");
+                      // option.text = "10+";
+                      // quantitySelect.add(option);
+                   } else {
+                       if (shoppingCart[i].TotalAmountProduction != 0) {
+                           for (var k = 1; k <= shoppingCart[i].TotalAmountProduction; k++) {
+                               var option = document.createElement("option");
+                               option.text = k;
+                               option.value = k;
+                               quantitySelect.add(option);
+                           }
+                       }
+                   }
+
+                   // check if quantity of ordered shopping cart item is greater then the amount of that product in store 
+                   if (shoppingCart[i].Amount > shoppingCart[i].TotalAmountProduction && shoppingCart[i].TotalAmountProduction!= 0) {
+                       // if so, update quantity in DB, and update index of combobox
+                       shoppingCart[i].Amount = shoppingCart[i].TotalAmountProduction;
+                       quantitySelect.selectedIndex = shoppingCart[i].Amount - 1;
+                       
+                       changeQuantity(shoppingCart[i].ProductDetailsId);
+                   } else {
+                       // if else, just update index of combobox
+                       if (shoppingCart[i].Amount!= 0 && shoppingCart[i].Amount <= shoppingCart[i].TotalAmountProduction)
+                           quantitySelect.selectedIndex = shoppingCart[i].Amount - 1;
+                   }
+
+                   // check the special case when amount of product in store is 0
+                   if (shoppingCart[i].Amount == 0 || 0 == shoppingCart[i].TotalAmountProduction) {
+                       // remove the ordered item by updating the quantity to 0
+                       shoppingCart[i].Amount = 0;
+
+                       // remove it in DB
+                       changeQuantity(shoppingCart[i].ProductDetailsId);
+
+                       /*
+                       var option = document.createElement("option");
+                       option.text = "0";
+                       option.value = 0;
+                       quantitySelect.add(option);
+                       quantitySelect.selectedIndex = shoppingCart[i].Amount;*/
+                       
+                   }
+
+                   // add totalPrice each Production
+                   updateTotalPricePro(shoppingCart[i]);
+               }
+           }
+       }
+    </script>
+

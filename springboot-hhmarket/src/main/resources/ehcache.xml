@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="java.io.tmpdir" />
+
+    <defaultCache maxElementsInMemory="1" eternal="false"
+                  timeToIdleSeconds="10000" timeToLiveSeconds="60000" overflowToDisk="false" />
+    
+    <cache name="category" maxElementsInMemory="6969" />
+    <cache name="product" maxElementsInMemory="6969" />
+    
+    <cache name="category.all" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
+           timeToLiveSeconds="3600" overflowToDisk="true"/>
+    <cache name="product.byCategoryId" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
+           timeToLiveSeconds="3600" overflowToDisk="true"/>
+</ehcache>

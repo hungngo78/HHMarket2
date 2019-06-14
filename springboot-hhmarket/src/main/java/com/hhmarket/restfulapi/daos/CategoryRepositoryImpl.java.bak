@@ -13,9 +13,6 @@ import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Repository;
 
 import com.hhmarket.restfulapi.model.Category;
@@ -50,8 +47,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
             .getResultList();
     }
 
-    // It will cache result and key name will be "category.all"
-    @Cacheable(value = "category.all")	
 	public List<Category> findAll() {
 		List<Category> results = entityManager.createQuery("SELECT c FROM Category c", Category.class).getResultList();
 		return results;
@@ -70,8 +65,6 @@ public class CategoryRepositoryImpl implements CategoryRepository {
 		return results;
 	}
 	
-	// It will clear cache when new category save to database
-	@Caching(evict = {@CacheEvict(value = "category.all", allEntries=true)})			
 	public void save(Category entity) {
 		entityManager.persist(entity);
 	}

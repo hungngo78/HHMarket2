@@ -10,6 +10,10 @@
     
     <cache name="category.all" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
            timeToLiveSeconds="3600" overflowToDisk="true"/>
+    <cache name="product.byId" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
+           timeToLiveSeconds="3600" overflowToDisk="true"/>
+    <cache name="product.byName" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
+           timeToLiveSeconds="3600" overflowToDisk="true"/>
     <cache name="product.byCategoryId" maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="600"
            timeToLiveSeconds="3600" overflowToDisk="true"/>
 </ehcache>

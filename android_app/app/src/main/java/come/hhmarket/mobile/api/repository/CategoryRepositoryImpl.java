@@ -23,7 +23,7 @@ import come.hhmarket.mobile.model.Species;
 import come.hhmarket.mobile.model.SpeciesList;
 import come.hhmarket.mobile.model.User;
 
-import io.reactivex.observers.DisposableObserver;
+//import io.reactivex.observers.DisposableObserver;
 import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;

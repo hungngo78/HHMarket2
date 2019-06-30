@@ -16,7 +16,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import io.reactivex.Observable;
+
 
 public interface GetDataService {
     @GET("get_all_categories")

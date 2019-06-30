@@ -74,33 +74,34 @@ public class CategoryListFragment extends Fragment {
 
         //mViewModel.getCategoriesfromAPI();
 
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(interceptor)
-                .build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://ec2-34-238-44-113.compute-1.amazonaws.com:80/category/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build();
-
-        GetDataService apiService = retrofit.create(GetDataService.class);
-        //Call<User> call = apiService.login("huongquadeo", "1234");
-        Call<List<Category1>> call = apiService.getAllCategories1();
-
-        call.enqueue(new Callback<List<Category1>>() {
-            @Override
-            public void onResponse(Call<List<Category1>> call, Response<List<Category1>> response) {
-                Log.i("-------onResponse--------", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<List<Category1>> call, Throwable t) {
-                Log.i("-------onFailure--------", "-----------------------------");
-            }
-        });
+//        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//        OkHttpClient client = new OkHttpClient.Builder()
+//                .addInterceptor(interceptor)
+//                .build();
+//
+//        Retrofit retrofit = new Retrofit.Builder()
+//                .baseUrl("http://ec2-34-238-44-113.compute-1.amazonaws.com:80/category/")
+//                .addConverterFactory(GsonConverterFactory.create())
+//                .client(client)
+//                .build();
+//
+//        GetDataService apiService = retrofit.create(GetDataService.class);
+//        //Call<User> call = apiService.login("huongquadeo", "1234");
+//        Call<List<Category>> call = apiService.getAllCategories();
+//
+//        call.enqueue(new Callback<List<Category>>() {
+//            @Override
+//            public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
+//                Log.i("-------onResponse--------", response.body().toString());
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<List<Category>> call, Throwable t) {
+//                Log.i("-------onFailure--------", "-----------------------------");
+//            }
+//        });
 
         subscribeUi();
     }

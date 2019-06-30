@@ -16,6 +16,8 @@ import come.hhmarket.mobile.model.Category1;
 import come.hhmarket.mobile.model.Species;
 import come.hhmarket.mobile.model.SpeciesList;
 import come.hhmarket.mobile.model.User;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -38,10 +40,17 @@ public class CategoryRepositoryImpl implements  CategoryRepository {
                 .setDateFormat("2019-06-29'T'22:22:22")
                 .create();
 
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-34-238-44-113.compute-1.amazonaws.com:80/account/")
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
 
         GetDataService apiService = retrofit.create(GetDataService.class);
@@ -50,7 +59,8 @@ public class CategoryRepositoryImpl implements  CategoryRepository {
 
         int i = 1;
 
-        apiService.login().enqueue(new Callback<User>() {
+        Call<User> user =  apiService.login("huongquadeo", "1234");
+        user.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.i("-------onResponse--------", response.body().toString());

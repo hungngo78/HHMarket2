@@ -6,49 +6,42 @@ import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
+import okhttp3.ResponseBody;
 
-public class User implements Serializable {
+
+public class User {
 
     @SerializedName("userId")
-    @Expose
-    private Integer userId;
+    public Integer userId;
 
     @SerializedName("userName")
-    @Expose
-    private String userName;
+    public String userName;
 
     @SerializedName("password")
-    @Expose
-    private String password;
+    public String password;
 
     @SerializedName("email")
-    @Expose
-    private String email;
+    public String email;
 
     @SerializedName("firstName")
-    @Expose
-    private String firstName;
+    public String firstName;
 
     @SerializedName("lastName")
-    @Expose
-    private String lastName;
+    public String lastName;
 
     @SerializedName("address")
-    @Expose
-    private String address;
+    public String address;
 
     @SerializedName("city")
-    @Expose
-    private String city;
+    public String city;
 
     @SerializedName("state")
-    @Expose
-    private String state;
+    public String state;
 
     @SerializedName("zipCode")
-    @Expose
-    private String zipCode;
+    public String zipCode;
 
+    /*
     public Integer getUserId() {
         return userId;
     }
@@ -127,5 +120,5 @@ public class User implements Serializable {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
-    }
+    } */
 }

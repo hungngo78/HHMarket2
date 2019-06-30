@@ -1,11 +1,17 @@
 package come.hhmarket.mobile.api.repository;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
@@ -16,7 +22,10 @@ import come.hhmarket.mobile.model.Category1;
 import come.hhmarket.mobile.model.Species;
 import come.hhmarket.mobile.model.SpeciesList;
 import come.hhmarket.mobile.model.User;
+
+import io.reactivex.observers.DisposableObserver;
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,21 +40,12 @@ public class CategoryRepositoryImpl implements  CategoryRepository {
 
     }
 
-    /*public CategoryRepositoryImpl(GetDataService _apiService) {
-        apiService = _apiService;
-    }*/
-
     public void getSpecies() {
-        Gson gson = new GsonBuilder()
-                .setDateFormat("2019-06-29'T'22:22:22")
-                .create();
-
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
                 .build();
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://ec2-34-238-44-113.compute-1.amazonaws.com:80/account/")
@@ -54,40 +54,20 @@ public class CategoryRepositoryImpl implements  CategoryRepository {
                 .build();
 
         GetDataService apiService = retrofit.create(GetDataService.class);
-        //Call<List<Category1>> speciesList  = client.getAllCategories();
+        Call<User> call = apiService.login("huongquadeo", "1234");
 
-
-        int i = 1;
-
-        Call<User> user =  apiService.login("huongquadeo", "1234");
-        user.enqueue(new Callback<User>() {
+        call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 Log.i("-------onResponse--------", response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t){
+            public void onFailure(Call<User> call, Throwable t) {
                 Log.i("-------onFailure--------", "-----------------------------");
             }
         });
 
-        int ii = 2;
-/*
-        Call<SpeciesList> call = apiService.getSpecies();
-
-        call.enqueue(new Callback<SpeciesList>() {
-            @Override
-            public void onResponse(Call<SpeciesList> call, Response<SpeciesList> response) {
-                Log.i("-------onResponse--------", response.body().toString());
-            }
-
-            @Override
-            public void onFailure(Call<SpeciesList> call, Throwable t) {
-                Log.i("-------onFailure--------", "-----------------------------");
-            }
-        });
-*/
         int iii = 3;
     }
 

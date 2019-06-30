@@ -23,6 +23,7 @@ public class Category1 {
     @Expose
     private String description;
 
+
     public Integer getCategoryId() {
         return categoryId;
     }

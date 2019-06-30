@@ -17,6 +17,7 @@
 package come.hhmarket.mobile.ui.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,8 +39,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hhmarket.mobile.R;
 
+import come.hhmarket.mobile.api.GetDataService;
+import come.hhmarket.mobile.model.SpeciesList;
+import come.hhmarket.mobile.model.User;
 import come.hhmarket.mobile.ui.fragment.CategoryListFragment;
 import come.hhmarket.mobile.utils.HHMarketConstants;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Callback;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,6 +79,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
+
         /*
         // Loading profile image
         navHeader = navigationView.getHeaderView(0);
@@ -86,6 +99,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_home);
         Fragment fragment = new CategoryListFragment();
         displaySelectedFragment(fragment);
+
 
     }
 

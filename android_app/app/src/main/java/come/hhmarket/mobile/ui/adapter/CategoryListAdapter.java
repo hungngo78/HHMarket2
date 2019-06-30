@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Objects;
 
 import come.hhmarket.mobile.model.Category;
-import come.hhmarket.mobile.model.Product;
 
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryListViewHolder> {
     List<? extends Category> mCategoryList;

@@ -18,12 +18,22 @@ import com.hhmarket.mobile.databinding.CategoryListFragmentBinding;
 
 import java.util.List;
 
+import come.hhmarket.mobile.api.GetDataService;
 import come.hhmarket.mobile.db.entity.ProductEntity;
 import come.hhmarket.mobile.model.Category;
+import come.hhmarket.mobile.model.Category1;
+import come.hhmarket.mobile.model.User;
 import come.hhmarket.mobile.ui.adapter.CategoryListAdapter;
 import come.hhmarket.mobile.di.ComponentInjector;
 import come.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import come.hhmarket.mobile.utils.HHMarketConstants;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CategoryListFragment extends Fragment {
     private CategoryListViewModel mViewModel;
@@ -62,7 +72,36 @@ public class CategoryListFragment extends Fragment {
         }
         ComponentInjector.magicBox.inject(mViewModel);
 
-        mViewModel.getCategoriesfromAPI();
+        //mViewModel.getCategoriesfromAPI();
+
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .build();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl("http://ec2-34-238-44-113.compute-1.amazonaws.com:80/category/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
+                .build();
+
+        GetDataService apiService = retrofit.create(GetDataService.class);
+        //Call<User> call = apiService.login("huongquadeo", "1234");
+        Call<List<Category1>> call = apiService.getAllCategories1();
+
+        call.enqueue(new Callback<List<Category1>>() {
+            @Override
+            public void onResponse(Call<List<Category1>> call, Response<List<Category1>> response) {
+                Log.i("-------onResponse--------", response.body().toString());
+            }
+
+            @Override
+            public void onFailure(Call<List<Category1>> call, Throwable t) {
+                Log.i("-------onFailure--------", "-----------------------------");
+            }
+        });
+
         subscribeUi();
     }
 

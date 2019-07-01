@@ -36,6 +36,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            debuggable true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -59,6 +60,23 @@ dependencies {
     //implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
 
+    // Glide image library
+    implementation 'com.github.bumptech.glide:glide:4.3.1'
+
+    //Logging Retrofit Network Calls
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    //Retrofit
+    //implementation 'com.squareup.retrofit2:retrofit:2.6.0'
+    //implementation 'com.squareup.retrofit2:converter-gson:2.6.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.+'
+
+    // dependency injection
+    implementation 'com.google.dagger:dagger:2.15'
+    annotationProcessor "com.google.dagger:dagger-compiler:2.15"
+
     // Support libraries
     implementation deps.support.app_compat
     implementation deps.support.v4
@@ -73,19 +91,19 @@ dependencies {
     annotationProcessor deps.room.compiler
 
     // Android Testing Support Library's runner and rules
-    androidTestImplementation deps.atsl.runner
-    androidTestImplementation deps.atsl.rules
-    androidTestImplementation deps.room.testing
-    androidTestImplementation deps.arch_core.testing
+    //androidTestImplementation deps.atsl.runner
+    //androidTestImplementation deps.atsl.rules
+    //androidTestImplementation deps.room.testing
+    //androidTestImplementation deps.arch_core.testing
 
     // Espresso UI Testing
-    androidTestImplementation deps.espresso.core
-    androidTestImplementation deps.espresso.contrib
-    androidTestImplementation deps.espresso.intents
+    //androidTestImplementation deps.espresso.core
+    //androidTestImplementation deps.espresso.contrib
+    //androidTestImplementation deps.espresso.intents
 
     // Resolve conflicts between main and test APK:
-    androidTestImplementation deps.support.annotations
-    androidTestImplementation deps.support.v4
-    androidTestImplementation deps.support.app_compat
-    androidTestImplementation deps.support.design
+    //androidTestImplementation deps.support.annotations
+    //androidTestImplementation deps.support.v4
+    //androidTestImplementation deps.support.app_compat
+    //androidTestImplementation deps.support.design
 }

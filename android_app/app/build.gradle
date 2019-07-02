@@ -78,6 +78,7 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:2.15"
 
     // Support libraries
+    implementation deps.support.preference
     implementation deps.support.app_compat
     implementation deps.support.v4
     implementation deps.support.design

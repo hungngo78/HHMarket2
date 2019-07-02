@@ -16,6 +16,7 @@
 
 package com.hhmarket.mobile.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -141,9 +142,14 @@ public class MainActivity extends AppCompatActivity
 
         else if (id == R.id.nav_setting) {
             Toast.makeText(this, "Setting", Toast.LENGTH_SHORT).show();
+            // start setting activity
+            Intent intent = new Intent(this, SettingsActivity.class);
+            this.startActivity(intent);
         }
         else if (id == R.id.nav_about) {
             Toast.makeText(this, "About", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(this, AboutActivity.class);
+            this.startActivity(intent);
         }
         else if (id == R.id.nav_sign_out) {
             Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();

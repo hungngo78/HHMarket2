@@ -1,66 +1,40 @@
-package com.hhmarket.mobile.model;
+package com.hhmarket.mobile.db.entity;
 
-import com.google.gson.annotations.SerializedName;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+import com.hhmarket.mobile.model.User;
 
 
-public class User  implements UserInterface{
+@Entity(tableName = "user")
+public class UserEntity {
 
-    @SerializedName("userId")
+    @PrimaryKey
     public Integer userId;
 
-    @SerializedName("userName")
     public String userName;
 
-    @SerializedName("password")
     public String password;
 
-    @SerializedName("email")
     public String email;
 
-    @SerializedName("firstName")
     public String firstName;
 
-    @SerializedName("lastName")
     public String lastName;
 
-    @SerializedName("address")
     public String address;
 
-    @SerializedName("city")
     public String city;
 
-    @SerializedName("state")
     public String state;
 
-    @SerializedName("zipCode")
     public String zipCode;
 
-    @Override
-    public String getAddress() {
-        return address + "," + city + "," + state + "," + zipCode;
+    public UserEntity(User user) {
+        this.userId = user.getUserId();
+        this.userName = user.getUsername();
+        this.password = user.getPassword();
     }
-
-    @Override
-    public String getFullname() {
-        return firstName + " " + lastName;
-    }
-
-    @Override
-    public int getUserId() {
-        return userId;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return userName;
-    }
-
-    /*
     public Integer getUserId() {
         return userId;
     }
@@ -139,5 +113,7 @@ public class User  implements UserInterface{
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
-    } */
+    }
+
+
 }

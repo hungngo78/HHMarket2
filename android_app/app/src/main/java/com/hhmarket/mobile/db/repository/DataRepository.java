@@ -2,8 +2,11 @@ package com.hhmarket.mobile.db.repository;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import com.hhmarket.mobile.db.AppDatabase;
 import com.hhmarket.mobile.db.entity.ProductEntity;
+import com.hhmarket.mobile.db.entity.UserEntity;
 
 import java.util.List;
 
@@ -16,6 +19,7 @@ public class DataRepository {
 
     private final AppDatabase mDatabase;
     private MediatorLiveData<List<ProductEntity>> mObservableProducts;
+    private MutableLiveData<UserEntity> mObservableUserInfo;
 
     private DataRepository(final AppDatabase database) {
         mDatabase = database;
@@ -27,6 +31,9 @@ public class DataRepository {
                         mObservableProducts.postValue(productEntities);
                     }
                 });
+
+        mObservableUserInfo = new MutableLiveData<>();
+
     }
 
     public static DataRepository getInstance(final AppDatabase database) {
@@ -53,5 +60,14 @@ public class DataRepository {
 
     public LiveData<List<ProductEntity>> searchProducts(String query) {
         return mDatabase.productDao().searchAllProducts(query);
+    }
+
+    /**
+     * Get user information
+     */
+
+    public LiveData<UserEntity> getUserInfo() {
+        return mDatabase.userDao().loadUserInfo();
+
     }
 }

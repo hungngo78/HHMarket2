@@ -36,6 +36,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hhmarket.mobile.R;
 
+import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
 
 public class MainActivity extends AppCompatActivity
@@ -153,6 +154,10 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.nav_sign_out) {
             Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
+        }
+        else if (id == R.id.sign_in) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            this.startActivity(intent);
         }
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);

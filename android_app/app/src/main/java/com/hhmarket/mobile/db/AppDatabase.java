@@ -27,6 +27,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import com.hhmarket.mobile.AppExecutors;
 import com.hhmarket.mobile.db.dao.ProductDao;
+import com.hhmarket.mobile.db.dao.UserDao;
 
 
 //@Database(entities = {ProductEntity.class, ShoppingEntity.class}, version = 2)
@@ -39,6 +40,7 @@ public abstract class AppDatabase extends RoomDatabase {
     public static final String DATABASE_NAME = "hh-market-db";
 
     public abstract ProductDao productDao();
+    public abstract UserDao userDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 

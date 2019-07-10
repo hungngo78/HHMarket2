@@ -19,4 +19,6 @@ public interface ApiEndpoints {
 
     @GET("account/login")
     Call<User> login(@Query("username") String username, @Query("password") String password);
+
+
 }

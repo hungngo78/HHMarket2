@@ -11,29 +11,38 @@ import android.util.Patterns;
 
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.api.repository.UserRepository;
+import com.hhmarket.mobile.db.entity.UserEntity;
+import com.hhmarket.mobile.db.repository.UserDataSource;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginFormState;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginResult;
 
 import javax.inject.Inject;
 
+import io.reactivex.Completable;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class LoginViewModel extends AndroidViewModel {
+public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private UserEntity mUser;
+    private final UserDataSource mDataSource;
 
     @Inject
     public UserRepository loginRepository;
 
-    public LoginViewModel(Application application) {
-
-        super(application);
+//    public LoginViewModel(Application application) {
+//
+//        super(application);
+//    }
+    public LoginViewModel(UserDataSource dataSource) {
+        mDataSource = dataSource;
     }
+
 
     public void setUserRepository(UserRepository loginRepository) {
 
@@ -95,5 +104,21 @@ public class LoginViewModel extends AndroidViewModel {
     // A placeholder password validation check
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 3;
+    }
+
+    /**
+     * Update the user name.
+     *
+     * @param user the new user name
+     * @return a {@link Completable} that completes when the user name is updated
+     */
+    public Completable updateUser(final User user) {
+        // if there's no user, create a new user.
+        // if we already have a user, then, since the user object is immutable,
+        // create a new user, with the id of the previous user and the updated user name.
+        mUser = mUser == null
+                ? new UserEntity(user)
+                : new UserEntity(mUser.userId, user.address, user.city, user.state,user.zipCode);
+        return mDataSource.insertUserOrUpdateUser(mUser);
     }
 }

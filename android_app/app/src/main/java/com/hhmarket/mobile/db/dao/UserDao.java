@@ -11,12 +11,23 @@ import com.hhmarket.mobile.model.User;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+import io.reactivex.Flowable;
+
 public interface UserDao {
 
     @Query("SELECT * FROM user")
     LiveData<UserEntity> loadUserInfo();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertUser(UserEntity user);
+    Completable insertUser(UserEntity user);
+
+   // @Query("SELECT * FROM user LIMIT 1")
+    //Flowable<UserEntity> getUser();
+
+    @Query("DELETE FROM user")
+    void deleteAllUser();
+
+
 
 }

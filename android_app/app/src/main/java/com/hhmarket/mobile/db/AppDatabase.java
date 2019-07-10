@@ -18,6 +18,7 @@ package com.hhmarket.mobile.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.room.Database;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -28,9 +29,10 @@ import androidx.annotation.VisibleForTesting;
 import com.hhmarket.mobile.AppExecutors;
 import com.hhmarket.mobile.db.dao.ProductDao;
 import com.hhmarket.mobile.db.dao.UserDao;
+import com.hhmarket.mobile.db.entity.ProductEntity;
+import com.hhmarket.mobile.db.entity.UserEntity;
 
-
-//@Database(entities = {ProductEntity.class, ShoppingEntity.class}, version = 2)
+@Database(entities = {ProductEntity.class, UserEntity.class}, version = 1)
 //@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 

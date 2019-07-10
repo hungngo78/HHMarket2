@@ -1,5 +1,6 @@
 package com.hhmarket.mobile.db.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -8,7 +9,7 @@ import com.hhmarket.mobile.model.User;
 
 @Entity(tableName = "user")
 public class UserEntity {
-
+    @NonNull
     @PrimaryKey
     public Integer userId;
 
@@ -34,6 +35,14 @@ public class UserEntity {
         this.userId = user.getUserId();
         this.userName = user.getUsername();
         this.password = user.getPassword();
+    }
+
+    public UserEntity(int userId, String address, String city, String state, String zipCode) {
+        this.userId = userId;
+        this.address = address;
+        this.city = city;
+        this.state = state;
+        this.zipCode = zipCode;
     }
     public Integer getUserId() {
         return userId;

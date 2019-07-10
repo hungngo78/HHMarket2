@@ -10,10 +10,12 @@ import com.hhmarket.mobile.db.entity.UserEntity;
 
 import java.util.List;
 
+import io.reactivex.Completable;
+
 /**
  * Repository handling the work with products and comments.
  */
-public class DataRepository {
+public class DataRepository implements UserDataSource {
 
     private static DataRepository sInstance;
 
@@ -65,9 +67,27 @@ public class DataRepository {
     /**
      * Get user information
      */
-
+    @Override
     public LiveData<UserEntity> getUserInfo() {
         return mDatabase.userDao().loadUserInfo();
 
     }
+
+    /**
+     * insert user to database
+     */
+    @Override
+    public Completable insertUserOrUpdateUser(UserEntity user) {
+
+        return mDatabase.userDao().insertUser(user);
+    }
+
+    /**
+     * delete user when logout
+     */
+    @Override
+    public void deleteAllUser() {
+        mDatabase.userDao().deleteAllUser();
+    }
+
 }

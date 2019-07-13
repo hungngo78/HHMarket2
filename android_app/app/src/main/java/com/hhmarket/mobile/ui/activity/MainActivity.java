@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.fragment.app.Fragment;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
@@ -173,6 +174,10 @@ public class MainActivity extends AppCompatActivity
 
                         }
                     }).show();
+        }
+        else if (id == R.id.sign_in) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            this.startActivity(intent);
         }
         else if (id == R.id.sign_in) {
             Intent intent = new Intent(this, LoginActivity.class);

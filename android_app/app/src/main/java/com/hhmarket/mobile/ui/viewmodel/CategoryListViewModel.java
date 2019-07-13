@@ -12,7 +12,7 @@ import javax.inject.Inject;
 
 import androidx.lifecycle.AndroidViewModel;
 
-import com.hhmarket.mobile.api.repository.CategoryRepository;
+import com.hhmarket.mobile.api.repository.CategoryAPIRepository;
 import com.hhmarket.mobile.model.Category;
 
 import retrofit2.Call;
@@ -21,7 +21,7 @@ import retrofit2.Response;
 
 public class CategoryListViewModel extends AndroidViewModel {
     @Inject
-    public CategoryRepository mRepository;
+    public CategoryAPIRepository mRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Category>> mObservableCategories;

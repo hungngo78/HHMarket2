@@ -1,16 +1,16 @@
 package com.hhmarket.mobile.ui.viewmodel;
 
-import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import android.app.Application;
 import android.util.Log;
 import android.util.Patterns;
 
 import com.hhmarket.mobile.R;
-import com.hhmarket.mobile.api.repository.UserRepository;
+
+import com.hhmarket.mobile.api.repository.UserAPIRepository;
+
 import com.hhmarket.mobile.db.entity.UserEntity;
 import com.hhmarket.mobile.db.repository.UserDataSource;
 import com.hhmarket.mobile.model.User;
@@ -33,22 +33,16 @@ public class LoginViewModel extends ViewModel {
     private final UserDataSource mDataSource;
 
     @Inject
-    public UserRepository loginRepository;
+    public UserAPIRepository loginRepository;
 
-//    public LoginViewModel(Application application) {
-//
-//        super(application);
-//    }
     public LoginViewModel(UserDataSource dataSource) {
         mDataSource = dataSource;
     }
 
-
-    public void setUserRepository(UserRepository loginRepository) {
-
+    public void setUserRepository(UserAPIRepository loginRepository) {
         this.loginRepository = loginRepository;
-
     }
+
     public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
@@ -61,6 +55,7 @@ public class LoginViewModel extends ViewModel {
         Callback<User> callback = new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
+
                 if (response.isSuccessful()) {
                     Log.i("-------onResponse--------", response.body().toString());
                     User data = response.body();
@@ -72,6 +67,7 @@ public class LoginViewModel extends ViewModel {
                     mDataSource.deleteAllUser();
                     Log.i("-------onFailure--------", "-----------------------------");
                 }
+
             }
 
             @Override
@@ -86,6 +82,7 @@ public class LoginViewModel extends ViewModel {
 
         loginRepository.getUserInfo(username, password, callback);
  }
+
 
     public void loginDataChanged(String username, String password) {
         if (!isUserNameValid(username)) {

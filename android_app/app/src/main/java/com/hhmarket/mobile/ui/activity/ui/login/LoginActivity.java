@@ -23,26 +23,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.hhmarket.mobile.AppExecutors;
+
 import com.hhmarket.mobile.R;
-import com.hhmarket.mobile.api.ApiEndpoints;
-import com.hhmarket.mobile.api.repository.UserRepositoryImpl;
-import com.hhmarket.mobile.db.AppDatabase;
-import com.hhmarket.mobile.db.repository.DataRepository;
-import com.hhmarket.mobile.db.repository.UserDataSource;
+
 import com.hhmarket.mobile.di.ApiModule;
-import com.hhmarket.mobile.di.CategoryRepositoryModule;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.di.UserRepositoryModule;
-import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.User;
-import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 
-import java.util.List;
-
-import retrofit2.Call;
+import com.hhmarket.mobile.di.ComponentInjector;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -59,18 +50,14 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
 
 
-        // we can createe loginViewModel without use Injector
-        //UserDataSource dataSource = DataRepository.getInstance(AppDatabase.getInstance(this, new AppExecutors()));
-        //loginViewModel = ViewModelProviders.of(this, new LoginViewModelFactory(dataSource)).get(LoginViewModel.class);
-
-
-        // create objects to call in APIs
         UserRepositoryModule module = new UserRepositoryModule();
         ApiModule api = new ApiModule();
 
         loginViewModel.setUserRepository(module.provideGetRepository(api.provideApiService()));
 
 
+        // allow inject repository into LoginViewModel
+        ComponentInjector.magicBox.injectIntoLogin(loginViewModel);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);

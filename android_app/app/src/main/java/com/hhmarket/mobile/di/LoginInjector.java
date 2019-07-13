@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.hhmarket.mobile.AppExecutors;
 import com.hhmarket.mobile.db.AppDatabase;
-import com.hhmarket.mobile.db.repository.DataRepository;
+import com.hhmarket.mobile.db.repository.UserDBRepository;
 import com.hhmarket.mobile.db.repository.UserDataSource;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 
@@ -12,7 +12,9 @@ public class LoginInjector {
 
     public static UserDataSource provideUserDataSource(Context context) {
         AppDatabase database = AppDatabase.getInstance(context, new AppExecutors());
-        return DataRepository.getInstance(database);
+
+        return UserDBRepository.getInstance(database);
+
     }
 
     public static LoginViewModelFactory provideViewModelFactory(Context context) {

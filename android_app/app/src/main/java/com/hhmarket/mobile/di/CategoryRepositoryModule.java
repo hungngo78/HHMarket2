@@ -3,8 +3,10 @@ package com.hhmarket.mobile.di;
 import javax.inject.Singleton;
 
 import com.hhmarket.mobile.api.ApiEndpoints;
-import com.hhmarket.mobile.api.repository.CategoryRepository;
-import com.hhmarket.mobile.api.repository.CategoryRepositoryImpl;
+
+import com.hhmarket.mobile.api.repository.CategoryAPIRepository;
+import com.hhmarket.mobile.api.repository.CategoryAPIRepositoryImpl;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -12,11 +14,8 @@ import dagger.Provides;
 public class CategoryRepositoryModule {
     @Provides
     @Singleton
-    public CategoryRepository providePostRepository(ApiEndpoints apiService) {
-        return new CategoryRepositoryImpl(apiService);
+    public CategoryAPIRepository providePostRepository(ApiEndpoints apiService) {
+        return new CategoryAPIRepositoryImpl(apiService);
     }
-    /*public CategoryRepository providePostRepository() {
-        return new CategoryRepositoryImpl();
-    }*/
 
 }

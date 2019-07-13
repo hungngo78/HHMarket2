@@ -19,6 +19,8 @@ package com.hhmarket.mobile;
 import android.app.Application;
 import android.util.Log;
 
+import com.hhmarket.mobile.db.AppDatabase;
+import com.hhmarket.mobile.db.repository.UserDBRepository;
 import com.hhmarket.mobile.di.ComponentInjector;
 
 /**
@@ -39,12 +41,13 @@ public class HHMarketApp extends Application {
         ComponentInjector.init();
     }
 
-    /*
+
     public AppDatabase getDatabase() {
         return AppDatabase.getInstance(this, mAppExecutors);
     }
 
-    public DataRepository getRepository() {
-        return DataRepository.getInstance(getDatabase());
-    }*/
+
+    public UserDBRepository getRepository() {
+        return UserDBRepository.getInstance(getDatabase());
+    }
 }

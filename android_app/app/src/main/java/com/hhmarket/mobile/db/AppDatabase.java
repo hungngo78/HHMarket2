@@ -30,9 +30,10 @@ import com.hhmarket.mobile.AppExecutors;
 import com.hhmarket.mobile.db.dao.ProductDao;
 import com.hhmarket.mobile.db.dao.UserDao;
 import com.hhmarket.mobile.db.entity.ProductEntity;
+import com.hhmarket.mobile.db.entity.ProductFtsEntity;
 import com.hhmarket.mobile.db.entity.UserEntity;
 
-@Database(entities = {ProductEntity.class, UserEntity.class}, version = 1)
+@Database(entities = {ProductEntity.class, ProductFtsEntity.class,UserEntity.class}, version = 1, exportSchema = true)
 //@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 

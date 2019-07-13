@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.persistence.db.entity;
+package com.hhmarket.mobile.db.entity;
 
 import androidx.room.Entity;
 import androidx.room.Fts4;

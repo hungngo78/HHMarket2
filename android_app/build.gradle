@@ -18,16 +18,29 @@
 
 buildscript {
     apply from: 'versions.gradle'
+
     addRepos(repositories)
     dependencies {
         classpath deps.android_gradle_plugin
-
+       // antlr "org.antlr:antlr:3.5.2"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
+
+
     repositories {
         google()
+        mavenCentral()
+        maven {
+            url 'https://kotlin.bintray.com/kotlinx/'
+        }
     }
+//    configurations.all() {
+//        resolutionStrategy.force "org.antlr:antlr4-runtime:4.5.3"
+//        resolutionStrategy.force "org.antlr:antlr4-tool:4.5.3"
+//    }
+
+
 }
 
 allprojects {
@@ -37,3 +50,4 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+

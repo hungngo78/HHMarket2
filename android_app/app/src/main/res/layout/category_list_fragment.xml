@@ -32,7 +32,7 @@
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
             app:visibleGone="@{!isLoading}"
-            tools:context="come.hhmarket.mobile.ui.activity.MainActivity"
+            tools:context=".ui.activity.MainActivity"
             tools:listitem="@layout/category_item"/>
     </LinearLayout>
 </layout>

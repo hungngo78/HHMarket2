@@ -10,7 +10,7 @@
             type="android.view.View.OnClickListener"/>
         <variable
             name="category"
-            type="come.hhmarket.mobile.model.Category"/>
+            type="com.hhmarket.mobile.model.Category"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

@@ -16,12 +16,15 @@
 
 package com.hhmarket.mobile.ui.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -153,7 +156,23 @@ public class MainActivity extends AppCompatActivity
             this.startActivity(intent);
         }
         else if (id == R.id.nav_sign_out) {
-            Toast.makeText(this, "Sign out", Toast.LENGTH_SHORT).show();
+
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle(getResources().getString(R.string.logout_title))
+                    .setMessage(getResources().getString(R.string.logout_message))
+                    .setPositiveButton(getResources().getString(R.string.logout_yes), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            Toast.makeText(getApplicationContext(), "Sign out", Toast.LENGTH_SHORT).show();
+                        }
+                    }).setNegativeButton(getResources().getString(R.string.logout_no), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).show();
         }
         else if (id == R.id.sign_in) {
             Intent intent = new Intent(this, LoginActivity.class);

@@ -56,4 +56,8 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >3 characters</string>
     <string name="login_failed">"Login failed"</string>
+    <string name="logout_title">Sign out</string>
+    <string name="logout_message">Do you want to signout?</string>
+    <string name="logout_yes">Yes</string>
+    <string name="logout_no">No</string>
 </resources>

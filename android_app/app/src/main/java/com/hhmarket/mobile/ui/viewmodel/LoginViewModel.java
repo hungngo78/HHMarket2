@@ -65,8 +65,11 @@ public class LoginViewModel extends ViewModel {
                     Log.i("-------onResponse--------", response.body().toString());
                     User data = response.body();
                     loginResult.setValue(new LoginResult(data));
+                    UserEntity userEntity = new UserEntity(data);
+                    mDataSource.insertUserOrUpdateUser(userEntity);
                 } else {
                     loginResult.setValue(new LoginResult(R.string.login_failed));
+                    mDataSource.deleteAllUser();
                     Log.i("-------onFailure--------", "-----------------------------");
                 }
             }
@@ -74,6 +77,7 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 loginResult.setValue(new LoginResult(R.string.login_failed));
+                mDataSource.deleteAllUser();
                 Log.i("-------onFailure--------", "-----------------------------");
 
             }

@@ -79,15 +79,18 @@ public class DataRepository implements UserDataSource {
     @Override
     public Completable insertUserOrUpdateUser(UserEntity user) {
 
-        return mDatabase.userDao().insertUser(user);
-    }
+          return mDatabase.userDao().insertUser(user);
+      }
 
     /**
      * delete user when logout
      */
     @Override
     public void deleteAllUser() {
-        mDatabase.userDao().deleteAllUser();
+        Completable.fromAction(() -> {
+            mDatabase.userDao().deleteAllUser();
+        });
+
     }
 
 }

@@ -61,10 +61,14 @@ public class LoginViewModel extends ViewModel {
         Callback<User> callback = new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-
-                Log.i("-------onResponse--------", response.body().toString());
-                User data = response.body();
-                loginResult.setValue(new LoginResult(data));
+                if (response.isSuccessful()) {
+                    Log.i("-------onResponse--------", response.body().toString());
+                    User data = response.body();
+                    loginResult.setValue(new LoginResult(data));
+                } else {
+                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                    Log.i("-------onFailure--------", "-----------------------------");
+                }
             }
 
             @Override

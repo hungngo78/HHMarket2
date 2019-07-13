@@ -6,6 +6,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ import com.hhmarket.mobile.di.ApiModule;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.di.UserRepositoryModule;
 import com.hhmarket.mobile.model.User;
+import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 
@@ -48,13 +50,6 @@ public class LoginActivity extends AppCompatActivity {
        // loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
         LoginViewModelFactory mViewModelFactory = LoginInjector.provideViewModelFactory(this);
         loginViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
-
-
-        UserRepositoryModule module = new UserRepositoryModule();
-        ApiModule api = new ApiModule();
-
-        loginViewModel.setUserRepository(module.provideGetRepository(api.provideApiService()));
-
 
         // allow inject repository into LoginViewModel
         ComponentInjector.magicBox.injectIntoLogin(loginViewModel);
@@ -94,11 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                     updateUiWithUser(loginResult.getSuccess());
                 }
 
-                // need to save data
-
-                setResult(Activity.RESULT_OK);
-
                 //Complete and destroy login activity once successful
+                Intent intent= new Intent();
+                intent.putExtra("result", loginResult.getSuccess());
+                setResult(Activity.RESULT_OK,intent);
                 finish();
             }
         });

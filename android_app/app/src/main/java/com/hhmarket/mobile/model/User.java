@@ -2,8 +2,10 @@ package com.hhmarket.mobile.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 
-public class User  implements UserInterface{
+
+public class User  implements UserInterface, Serializable {
 
     @SerializedName("userId")
     public Integer userId;

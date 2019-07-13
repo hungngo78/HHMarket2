@@ -39,10 +39,6 @@ public class LoginViewModel extends ViewModel {
         mDataSource = dataSource;
     }
 
-    public void setUserRepository(UserAPIRepository loginRepository) {
-        this.loginRepository = loginRepository;
-    }
-
     public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
@@ -60,11 +56,10 @@ public class LoginViewModel extends ViewModel {
                     Log.i("-------onResponse--------", response.body().toString());
                     User data = response.body();
                     loginResult.setValue(new LoginResult(data));
-                    UserEntity userEntity = new UserEntity(data);
-                    mDataSource.insertUserOrUpdateUser(userEntity);
+                    updateUser(data);
                 } else {
                     loginResult.setValue(new LoginResult(R.string.login_failed));
-                    mDataSource.deleteAllUser();
+                    deleteAllUser();
                     Log.i("-------onFailure--------", "-----------------------------");
                 }
 
@@ -73,7 +68,7 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 loginResult.setValue(new LoginResult(R.string.login_failed));
-                mDataSource.deleteAllUser();
+                deleteAllUser();
                 Log.i("-------onFailure--------", "-----------------------------");
 
             }
@@ -125,5 +120,10 @@ public class LoginViewModel extends ViewModel {
                 ? new UserEntity(user)
                 : new UserEntity(mUser.userId, user.address, user.city, user.state,user.zipCode);
         return mDataSource.insertUserOrUpdateUser(mUser);
+    }
+
+    public void deleteAllUser() {
+
+        mDataSource.deleteAllUser();
     }
 }

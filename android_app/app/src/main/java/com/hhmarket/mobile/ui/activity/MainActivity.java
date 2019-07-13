@@ -16,6 +16,7 @@
 
 package com.hhmarket.mobile.ui.activity;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,19 +37,30 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hhmarket.mobile.R;
 
+import com.hhmarket.mobile.di.ComponentInjector;
+import com.hhmarket.mobile.di.LoginInjector;
+import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
+import com.hhmarket.mobile.ui.activity.ui.login.LoginResult;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
+import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
+import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 
 public class MainActivity extends AppCompatActivity
+
         implements NavigationView.OnNavigationItemSelectedListener {
     private View navHeader;
-
+    public LoginViewModel loginViewModel;
+    public final static int REQUEST_LOGIN = 1000;
+    private MenuItem menuItem_signin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,7 +83,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
+        menuItem_signin = (MenuItem) navigationView.getMenu().findItem(R.id.sign_in);
         /*
         // Loading profile image
         navHeader = navigationView.getHeaderView(0);
@@ -90,6 +104,17 @@ public class MainActivity extends AppCompatActivity
         Fragment fragment = new CategoryListFragment();
         displaySelectedFragment(fragment);
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LOGIN && resultCode == Activity.RESULT_OK){ //login successfull
+            User result = (User)data.getSerializableExtra("result");
+
+            menuItem_signin.setTitle(result.getFullname());
+        }
+
 
     }
 
@@ -107,6 +132,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
@@ -166,6 +192,8 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
+                            loginViewModel.deleteAllUser();
+                            menuItem_signin.setTitle(R.string.menu_sign_in);
                             Toast.makeText(getApplicationContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     }).setNegativeButton(getResources().getString(R.string.logout_no), new DialogInterface.OnClickListener() {
@@ -177,12 +205,9 @@ public class MainActivity extends AppCompatActivity
         }
         else if (id == R.id.sign_in) {
             Intent intent = new Intent(this, LoginActivity.class);
-            this.startActivity(intent);
+            this.startActivityForResult(intent, REQUEST_LOGIN);
         }
-        else if (id == R.id.sign_in) {
-            Intent intent = new Intent(this, LoginActivity.class);
-            this.startActivity(intent);
-        }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -199,4 +224,6 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.replace(R.id.frame, fragment);
         fragmentTransaction.commit();
     }
+
+
 }

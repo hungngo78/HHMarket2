@@ -87,7 +87,10 @@ public class UserDBRepository implements UserDataSource {
      */
     @Override
     public void deleteAllUser() {
-        mDatabase.userDao().deleteAllUser();
+        Completable.fromAction(()-> {
+            mDatabase.userDao().deleteAllUser();
+        });
+
     }
 
 }

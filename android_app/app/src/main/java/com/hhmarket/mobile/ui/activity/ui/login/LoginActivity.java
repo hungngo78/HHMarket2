@@ -41,7 +41,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActionBar actionBar;
-    // Test Fucking SourceTree
+
+    // Test SourceTree
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

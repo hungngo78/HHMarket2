@@ -17,5 +17,4 @@ public class CategoryRepositoryModule {
     public CategoryAPIRepository providePostRepository(ApiEndpoints apiService) {
         return new CategoryAPIRepositoryImpl(apiService);
     }
-
 }

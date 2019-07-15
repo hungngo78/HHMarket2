@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private ActionBar actionBar;
 
-    // Test SourceTree
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                         passwordEditText.getText().toString());
             }
         };
+
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {

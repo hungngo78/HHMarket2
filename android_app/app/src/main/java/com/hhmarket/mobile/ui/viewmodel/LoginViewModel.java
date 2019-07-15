@@ -62,7 +62,6 @@ public class LoginViewModel extends ViewModel {
                     deleteAllUser();
                     Log.i("-------onFailure--------", "-----------------------------");
                 }
-
             }
 
             @Override
@@ -70,13 +69,11 @@ public class LoginViewModel extends ViewModel {
                 loginResult.setValue(new LoginResult(R.string.login_failed));
                 deleteAllUser();
                 Log.i("-------onFailure--------", "-----------------------------");
-
             }
-
         };
 
         loginRepository.getUserInfo(username, password, callback);
- }
+    }
 
 
     public void loginDataChanged(String username, String password) {
@@ -123,7 +120,6 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void deleteAllUser() {
-
         mDataSource.deleteAllUser();
     }
 }

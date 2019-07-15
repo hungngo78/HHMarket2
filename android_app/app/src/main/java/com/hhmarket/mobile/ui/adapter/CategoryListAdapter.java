@@ -1,13 +1,16 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.CategoryItemBinding;
 import com.hhmarket.mobile.model.Category;
+import com.hhmarket.mobile.model.CategoryClickListener;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +18,13 @@ import java.util.Objects;
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.CategoryListViewHolder> {
     List<? extends Category> mCategoryList;
 
+    @Nullable
+    private final CategoryClickListener mCategoryClickListener;
+
+    public CategoryListAdapter(@Nullable CategoryClickListener clickCallback) {
+        mCategoryClickListener = clickCallback;
+        setHasStableIds(true);
+    }
 
     public void setCategoryList(final List<? extends Category> categoryList) {
         if (mCategoryList == null) {
@@ -61,6 +71,7 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         CategoryItemBinding binding = (CategoryItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false));
 
+        binding.setClickListener(mCategoryClickListener);
         return new CategoryListViewHolder(binding);
     }
 
@@ -77,13 +88,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public long getItemId(int position) {
-        return mCategoryList.get(position).getCategoryId();
+        return Long.parseLong(mCategoryList.get(position).getCategoryId());
     }
 
-
-
     static class CategoryListViewHolder extends RecyclerView.ViewHolder {
-
         final CategoryItemBinding binding;
 
         public CategoryListViewHolder(CategoryItemBinding binding) {

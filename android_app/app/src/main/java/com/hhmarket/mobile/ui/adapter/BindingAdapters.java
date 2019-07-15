@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.bumptech.glide.request.RequestOptions;
 
 import com.hhmarket.mobile.utils.HHMarketConstants;
@@ -23,9 +24,11 @@ public class BindingAdapters {
             imageView.setImageDrawable(null);
         } else {
             //Glide.with(imageView.getContext()).load(HHMarketConstants.PROFILE_URL)
-            Glide.with(imageView.getContext()).load(url)
-                    .apply(RequestOptions.circleCropTransform())
-                    .thumbnail(0.5f)
+            Glide.with(imageView.getContext())
+                    .load(url)
+                    //.apply(RequestOptions.circleCropTransform())
+                    //.thumbnail(0.5f)
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(imageView);
         }
     }

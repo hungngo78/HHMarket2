@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="clickListener"
+            type="android.view.View.OnClickListener"/>
+        <variable
+            name="product"
+            type="com.hhmarket.mobile.model.Product"/>
+        <variable
+            name="hasDetails"
+            type="boolean" />
+        <variable
+            name="hasMultiPrices"
+            type="boolean" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="@{clickListener}">
+
+        <ImageView
+            android:id="@+id/product_item_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:contentDescription="N/A"
+            android:scaleType="centerCrop"
+            app:imageFromUrl="@{product.imageUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/product_item_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@{product.name}"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/product_item_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Radio Flyer" />
+
+        <TextView
+            android:id="@+id/product_item_min_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@{`$` + product.minPrice}"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintStart_toEndOf="@+id/product_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_title"
+            app:visibleGone="@{hasDetails}"
+            tools:text="$44.99" />
+
+        <TextView
+            android:id="@+id/product_item_max_price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@{`- $` + product.maxPrice}"
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/product_item_min_price"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_title"
+            app:visibleGone="@{hasDetails &amp;&amp; hasMultiPrices}"
+            tools:text=" - $99.99" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

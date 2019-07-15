@@ -20,6 +20,9 @@
 
     <string name="loading_categories">Loading categories...</string>
     <string name="cd_categories_list">Categories list</string>
+    <string name="loading_products">Loading products...</string>
+    <string name="cd_product_list">Product list</string>
+
     <string name="setting_notification">Notification</string>
     <!-- Notification Preferences for all -->
     <string name="setting_notification_all">Set notification for all</string>

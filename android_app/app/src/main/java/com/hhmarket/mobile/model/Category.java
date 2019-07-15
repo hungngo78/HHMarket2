@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 public class Category {
     @SerializedName("categoryId")
     @Expose
-    private Integer categoryId;
+    private String categoryId;
 
     @SerializedName("name")
     @Expose
@@ -32,11 +32,11 @@ public class Category {
     }
 
 
-    public Integer getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Integer categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 

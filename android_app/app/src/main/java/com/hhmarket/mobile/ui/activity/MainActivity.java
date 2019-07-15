@@ -47,12 +47,17 @@ import com.hhmarket.mobile.R;
 
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
+import com.hhmarket.mobile.model.Category;
+import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductInf;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginResult;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
+import com.hhmarket.mobile.ui.fragment.ProductListFragment;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
+import com.hhmarket.mobile.utils.HHMarketConstants;
 
 public class MainActivity extends AppCompatActivity
 
@@ -225,5 +230,16 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
     }
 
+    /** Shows the  product list fragment */
+    public void showProductList(Category category) {
+        ProductListFragment fragment = new ProductListFragment();
+        Bundle args = new Bundle();
+        args.putString(HHMarketConstants.KEY_CATEGORY_ID, category.getCategoryId());
+        fragment.setArguments(args);
 
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("product")
+                .replace(R.id.frame, fragment, null).commit();
+    }
 }

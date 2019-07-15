@@ -19,10 +19,10 @@ package com.hhmarket.mobile.db.entity;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
-import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductInf;
 
 @Entity(tableName = "products")
-public class ProductEntity implements Product {
+public class ProductEntity implements ProductInf {
     @PrimaryKey
     private int id;
     private String name;
@@ -76,7 +76,7 @@ public class ProductEntity implements Product {
         this.price = price;
     }
 
-    public ProductEntity(Product product) {
+    public ProductEntity(ProductInf product) {
         this.id = product.getId();
         this.name = product.getName();
         this.description = product.getDescription();

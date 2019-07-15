@@ -14,7 +14,6 @@ public class LoginInjector {
         AppDatabase database = AppDatabase.getInstance(context, new AppExecutors());
 
         return UserDBRepository.getInstance(database);
-
     }
 
     public static LoginViewModelFactory provideViewModelFactory(Context context) {

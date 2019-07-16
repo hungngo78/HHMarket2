@@ -30,7 +30,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private UserEntity mUser;
-    private final UserDataSource mDataSource;
+    private UserDataSource mDataSource;
 
     @Inject
     public UserAPIRepository loginRepository;
@@ -54,11 +54,36 @@ public class LoginViewModel extends ViewModel {
 
                 if (response.isSuccessful()) {
                     Log.i("-------onResponse--------", response.body().toString());
-                    User data = response.body();
+                    final User data = response.body();
+
                     loginResult.setValue(new LoginResult(data));
-                    updateUser(data);
+                    //deleteAllUser();
+
+                    Thread a = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateUser(data).subscribe(() -> {
+                                // handle the completion server has update the user object
+                                System.out.println("Huong -> complete");
+                            },error -> {
+                                //handle error
+                                System.out.println("Huong -> error" + error.fillInStackTrace()) ;
+                            }) ;
+                        }
+                    });
+                    a.start();
+
+
+//                    .subscribe(() -> {
+//                        // handle the completion server has update the user object
+//                        System.out.println("Huong -> complete");
+//                    },error -> {
+//                        //handle error
+//                        System.out.println("Huong -> error" + error.fillInStackTrace()) ;
+//                    }) ;
+
                 } else {
-                    loginResult.setValue(new LoginResult(R.string.login_failed));
+                    loginResult.setValue(new LoginResult(R.string.login_failed ));
                     deleteAllUser();
                     Log.i("-------onFailure--------", "-----------------------------");
                 }
@@ -121,5 +146,9 @@ public class LoginViewModel extends ViewModel {
 
     public void deleteAllUser() {
         mDataSource.deleteAllUser();
+    }
+
+    public LiveData<UserEntity> getUserFromDataBase() {
+        return mDataSource.getUserInfo();
     }
 }

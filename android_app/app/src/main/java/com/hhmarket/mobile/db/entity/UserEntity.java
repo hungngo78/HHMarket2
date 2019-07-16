@@ -35,6 +35,12 @@ public class UserEntity {
         this.userId = user.getUserId();
         this.userName = user.getUsername();
         this.password = user.getPassword();
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.zipCode = user.zipCode;
+        this.address = user.address;
+        this.city = user.city;
+        this.email = user.email;
     }
 
     public UserEntity(int userId, String address, String city, String state, String zipCode) {

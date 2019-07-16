@@ -78,8 +78,8 @@ public class UserDBRepository implements UserDataSource {
      */
     @Override
     public Completable insertUserOrUpdateUser(UserEntity user) {
-
         return mDatabase.userDao().insertUser(user);
+
     }
 
     /**

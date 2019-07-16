@@ -17,6 +17,7 @@
         <variable
             name="hasMultiPrices"
             type="boolean" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -50,17 +51,27 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Radio Flyer" />
 
+        <RatingBar
+            android:id="@+id/ratingBar"
+            android:layout_width="283dp"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:numStars="5"
+            android:rating="@{product.overrallRating==null?0:product.overrallRating}"
+            app:layout_constraintStart_toEndOf="@+id/product_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_title" />
+
         <TextView
             android:id="@+id/product_item_min_price"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginTop="10dp"
             android:text="@{`$` + product.minPrice}"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
-            app:layout_constraintTop_toBottomOf="@+id/product_item_title"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
             app:visibleGone="@{hasDetails}"
             tools:text="$44.99" />
 
@@ -69,15 +80,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="@dimen/margin_small"
             android:text="@{`- $` + product.maxPrice}"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/product_item_min_price"
-            app:layout_constraintTop_toBottomOf="@+id/product_item_title"
+            app:layout_constraintTop_toBottomOf="@+id/ratingBar"
             app:visibleGone="@{hasDetails &amp;&amp; hasMultiPrices}"
             tools:text=" - $99.99" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

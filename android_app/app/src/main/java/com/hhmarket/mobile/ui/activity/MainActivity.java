@@ -45,14 +45,12 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.hhmarket.mobile.R;
 
+import com.hhmarket.mobile.db.entity.UserEntity;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
-import com.hhmarket.mobile.model.Product;
-import com.hhmarket.mobile.model.ProductInf;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
-import com.hhmarket.mobile.ui.activity.ui.login.LoginResult;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
 import com.hhmarket.mobile.ui.fragment.ProductListFragment;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
@@ -105,9 +103,16 @@ public class MainActivity extends AppCompatActivity
         */
 
         //Select Home by default
+        LoginViewModelFactory mViewModelFactory = LoginInjector.provideViewModelFactory(this);
+        loginViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
+        // allow inject repository into LoginViewModel
+        ComponentInjector.magicBox.injectIntoLogin(loginViewModel);
+
         navigationView.setCheckedItem(R.id.nav_home);
         Fragment fragment = new CategoryListFragment();
         displaySelectedFragment(fragment);
+
+        checkLogin();
 
     }
 
@@ -219,6 +224,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    private void checkLogin() {
+        loginViewModel.getUserFromDataBase().observe(this, new Observer<UserEntity>() {
+            @Override
+            public void onChanged(UserEntity userEntity) {
+                if(userEntity!= null) {
+                    User user = new User();
+                    user.lastName = userEntity.getLastName();
+                    user.firstName = userEntity.getFirstName();
+                    menuItem_signin.setTitle(user.getFullname());
+                } else {
+                    menuItem_signin.setTitle(R.string.menu_sign_in);
+                }
+
+            }
+        });
+    }
     /**
      * Loads the specified fragment to the frame
      *

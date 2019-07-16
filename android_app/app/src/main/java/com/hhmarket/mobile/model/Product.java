@@ -33,6 +33,11 @@ public class Product {
     private String  color;
 
 
+    @SerializedName("overrallRating")
+    @Expose
+    private String  overrallRating;
+
+
     // gia lap khi chua lay hinh tu Web
     private String imageUrl;
     public String getImageUrl() {
@@ -99,4 +104,13 @@ public class Product {
     public void setColor(String picture) {
         this.color = color;
     }
+
+    public String getOverrallRating() {
+        return overrallRating;
+    }
+
+    public void setOverrallRating(String overrallRating) {
+        this.overrallRating = overrallRating;
+    }
+
 }

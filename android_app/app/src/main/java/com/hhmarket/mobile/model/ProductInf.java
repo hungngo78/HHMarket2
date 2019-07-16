@@ -5,4 +5,5 @@ public interface ProductInf {
     String getName();
     String getDescription();
     int getPrice();
+    String getOverrallRating();
 }

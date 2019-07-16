@@ -31,7 +31,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_normal"
             android:contentDescription="N/A"
-            android:scaleType="centerCrop"
+
             app:imageFromUrl="@{product.imageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

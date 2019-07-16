@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -40,6 +41,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -89,7 +92,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         menuItem_signin = (MenuItem) navigationView.getMenu().findItem(R.id.sign_in);
-        /*
+
         // Loading profile image
         navHeader = navigationView.getHeaderView(0);
         ImageView profileImage = navHeader.findViewById(R.id.profileImage);
@@ -98,11 +101,11 @@ public class MainActivity extends AppCompatActivity
                 .thumbnail(0.5f)
                 .into(profileImage);
         //Loading backgrounf image
-        ImageView navBackground = navHeader.findViewById(R.id.img_header_bg);
-        Glide.with(this).load(HHMarketConstants.BACKGROUND_URL)
-                .thumbnail(0.5f)
-                .into(navBackground);
-        */
+        //ImageView navBackground = navHeader.findViewById(R.id.img_header_bg);
+        //Glide.with(this).load(HHMarketConstants.BACKGROUND_URL)
+        //        .thumbnail(0.5f)
+        //        .into(navBackground);
+
 
         //Select Home by default
         navigationView.setCheckedItem(R.id.nav_home);

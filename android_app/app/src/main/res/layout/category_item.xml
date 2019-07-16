@@ -27,7 +27,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_marginStart="@dimen/margin_small"
             android:contentDescription="N/A"
-            android:scaleType="centerCrop"
+
             app:imageFromUrl="@{category.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

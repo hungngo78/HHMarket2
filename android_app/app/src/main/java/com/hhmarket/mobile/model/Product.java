@@ -2,6 +2,7 @@ package com.hhmarket.mobile.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.hhmarket.mobile.utils.HHMarketConstants;
 
 public class Product {
     @SerializedName("productId")
@@ -32,17 +33,14 @@ public class Product {
     @Expose
     private String  color;
 
-
-    // gia lap khi chua lay hinh tu Web
-    private String imageUrl;
     public String getImageUrl() {
-        //return imageUrl;
-        return "https://upload.wikimedia.org/wikipedia/commons/5/55/Apple_orchard_in_Tasmania.jpg";
+        //https://hungngobucket1.s3-us-west-1.amazonaws.com/Production/1000/Black+Sunflower/image1.jpg
+        String[] images = picture.split(",");
+        if (images.length != 0)
+            return HHMarketConstants.S3_BUCKET_URL + "Production/" + productId + "/" + color + "/" + images[0];
+        else
+            return HHMarketConstants.S3_BUCKET_URL + "no_image.png";
     }
-    public void setImageUrl(final String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
 
     public Integer getProductId() {
         return productId;

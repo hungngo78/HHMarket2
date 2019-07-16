@@ -2,6 +2,7 @@ package com.hhmarket.mobile.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.hhmarket.mobile.utils.HHMarketConstants;
 
 public class Category {
     @SerializedName("categoryId")
@@ -20,17 +21,9 @@ public class Category {
     @Expose
     private String description;
 
-
-    // gia lap khi chua lay hinh tu Web
-    private String imageUrl;
     public String getImageUrl() {
-        //return imageUrl;
-        return "https://upload.wikimedia.org/wikipedia/commons/5/55/Apple_orchard_in_Tasmania.jpg";
+        return HHMarketConstants.S3_BUCKET_URL + "Category/" + categoryId + "/" + picture;
     }
-    public void setImageUrl(final String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
 
     public String getCategoryId() {
         return categoryId;

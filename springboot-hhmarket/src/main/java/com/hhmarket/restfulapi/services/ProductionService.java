@@ -129,14 +129,34 @@ public class ProductionService {
 			
 			// get min and max prices of this product
 			HttpProductPrices productPrices = productDetailsRepository.getMinMaxPrice(p.getProductId());
-			float minPrice = productPrices.getMinPrice();
+			float minPrice = 0;
+			float maxPrice = 0;
+			if (productPrices != null) {
+				minPrice = productPrices.getMinPrice();
+				maxPrice = productPrices.getMaxPrice();				
+			} 
 			production.setMinPrice(minPrice);
-			production.setMaxPrice(productPrices.getMaxPrice());
+			production.setMaxPrice(maxPrice);
 			
 			// get default color and picture of this product
 			ProductDetails productDetails = productDetailsRepository.findByProductIdAndPrice(p.getProductId(), minPrice);
-			production.setColor(productDetails.getColor());
-			production.setPicture(productDetails.getPicture());
+			String color = "";
+			String picture = "";
+			if (productDetails != null) {
+				color = productDetails.getColor();
+				picture = productDetails.getPicture();
+			}
+			production.setColor(color);
+			production.setPicture(picture);
+			
+			// add review info 
+			List<Review> reviews = p.getReviewList();
+			if (reviews != null && reviews.size() > 0) {
+				HttpRating rating = aggregateRatingData(reviews);
+				
+				production.setOverrallRating(rating.overrallRating);
+				production.setReviewNumber(reviews.size());
+			}
 			
 			productions.add(production);
 		}

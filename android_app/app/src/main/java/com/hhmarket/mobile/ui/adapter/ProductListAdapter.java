@@ -81,6 +81,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.binding.setHasMultiPrices(hasMultiPrices);
 
         holder.binding.executePendingBindings();
+
     }
 
     @Override

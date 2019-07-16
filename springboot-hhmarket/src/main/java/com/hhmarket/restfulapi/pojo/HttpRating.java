@@ -13,5 +13,5 @@ public class HttpRating {
 	public String fourStarReviewPercent = "0";
 	public String fiveStarReviewPercent = "0";
     
-	public String overrallRating;
+	public String overrallRating = "0";
 }

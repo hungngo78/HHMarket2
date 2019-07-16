@@ -58,7 +58,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:numStars="5"
-            android:rating="@{product.overrallRating==null?0:product.overrallRating}"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
             app:layout_constraintTop_toBottomOf="@+id/product_item_title" />
 

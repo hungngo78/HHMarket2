@@ -10,6 +10,9 @@ public class HttpProduction {
     private String picture;
     private String color;
     
+    private String overallRating = "0";
+    private int reviewNumber;
+    
     public HttpProduction() {
     	
     }
@@ -62,4 +65,16 @@ public class HttpProduction {
     public void setColor(String color) {
     	this.color = color;
     }
+    public String getOverrallRating() {
+		return this.overallRating;
+	}
+	public void setOverrallRating(String number) {
+		this.overallRating = number;
+	}
+	public int getReviewNumber() {
+		return this.reviewNumber;
+	}
+	public void setReviewNumber(int number) {
+		this.reviewNumber = number;
+	}
 }

@@ -28,7 +28,6 @@ public class ProductEntity implements ProductInf {
     private String name;
     private String description;
     private int price;
-    private String overrallRating;
 
     @Override
     public int getId() {
@@ -62,11 +61,6 @@ public class ProductEntity implements ProductInf {
         return price;
     }
 
-    @Override
-    public String getOverrallRating() {
-
-        return overrallRating;
-    }
 
     public void setPrice(int price) {
         this.price = price;
@@ -76,12 +70,11 @@ public class ProductEntity implements ProductInf {
     }
 
     @Ignore
-    public ProductEntity(int id, String name, String description, int price, String overrallRating) {
+    public ProductEntity(int id, String name, String description, int price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
-        this.overrallRating  = overrallRating;
     }
 
     public ProductEntity(ProductInf product) {
@@ -89,6 +82,5 @@ public class ProductEntity implements ProductInf {
         this.name = product.getName();
         this.description = product.getDescription();
         this.price = product.getPrice();
-        this.overrallRating = product.getOverrallRating();
     }
 }

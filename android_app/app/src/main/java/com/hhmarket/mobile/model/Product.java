@@ -33,14 +33,10 @@ public class Product {
     @Expose
     private String  color;
 
-
     @SerializedName("overrallRating")
     @Expose
-    private String  overrallRating;
+    private float overallRating = 0f;
 
-
-    // gia lap khi chua lay hinh tu Web
-    private String imageUrl;
     public String getImageUrl() {
         //https://hungngobucket1.s3-us-west-1.amazonaws.com/Production/1000/Black+Sunflower/image1.jpg
         String[] images = picture.split(",");
@@ -106,12 +102,11 @@ public class Product {
         this.color = color;
     }
 
-    public String getOverrallRating() {
-        return overrallRating;
+    public float getOverrallRating() {
+        return overallRating;
     }
-
-    public void setOverrallRating(String overrallRating) {
-        this.overrallRating = overrallRating;
+    public void setOverallRating(float overallRating) {
+        this.overallRating = overallRating;
     }
 
 }

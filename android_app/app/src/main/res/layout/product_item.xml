@@ -52,12 +52,14 @@
             tools:text="Radio Flyer" />
 
         <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="283dp"
-            android:layout_height="44dp"
+
+            android:id="@+id/ratingBar" style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:numStars="5"
+            android:rating="@{product.overrallRating}"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
             app:layout_constraintTop_toBottomOf="@+id/product_item_title" />
 
@@ -84,7 +86,6 @@
             android:text="@{`- $` + product.maxPrice}"
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/product_item_min_price"
             app:layout_constraintTop_toBottomOf="@+id/ratingBar"
             app:visibleGone="@{hasDetails &amp;&amp; hasMultiPrices}"

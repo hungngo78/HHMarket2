@@ -37,6 +37,11 @@ public class Product {
     @Expose
     private float overallRating = 0f;
 
+
+    @SerializedName("reviewNumber")
+    @Expose
+    private Integer reviewNumber;
+
     public String getImageUrl() {
         //https://hungngobucket1.s3-us-west-1.amazonaws.com/Production/1000/Black+Sunflower/image1.jpg
         String[] images = picture.split(",");
@@ -107,6 +112,13 @@ public class Product {
     }
     public void setOverallRating(float overallRating) {
         this.overallRating = overallRating;
+    }
+    public Integer getReviewNumber() {
+        return reviewNumber;
+    }
+
+    public void setReviewNumber(Integer reviewNumber) {
+        this.reviewNumber = reviewNumber;
     }
 
 }

@@ -49,7 +49,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                             && newProduct.getPicture() == oldProduct.getPicture()
                             && newProduct.getColor() == oldProduct.getColor()
                             && newProduct.getMinPrice() == oldProduct.getMinPrice()
-                            && newProduct.getMaxPrice() == oldProduct.getMaxPrice();
+                            && newProduct.getMaxPrice() == oldProduct.getMaxPrice()
+                            && newProduct.getReviewNumber() == oldProduct.getReviewNumber();
                 }
             });
             mProductList = productList;

@@ -9,6 +9,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hhmarket.mobile.api.repository.ProductDetailAPIRepository;
+import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.ProductDetail;
 
@@ -29,6 +30,7 @@ public class ProductDetailViewModel extends AndroidViewModel{
 
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<Throwable> apiError;
+    private MutableLiveData<List<ProductDetail>> productDetail;
 
     private String mProductId;
 
@@ -40,54 +42,35 @@ public class ProductDetailViewModel extends AndroidViewModel{
 
         isLoading = new MediatorLiveData<>();
         apiError  = new MediatorLiveData<>();
-
+        productDetail =  new MediatorLiveData<>();
         // set by default null, until we get data from the database.
         mObservableProductDetail.setValue(null);
 
         // observe the changes of the products from the database and forward them
-        mObservableProductDetail.addSource(mObservableProductDetail, mObservableProductDetail::setValue);
+        mObservableProductDetail.addSource(productDetail, mObservableProductDetail::setValue);
 
         mProductId = _productId;
     }
 
     public void getProductDetailfromAPI() {
-        Thread a = new Thread(new Runnable() {
+        Callback<List<ProductDetail>> callback = new Callback<List<ProductDetail>>() {
             @Override
-            public void run() {
-                Callback<List<ProductDetail>> callback = new Callback<List<ProductDetail>>() {
-                    @Override
-                    public void onResponse(Call<List<ProductDetail>> call, Response<List<ProductDetail>> response) {
-                        Log.i("-------onResponse--------", response.body().toString());
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<ProductDetail>> call, Throwable t) {
-                        Log.i("-------onFailure--------", "-----------------------------");
-
-                    }
-
-                };
-                mRepository.getProductDetail(mProductId,callback);
+            public void onResponse(Call<List<ProductDetail>> call, Response<List<ProductDetail>> response) {
+                //Log.i("-------onResponse--------", response.body().toString());
+                productDetail.postValue(response.body());
+                isLoading.postValue(false);
             }
-            });
-        a.start();
 
+            @Override
+            public void onFailure(Call<List<ProductDetail>> call, Throwable t) {
+                //Log.i("-------onFailure--------", "-----------------------------");
+                apiError.postValue(t);
+                isLoading.postValue(false);
 
-//            @Override
-//            public void onResponse(Call<ProductDetail> call, Response<ProductDetail> response) {
-//                Log.i("-------onResponse--------", response.body().toString());
-//                mObservableProductDetail.postValue(response.body());
-//                isLoading.postValue(false);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ProductDetail> call, Throwable t) {
-//                Log.i("-------onFailure--------", "-----------------------------");
-//                apiError.postValue(t);
-//                isLoading.postValue(false);
-//            }
- //       };
+            }
 
+        };
+        mRepository.getProductDetail(mProductId,callback);
 
     }
 

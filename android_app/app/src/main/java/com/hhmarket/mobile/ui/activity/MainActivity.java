@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity
      */
 
     public void showProductDetail(Product product) {
-        ProductDetailFragment fragment = ProductDetailFragment.newInstance();
+        ProductDetailFragment fragment = new ProductDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(HHMarketConstants.KEY_PRODUCT_ID, product.getProductId().toString());
         fragment.setArguments(bundle);

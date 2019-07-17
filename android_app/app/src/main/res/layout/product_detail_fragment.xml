@@ -9,14 +9,23 @@ xmlns:tools="http://schemas.android.com/tools"
         name="clickListener"
         type="com.hhmarket.mobile.model.ClickListener"/>
     <variable
+        name="clickListenerColor"
+        type="com.hhmarket.mobile.model.ClickListener"/>
+    <variable
+        name="clickListenerSize"
+        type="com.hhmarket.mobile.model.ClickListener"/>
+    <variable
         name="productDetail"
         type="com.hhmarket.mobile.model.ProductDetail"/>
     <variable
         name="isLoading"
         type="boolean" />
 </data>
-
-<androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+    <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:onClick="@{() ->  clickListener.onClick(productDetail)}">
@@ -29,19 +38,20 @@ xmlns:tools="http://schemas.android.com/tools"
         android:textAlignment="center"
         app:visibleGone="@{isLoading}"/>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/product_item_image"
+    <ImageView
+        android:id="@+id/item_image"
         android:layout_width="0dp"
         android:layout_height="@dimen/category_item_image_height"
         android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginBottom="@dimen/margin_small"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginStart="@dimen/margin_small"
-        app:layoutManager="LinearLayoutManager"
+        android:contentDescription="N/A"
+        android:background="@android:drawable/picture_frame"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/loading_tv"
         app:layout_constraintTop_toTopOf="parent"/>
-
     <TextView
         android:id="@+id/product_item_title"
         android:layout_width="0dp"
@@ -50,10 +60,11 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
+        android:text="@{productDetail.name}"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/product_item_image"
+        app:layout_constraintTop_toBottomOf="@id/item_image"
         tools:text="Tomato"/>
     <TextView
         android:id="@+id/product_item_description"
@@ -63,12 +74,55 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_marginEnd="@dimen/margin_small"
         android:layout_marginStart="@dimen/margin_small"
         android:layout_marginTop="@dimen/margin_small"
+        android:text="@{productDetail.description}"
+        android:textAppearance="?attr/textAppearanceListItem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/product_item_title"
+        tools:text="Tomato"/>
+    <TextView
+        android:id="@+id/product_item_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        android:text="@{``+productDetail.gePrice()}"
         android:textAppearance="?attr/textAppearanceListItem"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/product_item_title"
         tools:text="Tomato"/>
 
+    <Button
+        android:id="@+id/color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/product_item_price"
+        android:text="@{productDetail.color}"
+        android:onClick="@{() ->  clickListenerColor.onClick(productDetail)}" />
+
+    <Button
+        android:id="@+id/size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_small"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/color"
+        android:text="@{productDetail.size}"
+        android:onClick="@{() -> clickListenerSize.onClick(productDetail)}"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>

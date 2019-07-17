@@ -84,6 +84,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     annotationProcessor "com.google.dagger:dagger-compiler:2.15"
 
     // Support libraries
@@ -117,4 +118,3 @@ dependencies {
     //androidTestImplementation deps.support.app_compat
     //androidTestImplementation deps.support.design
 }
-

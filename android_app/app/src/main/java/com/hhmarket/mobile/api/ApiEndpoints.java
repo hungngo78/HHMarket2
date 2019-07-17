@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.model.User;
 
 import retrofit2.Call;
@@ -25,4 +26,7 @@ public interface ApiEndpoints {
 
     @GET("account/login")
     Call<User> login(@Query("username") String username, @Query("password") String password);
+
+    @GET("category/get_product_details_by_productId/{productId}")
+    Call<List<ProductDetail>> getProductDetail(@Path("productId") String productId);
 }

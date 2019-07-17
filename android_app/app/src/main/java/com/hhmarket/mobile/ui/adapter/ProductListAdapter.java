@@ -4,10 +4,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.ProductItemBinding;
+import com.hhmarket.mobile.model.CategoryClickListener;
+import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
 
 import java.util.List;
@@ -15,6 +18,15 @@ import java.util.Objects;
 
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductListViewHolder> {
     List<? extends Product> mProductList;
+    @Nullable
+    private final ClickListener mClickListener;
+
+    public ProductListAdapter(@Nullable ClickListener clickCallback) {
+        mClickListener = clickCallback;
+        setHasStableIds(true);
+
+    }
+
 
 
     public void setProductList(final List<? extends Product> productList) {
@@ -62,7 +74,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public ProductListAdapter.ProductListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ProductItemBinding binding = (ProductItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false));
-
+        binding.setClickListener(mClickListener);
         return new ProductListAdapter.ProductListViewHolder(binding);
     }
 

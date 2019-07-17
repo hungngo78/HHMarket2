@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -16,7 +17,11 @@ import com.hhmarket.mobile.databinding.CategoryListFragmentBinding;
 import com.hhmarket.mobile.databinding.FragmentProductListBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.Category;
+import com.hhmarket.mobile.model.CategoryClickListener;
+import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductDetail;
+import com.hhmarket.mobile.ui.activity.MainActivity;
 import com.hhmarket.mobile.ui.adapter.CategoryListAdapter;
 import com.hhmarket.mobile.ui.adapter.ProductListAdapter;
 import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
@@ -45,8 +50,9 @@ public class ProductListFragment extends Fragment {
         mBinding = FragmentProductListBinding.inflate(inflater, container, false);
 
         // adapter
-        mAdapter = new ProductListAdapter();
+        mAdapter = new ProductListAdapter(mClickListener);
         mBinding.productsList.setAdapter(mAdapter);
+
 
         return mBinding.getRoot();
     }
@@ -81,5 +87,14 @@ public class ProductListFragment extends Fragment {
             }
         });
     }
+
+    private final ClickListener<Product> mClickListener = new ClickListener<Product>() {
+        @Override
+        public void onClick(Product product) {
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                ((MainActivity) getActivity()).showProductDetail(product);
+            }
+        }
+    };
 
 }

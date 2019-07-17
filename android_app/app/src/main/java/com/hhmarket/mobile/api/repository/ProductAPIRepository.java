@@ -1,6 +1,5 @@
 package com.hhmarket.mobile.api.repository;
 
-import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
 
 import java.util.List;

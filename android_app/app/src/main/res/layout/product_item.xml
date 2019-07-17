@@ -7,7 +7,7 @@
     <data>
         <variable
             name="clickListener"
-            type="android.view.View.OnClickListener"/>
+            type="com.hhmarket.mobile.model.ClickListener"/>
         <variable
             name="product"
             type="com.hhmarket.mobile.model.Product"/>
@@ -23,7 +23,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{clickListener}">
+        android:onClick="@{() ->  clickListener.onClick(product)}">
 
         <ImageView
             android:id="@+id/product_item_image"

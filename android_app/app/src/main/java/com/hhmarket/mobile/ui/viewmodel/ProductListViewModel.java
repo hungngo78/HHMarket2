@@ -7,9 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hhmarket.mobile.api.repository.CategoryAPIRepository;
 import com.hhmarket.mobile.api.repository.ProductAPIRepository;
-import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
 
 import java.util.List;
@@ -82,5 +80,7 @@ public class ProductListViewModel extends AndroidViewModel {
     public LiveData<Boolean> getIsLoading() {
         return this.isLoading;
     }
+
+
 
 }

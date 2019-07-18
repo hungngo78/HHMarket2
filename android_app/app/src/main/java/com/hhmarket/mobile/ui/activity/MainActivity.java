@@ -266,4 +266,11 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack("product")
                 .replace(R.id.frame, fragment, null).commit();
     }
+
+    public void showReview(Product product) {
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra("product", product);
+
+        this.startActivity(intent);
+    }
 }

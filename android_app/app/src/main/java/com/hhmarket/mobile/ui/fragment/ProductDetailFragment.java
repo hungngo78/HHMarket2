@@ -1,20 +1,20 @@
 package com.hhmarket.mobile.ui.fragment;
 
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.ProductDetailFragmentBinding;
@@ -33,6 +33,9 @@ public class ProductDetailFragment extends Fragment {
 
     private ProductDetailViewModel mViewModel;
     private ProductDetailFragmentBinding mBinding;
+    private ProductDetailView producdetail;
+    private ProductDetail currentItem;
+    DialogProductFragment fragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,6 +50,7 @@ public class ProductDetailFragment extends Fragment {
         mBinding = ProductDetailFragmentBinding.inflate(inflater, container, false);
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
+        mBinding.setOverallRating( getArguments().getFloat(HHMarketConstants.KEY_STRING_DATA));
         return mBinding.getRoot();
     }
 
@@ -70,9 +74,9 @@ public class ProductDetailFragment extends Fragment {
             @Override
             public void onChanged(@Nullable List<ProductDetail> _productDetail) {
                 if (_productDetail != null) {
-                    ProductDetailView p = new ProductDetailView(_productDetail);
-                    p.getProductDetailColorAdapter();
-                    p.getProductDetailSizeAdapter();
+                    producdetail  = new ProductDetailView(_productDetail);
+                    currentItem = _productDetail.get(0);
+                    mBinding.setProductDetail(currentItem);
                     mBinding.setIsLoading(false);
                 } else {
                     mBinding.setIsLoading(true);
@@ -83,22 +87,42 @@ public class ProductDetailFragment extends Fragment {
         });
     }
 
+    private void showFullScreenColorDialog() {
+
+        fragment = new DialogProductFragment(clickListener);
+        Bundle args = new Bundle();
+        args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_color));
+        fragment.setArguments(args);
+        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
+        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize());
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        fragment.show(ft, DialogProductFragment.TAG);
+
+    }
+    private void showFullScreenSizeDialog() {
+
+        fragment = new DialogProductFragment(clickListener);
+        Bundle args = new Bundle();
+        args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_size));
+        fragment.setArguments(args);
+        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
+        //fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), currentItem.getColor());
+        FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
+        fragment.show(ft, DialogProductFragment.TAG);
+
+    }
+
+
     private void showColorDialog(){
         Dialog dialog = new Dialog(this.getActivity());
-        dialog.setContentView(android.R.layout.list_content);
-        ListView lv = (ListView ) dialog.findViewById(android.R.id.list);
-        //lv.setAdapter();
+        int width = ViewGroup.LayoutParams.MATCH_PARENT;
+        int height = ViewGroup.LayoutParams.MATCH_PARENT;
+        dialog.getWindow().setLayout(width, height);
+        dialog.setContentView(R.layout.dialog_productdetail_list);
+        RecyclerView lv = (RecyclerView ) dialog.findViewById(R.id.products_list);
         ProductDetailColorListAdapter adapter = new ProductDetailColorListAdapter(clickListener);
-        dialog.setCancelable(true);
-        dialog.setTitle("Select Color");
-        dialog.show();
-    }
-    private void showSizeDialog(){
-        Dialog dialog = new Dialog(this.getActivity());
-        dialog.setContentView(android.R.layout.list_content);
-        ListView lv = (ListView ) dialog.findViewById(android.R.id.list);
-        //lv.setAdapter();
-        ProductDetailColorListAdapter adapter = new ProductDetailColorListAdapter(clickListener);
+        adapter.setProductList(producdetail.getProductDetailSizeAdapter().get(currentItem.getSize()));
+        lv.setAdapter(adapter);
         dialog.setCancelable(true);
         dialog.setTitle("Select Size");
         dialog.show();
@@ -107,23 +131,23 @@ public class ProductDetailFragment extends Fragment {
     private ClickListener<ProductDetail> clickListener = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail object) {
-            // choose item color
+            // update current information
+            fragment.dismiss();
+            mBinding.setProductDetail(object);
         }
     };
     private ClickListener<ProductDetail> clickListenerSize = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail object) {
             // choose item size
-
-            showSizeDialog();
+            showFullScreenSizeDialog();
         }
     };
     private ClickListener<ProductDetail> clickListenerColor = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail object) {
             // choose item color
-            showColorDialog();
-            Intent i ;
+            showFullScreenColorDialog();
         }
     };
 

@@ -281,6 +281,7 @@ public class MainActivity extends AppCompatActivity
         ProductDetailFragment fragment = new ProductDetailFragment();
         Bundle bundle = new Bundle();
         bundle.putString(HHMarketConstants.KEY_PRODUCT_ID, product.getProductId().toString());
+        bundle.putFloat(HHMarketConstants.KEY_STRING_DATA, product.getOverrallRating());
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().addToBackStack("productDetail")
                 .replace(R.id.frame, fragment, null).commit();

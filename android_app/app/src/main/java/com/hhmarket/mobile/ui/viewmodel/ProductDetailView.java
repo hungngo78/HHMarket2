@@ -1,17 +1,12 @@
 package com.hhmarket.mobile.ui.viewmodel;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.hhmarket.mobile.model.ProductDetail;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ProductDetailView {
 
@@ -50,11 +45,17 @@ public class ProductDetailView {
             } else {
                 itemList = new ArrayList<ProductDetail>();
             }
+            itemList.add(productDetails.get(i));
             listDataSize.put(productDetails.get(i).getSize(), itemList);
 
         }
 
     }
+
+    public List<ProductDetail> getProductDetails() {
+        return productDetails;
+    }
+
     public Map<String,List<ProductDetail>> getProductDetailColorAdapter() {
         return listDataColor;
     }
@@ -63,31 +64,6 @@ public class ProductDetailView {
         return listDataSize;
     }
 
-    class ProductDetailDataView {
-
-        public Integer productDetailsId;
-
-        public Integer productId;
-
-        public String name;
-
-        public String description;
-
-        public float price;
-
-        public String size;
-
-        public String picture;
-
-        public String  color;
-
-        public Integer  amount;
-
-        ProductDetailDataView() {
-
-        }
-
-    }
 
 
 }

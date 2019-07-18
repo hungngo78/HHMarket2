@@ -63,5 +63,10 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="logout_message">Do you want to signout?</string>
     <string name="logout_yes">Yes</string>
     <string name="logout_no">No</string>
+    <string name="title_dialog_color">Select color</string>
+    <string name="title_dialog_size">Select size</string>
+    <string name="see_review">See review</string>
+    <string name="add_to_cart">Add to cart</string>
+
 
 </resources>

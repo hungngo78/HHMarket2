@@ -56,14 +56,14 @@ public class ProductDetailViewModel extends AndroidViewModel{
         Callback<List<ProductDetail>> callback = new Callback<List<ProductDetail>>() {
             @Override
             public void onResponse(Call<List<ProductDetail>> call, Response<List<ProductDetail>> response) {
-                //Log.i("-------onResponse--------", response.body().toString());
+                Log.i("-------onResponse--------", response.body().toString());
                 productDetail.postValue(response.body());
                 isLoading.postValue(false);
             }
 
             @Override
             public void onFailure(Call<List<ProductDetail>> call, Throwable t) {
-                //Log.i("-------onFailure--------", "-----------------------------");
+                Log.i("-------onFailure--------", "-----------------------------");
                 apiError.postValue(t);
                 isLoading.postValue(false);
 

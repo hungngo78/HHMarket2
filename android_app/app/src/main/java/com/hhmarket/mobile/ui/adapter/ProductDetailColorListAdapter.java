@@ -30,6 +30,7 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
 
 
     public void setProductList(final List<? extends ProductDetail> productList) {
+        if (productList == null) return;
         if (mProductList == null) {
             mProductList = productList;
             notifyItemRangeInserted(0, productList.size());

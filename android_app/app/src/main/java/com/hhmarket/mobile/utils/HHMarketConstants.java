@@ -11,9 +11,12 @@ public class HHMarketConstants {
 
     public final static String TAG_HOME = "Categories";
     public final static String TAG_PRODUCTS = "Products";
+    public final static String TAG_REVIEWS = "Customer Reviews";
+    public final static String TAG_REVIEW_ADDING = "Write a Review";
     public final static String TAG_PRODUCT_DETAILS = "ProductInf Details";
     public final static String TAG_SETTINGS = "Settings";
 
     public final static String KEY_CATEGORY_ID = "category_id";
     public final static String KEY_PRODUCT_ID = "product_id";
+    public final static String KEY_PRODUCT = "product";
 }

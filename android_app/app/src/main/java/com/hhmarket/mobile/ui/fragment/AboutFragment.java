@@ -72,7 +72,6 @@ public class AboutFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-
                 // ListView Clicked item index
                 int itemPosition = position;
 
@@ -88,9 +87,7 @@ public class AboutFragment extends Fragment {
                     i.setData(Uri.parse(url));
                     startActivity(i);
                 }
-
             }
-
         });
         return viewRoot;
 
@@ -99,9 +96,5 @@ public class AboutFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-
     }
-
-
 }

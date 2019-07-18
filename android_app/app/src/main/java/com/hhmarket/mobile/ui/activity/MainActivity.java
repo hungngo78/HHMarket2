@@ -52,6 +52,7 @@ import com.hhmarket.mobile.db.entity.UserEntity;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
+import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;

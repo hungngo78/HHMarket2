@@ -1,5 +1,6 @@
 package com.hhmarket.mobile.ui.fragment;
 
+import androidx.databinding.Bindable;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.ProductDetailFragmentBinding;
@@ -27,6 +29,8 @@ import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ProductDetailFragment extends Fragment {
@@ -36,7 +40,8 @@ public class ProductDetailFragment extends Fragment {
     private ProductDetailView producdetail;
     private ProductDetail currentItem;
     DialogProductFragment fragment;
-
+    private String []arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
+    private ArrayAdapter<String> adapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +56,11 @@ public class ProductDetailFragment extends Fragment {
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
         mBinding.setOverallRating( getArguments().getFloat(HHMarketConstants.KEY_STRING_DATA));
+
+        ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
+        adapter = new ArrayAdapter<String>(getActivity(),
+                android.R.layout.simple_dropdown_item_1line, lst);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         return mBinding.getRoot();
     }
 
@@ -69,6 +79,26 @@ public class ProductDetailFragment extends Fragment {
         subscribeUi();
     }
 
+    public void createAmountSpinner(){
+        if (currentItem.getAmount() == 0) {
+            arr = new String[]{"0"};
+        } else
+        if (currentItem.getAmount().intValue() >= 10) {
+            arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
+        } else {
+            arr = new String[currentItem.getAmount()];
+            for(int i = 0; i < currentItem.getAmount(); i++) {
+
+                arr[i] = ""+i;
+            }
+        }
+        ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
+        adapter.clear();
+        adapter.addAll(arr);
+        mBinding.setAmountAdapter(adapter);
+
+    }
+
     private void subscribeUi() {
         mViewModel.getProductDetail().observe(this, new Observer<List<ProductDetail>>() {
             @Override
@@ -78,6 +108,7 @@ public class ProductDetailFragment extends Fragment {
                     currentItem = _productDetail.get(0);
                     mBinding.setProductDetail(currentItem);
                     mBinding.setIsLoading(false);
+                    createAmountSpinner();
                 } else {
                     mBinding.setIsLoading(true);
                 }
@@ -134,6 +165,7 @@ public class ProductDetailFragment extends Fragment {
             // update current information
             fragment.dismiss();
             mBinding.setProductDetail(object);
+            createAmountSpinner();
         }
     };
     private ClickListener<ProductDetail> clickListenerSize = new ClickListener<ProductDetail>() {
@@ -141,6 +173,7 @@ public class ProductDetailFragment extends Fragment {
         public void onClick(ProductDetail object) {
             // choose item size
             showFullScreenSizeDialog();
+
         }
     };
     private ClickListener<ProductDetail> clickListenerColor = new ClickListener<ProductDetail>() {

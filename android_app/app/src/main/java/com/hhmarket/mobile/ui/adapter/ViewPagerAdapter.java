@@ -1,7 +1,6 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.hhmarket.mobile.R;
-import com.hhmarket.mobile.databinding.ProductImageItemBinding;
-import com.hhmarket.mobile.utils.HHMarketConstants;
 
 public class ViewPagerAdapter extends PagerAdapter {
 

@@ -10,6 +10,8 @@ public class ComponentInjector {
                 .apiModule(new ApiModule())
                 .categoryRepositoryModule(new CategoryRepositoryModule())
                 .productRepositoryModule(new ProductRepositoryModule())
+                .productDetailRepositoryModule(new ProductDetailRepositoryModule())
+                .reviewRepositoryModule(new ReviewRepositoryModule())
                 .userRepositoryModule(new UserRepositoryModule())
                 .build();
     }

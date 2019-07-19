@@ -15,7 +15,7 @@ import dagger.Component;
 @Singleton
 @Component (modules = { ApiModule.class, CategoryRepositoryModule.class,
         ProductRepositoryModule.class, UserRepositoryModule.class,
-        ReviewRepositoryModule.class})
+        ProductDetailRepositoryModule.class, ReviewRepositoryModule.class})
 public interface MagicBox {
     // allow to inject into our viewmodel classes
     // method name not important

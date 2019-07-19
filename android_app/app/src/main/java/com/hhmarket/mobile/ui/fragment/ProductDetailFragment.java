@@ -1,6 +1,5 @@
 package com.hhmarket.mobile.ui.fragment;
 
-import androidx.databinding.Bindable;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -12,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +24,7 @@ import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.ui.adapter.ProductDetailColorListAdapter;
+import com.hhmarket.mobile.ui.adapter.ViewPagerAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailView;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModelFactory;
@@ -42,6 +43,7 @@ public class ProductDetailFragment extends Fragment {
     DialogProductFragment fragment;
     private String []arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
     private ArrayAdapter<String> adapter;
+    private ViewPagerAdapter imageUrlAdapter;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +63,9 @@ public class ProductDetailFragment extends Fragment {
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, lst);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+
+
         return mBinding.getRoot();
     }
 
@@ -79,6 +84,18 @@ public class ProductDetailFragment extends Fragment {
         subscribeUi();
     }
 
+    public void setViewPagerAdaper() {
+
+        if (imageUrlAdapter != null) {
+            imageUrlAdapter.setImageList(currentItem.getImageList());
+        } else
+            imageUrlAdapter = new ViewPagerAdapter(getContext(),currentItem.getImageList());
+
+
+        mBinding.setImageAdapter(imageUrlAdapter);
+
+
+    }
     public void createAmountSpinner(){
         if (currentItem.getAmount() == 0) {
             arr = new String[]{"0"};
@@ -109,6 +126,7 @@ public class ProductDetailFragment extends Fragment {
                     mBinding.setProductDetail(currentItem);
                     mBinding.setIsLoading(false);
                     createAmountSpinner();
+                    setViewPagerAdaper();
                 } else {
                     mBinding.setIsLoading(true);
                 }
@@ -164,8 +182,10 @@ public class ProductDetailFragment extends Fragment {
         public void onClick(ProductDetail object) {
             // update current information
             fragment.dismiss();
+            currentItem = object;
             mBinding.setProductDetail(object);
             createAmountSpinner();
+            setViewPagerAdaper();
         }
     };
     private ClickListener<ProductDetail> clickListenerSize = new ClickListener<ProductDetail>() {

@@ -58,6 +58,18 @@ public class ProductDetail {
     @Expose
     private Integer  amount;
 
+    public String []getImageList() {
+        String[] images = picture.split(",");
+        if (images.length != 0)
+            for(int i = 0 ; i< images.length; i++) {
+                images[i] =  HHMarketConstants.
+                S3_BUCKET_URL + "Production/" + productId + "/" + color + "/" + images[i];
+            }
+        else {
+            return new String[] {HHMarketConstants.S3_BUCKET_URL + "no_image.png"};
+        }
+        return images;
+    }
 
     public String getImageUrl() {
         //https://hungngobucket1.s3-us-west-1.amazonaws.com/Production/1000/Black+Sunflower/image1.jpg

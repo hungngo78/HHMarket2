@@ -29,6 +29,9 @@ xmlns:tools="http://schemas.android.com/tools"
     <variable
         name="amountAdapter"
         type="android.widget.ArrayAdapter" />
+    <variable
+        name="imageAdapter"
+        type="com.hhmarket.mobile.ui.adapter.ViewPagerAdapter" />
 </data>
 
     <ScrollView
@@ -49,21 +52,40 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:textAlignment="center"
                 app:visibleGone="@{isLoading}" />
 
-            <ImageView
-                android:id="@+id/item_image"
-                android:layout_width="0dp"
+            <androidx.viewpager.widget.ViewPager
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/category_item_image_height"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:background="@android:drawable/picture_frame"
-                android:contentDescription="N/A"
-                app:imageFromUrl="@{productDetail.imageUrl}"
+                android:id="@+id/item_image"
+                android:adapter="@{imageAdapter}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loading_tv"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+            />
+            <!--&lt;!&ndash;<com.viewpagerindicator.UnderlinePageIndicator-->
+                <!--android:id="@+id/indicator"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="5dp"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@id/item_image"-->
+                <!--/>&ndash;&gt;-->
+
+        <!--<ImageView-->
+                <!--android:id="@+id/item_image"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="@dimen/category_item_image_height"-->
+                <!--android:layout_marginStart="@dimen/margin_small"-->
+                <!--android:layout_marginTop="@dimen/margin_normal"-->
+                <!--android:layout_marginEnd="@dimen/margin_small"-->
+                <!--android:layout_marginBottom="@dimen/margin_small"-->
+                <!--android:background="@android:drawable/picture_frame"-->
+                <!--android:contentDescription="N/A"-->
+                <!--app:imageFromUrl="@{productDetail.imageUrl}"-->
+                <!--app:layout_constraintEnd_toEndOf="parent"-->
+                <!--app:layout_constraintStart_toStartOf="parent"-->
+                <!--app:layout_constraintTop_toBottomOf="@id/loading_tv"-->
+                <!--app:layout_constraintTop_toTopOf="parent" />-->
 
             <TextView
                 android:id="@+id/product_item_title"

@@ -53,11 +53,9 @@ import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
-import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
-import com.hhmarket.mobile.ui.fragment.ProductDetailFragment;
 import com.hhmarket.mobile.ui.fragment.ProductListFragment;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
@@ -269,22 +267,11 @@ public class MainActivity extends AppCompatActivity
                 .addToBackStack("product")
                 .replace(R.id.frame, fragment, null).commit();
     }
-    /*
-    44. Difference between adding/replacing fragment in backstack?
-•	replace removes the existing fragment and adds a new fragment. This means when you press back button the fragment that got replaced will be created with its onCreateView being invoked.
-•	add retains the existing fragments and adds a new fragment that means existing fragment will be active and they wont be in ‘paused’ state hence when a back button is pressed onCreateView is not called for the existing fragment(the fragment which was there before new fragment was added).
-•	In terms of fragment’s life cycle events onPause, onResume, onCreateView and other life cycle events will be invoked in case of replace but they wont be invoked in case of add.
 
-     */
+    public void showReview(Product product) {
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra("product", product);
 
-    public void showProductDetail(Product product) {
-        ProductDetailFragment fragment = new ProductDetailFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(HHMarketConstants.KEY_PRODUCT_ID, product.getProductId().toString());
-        bundle.putFloat(HHMarketConstants.KEY_STRING_DATA, product.getOverrallRating());
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().addToBackStack("productDetail")
-                .replace(R.id.frame, fragment, null).commit();
-
+        this.startActivity(intent);
     }
 }

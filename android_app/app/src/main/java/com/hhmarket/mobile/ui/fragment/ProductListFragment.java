@@ -1,6 +1,7 @@
 package com.hhmarket.mobile.ui.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,17 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.hhmarket.mobile.databinding.CategoryListFragmentBinding;
 import com.hhmarket.mobile.databinding.FragmentProductListBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
-import com.hhmarket.mobile.model.ClickListener;
+import com.hhmarket.mobile.model.Category;
+import com.hhmarket.mobile.model.CategoryClickListener;
 import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductClickListener;
 import com.hhmarket.mobile.ui.activity.MainActivity;
+import com.hhmarket.mobile.ui.adapter.CategoryListAdapter;
 import com.hhmarket.mobile.ui.adapter.ProductListAdapter;
+import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductListViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
@@ -43,9 +49,8 @@ public class ProductListFragment extends Fragment {
         mBinding = FragmentProductListBinding.inflate(inflater, container, false);
 
         // adapter
-        mAdapter = new ProductListAdapter(mClickListener);
+        mAdapter = new ProductListAdapter(mProductClickListener);
         mBinding.productsList.setAdapter(mAdapter);
-
 
         return mBinding.getRoot();
     }
@@ -81,13 +86,12 @@ public class ProductListFragment extends Fragment {
         });
     }
 
-    private final ClickListener<Product> mClickListener = new ClickListener<Product>() {
+    private final ProductClickListener mProductClickListener = new ProductClickListener() {
         @Override
         public void onClick(Product product) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).showProductDetail(product);
+                ((MainActivity) getActivity()).showReview(product);
             }
         }
     };
-
 }

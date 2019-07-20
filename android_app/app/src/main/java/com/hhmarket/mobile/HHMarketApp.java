@@ -30,17 +30,35 @@ public class HHMarketApp extends Application {
 
     private AppExecutors mAppExecutors;
 
+    private int userId;
+    private String userName;
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         Log.i("HHMarketApp","--------------------------------  App Start ---------------------");
 
-        //mAppExecutors = new AppExecutors();
+        mAppExecutors = new AppExecutors();
+
+        userId = -1;
+        userName = "";
 
         ComponentInjector.init();
     }
 
+    public void setUserId(int _userId) {
+        this.userId = _userId;
+    }
+    public int getUserId() {
+        return this.userId;
+    }
+    public void setUserName(String _userName) {
+        this.userName = _userName;
+    }
+    public String getUserName() {
+        return this.userName;
+    }
 
     public AppDatabase getDatabase() {
         return AppDatabase.getInstance(this, mAppExecutors);

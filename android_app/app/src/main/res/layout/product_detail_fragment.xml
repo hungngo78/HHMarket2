@@ -56,15 +56,15 @@ xmlns:tools="http://schemas.android.com/tools"
                 app:visibleGone="@{isLoading}" />
 
             <androidx.viewpager.widget.ViewPager
+                android:id="@+id/item_image"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/category_item_image_height"
-                android:id="@+id/item_image"
+                android:layout_marginTop="16dp"
                 android:adapter="@{imageAdapter}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/loading_tv"
-                app:layout_constraintTop_toTopOf="parent"
-            />
+                app:layout_constraintTop_toTopOf="parent" />
             <me.relex.circleindicator.CircleIndicator
                 android:id="@+id/circle"
                 app:ci_width="5dp"
@@ -222,9 +222,10 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_normal"
+                android:layout_marginBottom="24dp"
                 android:text="@{`Description: `+ productDetail.description}"
                 android:textAppearance="?attr/textAppearanceListItem"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/add_to_cart"

@@ -23,7 +23,7 @@ public class Review {
 
     @SerializedName("UserId")
     @Expose
-    private String userId;
+    private Integer userId;
 
     @SerializedName("UserName")
     @Expose
@@ -61,11 +61,11 @@ public class Review {
         this.productId = productId;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

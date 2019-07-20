@@ -9,10 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager.widget.ViewPager;
 
 import com.hhmarket.mobile.R;
+import com.hhmarket.mobile.model.OnFragmentSelectedListener;
 import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductClickListener;
 import com.hhmarket.mobile.ui.fragment.ReviewAddingFragment;
 import com.hhmarket.mobile.ui.fragment.ReviewListFragment;
 import com.hhmarket.mobile.utils.HHMarketConstants;
@@ -23,6 +26,22 @@ public class ReviewActivity extends AppCompatActivity {
 
     private ViewPager vpPager;
     private MyPagerAdapter adapterViewPager;
+
+    private final OnFragmentSelectedListener fragment1SelectedListener = new OnFragmentSelectedListener() {
+        @Override
+        public void onSelected(Fragment fragment) {
+            actionBar.setTitle(HHMarketConstants.TAG_REVIEWS);
+            ((ReviewListFragment) fragment).updateReviewList();
+        }
+    };
+
+    private final OnFragmentSelectedListener fragment2SelectedListener = new OnFragmentSelectedListener() {
+        @Override
+        public void onSelected(Fragment fragment) {
+            actionBar.setTitle(HHMarketConstants.TAG_REVIEW_ADDING);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +57,7 @@ public class ReviewActivity extends AppCompatActivity {
         // receiving our product from Main Activity
         Product product = (Product) getIntent().getParcelableExtra("product");
         vpPager = (ViewPager) findViewById(R.id.vpPager);
-        adapterViewPager = new MyPagerAdapter(actionBar, getSupportFragmentManager(), product);
+        adapterViewPager = new MyPagerAdapter(fragment1SelectedListener, fragment2SelectedListener, getSupportFragmentManager(), product);
         vpPager.setAdapter(adapterViewPager);
 
         // when slide to page 0, reload Review List
@@ -62,17 +81,22 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public static class MyPagerAdapter extends FragmentStatePagerAdapter implements ViewPager.OnPageChangeListener {
-        private ActionBar mActionBar;
+        //private ActionBar mActionBar;
+        private OnFragmentSelectedListener mFragment1SelectedListener;
+        private OnFragmentSelectedListener mFragment2SelectedListener;
 
         private static int NUM_ITEMS = 2;
         private Product mProduct;
         private Fragment fragment1;
         private Fragment fragment2;
 
-        public MyPagerAdapter(ActionBar actionBar, FragmentManager fragmentManager, Product product) {
+        public MyPagerAdapter(OnFragmentSelectedListener fragment1SelectedListener,
+                              OnFragmentSelectedListener fragment2SelectedListener,
+                              FragmentManager fragmentManager, Product product) {
             super(fragmentManager);
 
-            mActionBar = actionBar;
+            mFragment1SelectedListener = fragment1SelectedListener;
+            mFragment2SelectedListener = fragment2SelectedListener;
 
             mProduct = product;
 
@@ -124,10 +148,12 @@ public class ReviewActivity extends AppCompatActivity {
             //    and previous Fragment needs to be garbage collected. Therefore there will extra memory.
             //  Therefore rather than recreating the FirstPageFragment just refresh the data
             if (position == 0) {
-                mActionBar.setTitle(HHMarketConstants.TAG_REVIEWS);
-                ((ReviewListFragment) fragment1).updateReviewList();
+                //mActionBar.setTitle(HHMarketConstants.TAG_REVIEWS);
+                //((ReviewListFragment) fragment1).updateReviewList();
+                mFragment1SelectedListener.onSelected(fragment1);
             } else {
-                mActionBar.setTitle(HHMarketConstants.TAG_REVIEW_ADDING);
+                //mActionBar.setTitle(HHMarketConstants.TAG_REVIEW_ADDING);
+                mFragment2SelectedListener.onSelected(fragment2);
             }
         }
 
@@ -135,4 +161,6 @@ public class ReviewActivity extends AppCompatActivity {
         public void onPageScrollStateChanged(int state) {
         }
     }
+
+
 }

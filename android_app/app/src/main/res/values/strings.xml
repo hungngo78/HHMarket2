@@ -38,6 +38,7 @@
     <string name="about_terms">Terms of Use</string>
     <string name="about_privacy">Privacy Policy</string>
     <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_reviews">Reviews</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="about_terms_content">The Intellectual Property disclosure will inform users that the contents, logo and other visual media you created is your property and is protected by copyright laws.
 A Termination clause will inform that users’ accounts on your website and mobile app or users’ access to your website and mobile (if users can’t have an account with you) can be terminated in case of abuses or at your sole discretion.
@@ -68,5 +69,15 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="see_review">See review</string>
     <string name="add_to_cart">Add to cart</string>
 
+
+    <!-- REVIEW -->
+    <string name="cd_review_list">Review list</string>
+    <string name="write_a_review">WRITE A REVIEW</string>
+    <string name="how_you_rate">How would you rate this?</string>
+    <string name="nick_name">Nickname</string>
+    <string name="review_title">Review title</string>
+    <string name="write_your_review">Write your review</string>
+    <string name="write_your_name">Write your name</string>
+    <string name="submit_review">SUBMIT REVIEW</string>
 
 </resources>

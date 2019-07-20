@@ -15,6 +15,9 @@ xmlns:tools="http://schemas.android.com/tools"
         name="clickListenerSize"
         type="com.hhmarket.mobile.model.ClickListener"/>
     <variable
+        name="clickListenerReview"
+        type="com.hhmarket.mobile.model.ClickListener"/>
+    <variable
         name="productDetail"
         type="com.hhmarket.mobile.model.ProductDetail"/>
     <variable
@@ -177,6 +180,7 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/margin_small"
+                android:onClick="@{() -> clickListenerReview.onClick(productDetail)}"
                 android:text="@string/see_review"
                 app:layout_constraintEnd_toStartOf="@+id/add_to_cart"
                 app:layout_constraintHorizontal_chainStyle="spread"

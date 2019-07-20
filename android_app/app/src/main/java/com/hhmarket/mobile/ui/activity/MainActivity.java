@@ -53,7 +53,6 @@ import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
-import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
@@ -282,9 +281,17 @@ public class MainActivity extends AppCompatActivity
         Bundle bundle = new Bundle();
         bundle.putString(HHMarketConstants.KEY_PRODUCT_ID, product.getProductId().toString());
         bundle.putFloat(HHMarketConstants.KEY_STRING_DATA, product.getOverrallRating());
+        bundle.putParcelable("product", product);
         fragment.setArguments(bundle);
         getSupportFragmentManager().beginTransaction().addToBackStack("productDetail")
                 .replace(R.id.frame, fragment, null).commit();
+    }
 
+
+    public void showReview(Product product) {
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra("product", product);
+
+        this.startActivity(intent);
     }
 }

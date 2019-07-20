@@ -1,7 +1,6 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -9,7 +8,6 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.ProductItemBinding;
-import com.hhmarket.mobile.model.CategoryClickListener;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
 
@@ -75,6 +73,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         ProductItemBinding binding = (ProductItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false));
         binding.setClickListener(mClickListener);
+
         return new ProductListAdapter.ProductListViewHolder(binding);
     }
 

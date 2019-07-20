@@ -17,6 +17,7 @@ import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.ui.activity.MainActivity;
+
 import com.hhmarket.mobile.ui.adapter.ProductListAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ProductListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductListViewModelFactory;

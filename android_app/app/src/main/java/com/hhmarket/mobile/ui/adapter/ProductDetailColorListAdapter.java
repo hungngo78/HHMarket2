@@ -107,4 +107,6 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
             this.binding = binding;
         }
     }
+
+
 }

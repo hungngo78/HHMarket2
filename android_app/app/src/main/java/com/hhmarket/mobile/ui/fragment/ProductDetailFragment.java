@@ -1,6 +1,7 @@
 package com.hhmarket.mobile.ui.fragment;
 
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -22,7 +23,10 @@ import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.ProductDetailFragmentBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.ClickListener;
+import com.hhmarket.mobile.model.Product;
+import com.hhmarket.mobile.model.ProductClickListener;
 import com.hhmarket.mobile.model.ProductDetail;
+import com.hhmarket.mobile.ui.activity.MainActivity;
 import com.hhmarket.mobile.ui.adapter.ProductDetailColorListAdapter;
 import com.hhmarket.mobile.ui.adapter.ViewPagerAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailView;
@@ -44,10 +48,13 @@ public class ProductDetailFragment extends Fragment {
     private String []arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
     private ArrayAdapter<String> adapter;
     private ViewPagerAdapter imageUrlAdapter;
+    private Product  mProduct;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
+        mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
     }
 
     @Override
@@ -58,6 +65,7 @@ public class ProductDetailFragment extends Fragment {
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
         mBinding.setOverallRating( getArguments().getFloat(HHMarketConstants.KEY_STRING_DATA));
+        mBinding.setClickListenerReview(mProductClickListener);
 
         ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -204,5 +212,22 @@ public class ProductDetailFragment extends Fragment {
         }
     };
 
+    private final ClickListener<ProductDetail> mProductClickListener = new ClickListener<ProductDetail>() {
+        @Override
+        public void onClick(ProductDetail product) {
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                ((MainActivity) getActivity()).showReview(mProduct);
+            }
+        }
+    };
+
+
+//    @Nullable
+//    private final ProductClickListener mProductClickListener;
+//
+//    public ProductListAdapter(@Nullable ProductClickListener clickCallback) {
+//        mProductClickListener = clickCallback;
+//        setHasStableIds(true);
+//    }
 
 }

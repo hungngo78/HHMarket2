@@ -16,6 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@android:drawable/picture_frame"
         android:onClick="@{() ->  clickListener.onClick(category)}">
 
         <ImageView
@@ -27,7 +28,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_marginStart="@dimen/margin_small"
             android:contentDescription="N/A"
-
+            android:scaleType="fitCenter"
             app:imageFromUrl="@{category.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,7 +40,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_small"
+            android:maxLines="2"
             android:layout_marginStart="@dimen/margin_small"
+            android:padding="5dp"
+            android:textColor="@android:color/white"
+            android:background="@color/colorAccent"
             android:layout_marginTop="@dimen/margin_small"
             android:text="@{category.name}"
             android:textAppearance="?attr/textAppearanceListItem"

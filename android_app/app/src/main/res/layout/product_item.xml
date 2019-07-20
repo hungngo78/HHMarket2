@@ -32,7 +32,6 @@
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_normal"
             android:contentDescription="N/A"
-
             app:imageFromUrl="@{product.imageUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -102,7 +101,16 @@
             app:visibleGone="@{hasDetails &amp;&amp; hasMultiPrices}"
             tools:text=" - $99.99" />
 
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_image"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

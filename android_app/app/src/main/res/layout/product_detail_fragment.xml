@@ -65,6 +65,18 @@ xmlns:tools="http://schemas.android.com/tools"
                 app:layout_constraintTop_toBottomOf="@id/loading_tv"
                 app:layout_constraintTop_toTopOf="parent"
             />
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/circle"
+                app:ci_width="5dp"
+                app:ci_height="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:ci_drawable="@drawable/circleindicator_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_image"
+                />
             <!--&lt;!&ndash;<com.viewpagerindicator.UnderlinePageIndicator-->
                 <!--android:id="@+id/indicator"-->
                 <!--android:layout_width="match_parent"-->
@@ -102,7 +114,7 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:textAppearance="?attr/textAppearanceListItem"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_image"
+                app:layout_constraintTop_toBottomOf="@id/circle"
                 tools:text="Tomato" />
 
             <TextView
@@ -126,6 +138,7 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
+                android:layout_marginBottom="@dimen/margin_small"
                 android:layout_marginTop="@dimen/margin_small"
                 android:numStars="5"
                 android:rating="@{overallRating}"

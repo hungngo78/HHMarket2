@@ -1,5 +1,6 @@
 package com.hhmarket.mobile.ui.fragment;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -38,6 +40,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator;
+
 public class ProductDetailFragment extends Fragment {
 
     private ProductDetailViewModel mViewModel;
@@ -49,12 +53,16 @@ public class ProductDetailFragment extends Fragment {
     private ArrayAdapter<String> adapter;
     private ViewPagerAdapter imageUrlAdapter;
     private Product  mProduct;
+    ViewPager pager;
+    CircleIndicator indicator;
+    ActionBar actionBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
         mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
+
     }
 
     @Override
@@ -72,7 +80,7 @@ public class ProductDetailFragment extends Fragment {
                 android.R.layout.simple_dropdown_item_1line, lst);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
+        pager = (ViewPager) mBinding.getRoot().getRootView().findViewById(R.id.item_image);
 
         return mBinding.getRoot();
     }
@@ -90,6 +98,7 @@ public class ProductDetailFragment extends Fragment {
         mViewModel.getProductDetailfromAPI();
 
         subscribeUi();
+
     }
 
     public void setViewPagerAdaper() {
@@ -100,7 +109,11 @@ public class ProductDetailFragment extends Fragment {
             imageUrlAdapter = new ViewPagerAdapter(getContext(),currentItem.getImageList());
 
 
-        mBinding.setImageAdapter(imageUrlAdapter);
+        pager.setAdapter(imageUrlAdapter);
+        //mBinding.setImageAdapter(imageUrlAdapter);
+        indicator = (CircleIndicator) mBinding.getRoot().getRootView().findViewById(R.id.circle);
+        indicator.setViewPager(pager);
+
 
 
     }

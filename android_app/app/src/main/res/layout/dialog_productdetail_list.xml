@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             app:layoutManager="LinearLayoutManager"
             tools:context=".ui.activity.MainActivity"
-            tools:listitem="@layout/product_detail_listview_color_item"/>
+            tools:listitem="@layout/product_detail_listview_color_item"
+            android:layout_marginBottom="20dp"/>
     </LinearLayout>
 </layout>

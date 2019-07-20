@@ -57,7 +57,16 @@
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
             app:layout_constraintTop_toBottomOf="@+id/product_item_title"
             tools:text="$44.99" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            android:background="@color/colorAccent"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_image"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 
 import com.hhmarket.mobile.di.ApiModule;
@@ -88,6 +89,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 if (loginResult.getSuccess() != null) {
                     updateUiWithUser(loginResult.getSuccess());
+
+                    // store userId, userName in android.app.Application
+                    ((HHMarketApp) getApplication()).setUserId(loginResult.getSuccess().userId);
+                    ((HHMarketApp) getApplication()).setUserName(loginResult.getSuccess().userName);
                 }
 
                 //Complete and destroy login activity once successful

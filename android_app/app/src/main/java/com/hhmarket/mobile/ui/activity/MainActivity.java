@@ -47,6 +47,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 
 import com.hhmarket.mobile.db.entity.UserEntity;
@@ -64,12 +65,14 @@ import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
 
 public class MainActivity extends AppCompatActivity
-
         implements NavigationView.OnNavigationItemSelectedListener {
+
     private View navHeader;
     public LoginViewModel loginViewModel;
     public final static int REQUEST_LOGIN = 1000;
     private MenuItem menuItem_signin;
+    private MenuItem menuItem_signout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         menuItem_signin = (MenuItem) navigationView.getMenu().findItem(R.id.sign_in);
+        menuItem_signout = (MenuItem) navigationView.getMenu().findItem(R.id.nav_sign_out);
 
         // Loading profile image
         navHeader = navigationView.getHeaderView(0);
@@ -119,7 +123,6 @@ public class MainActivity extends AppCompatActivity
         displaySelectedFragment(fragment);
 
         checkLogin();
-
     }
 
 
@@ -130,6 +133,9 @@ public class MainActivity extends AppCompatActivity
             User result = (User)data.getSerializableExtra("result");
 
             menuItem_signin.setTitle(result.getFullname());
+
+            // visible log out  menu item
+            menuItem_signout.setVisible(true);
         }
 
 
@@ -200,17 +206,22 @@ public class MainActivity extends AppCompatActivity
             this.startActivity(intent);
         }
         else if (id == R.id.nav_sign_out) {
-
-
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle(getResources().getString(R.string.logout_title))
                     .setMessage(getResources().getString(R.string.logout_message))
                     .setPositiveButton(getResources().getString(R.string.logout_yes), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            // remove global variable in HHMarketApp
+                            ((HHMarketApp)getApplication()).setUserId(-1);
+                            ((HHMarketApp)getApplication()).setUserName("");
 
+                            // remove logged information
                             loginViewModel.deleteAllUser();
+
                             menuItem_signin.setTitle(R.string.menu_sign_in);
+                            menuItem_signout.setVisible(false);
+
                             Toast.makeText(getApplicationContext(), "Sign out", Toast.LENGTH_SHORT).show();
                         }
                     }).setNegativeButton(getResources().getString(R.string.logout_no), new DialogInterface.OnClickListener() {
@@ -240,8 +251,13 @@ public class MainActivity extends AppCompatActivity
                     user.lastName = userEntity.getLastName();
                     user.firstName = userEntity.getFirstName();
                     menuItem_signin.setTitle(user.getFullname());
+                    menuItem_signout.setVisible(true);
+
+                    ((HHMarketApp) getApplication()).setUserId(userEntity.userId);
+                    ((HHMarketApp) getApplication()).setUserName(userEntity.userName);
                 } else {
                     menuItem_signin.setTitle(R.string.menu_sign_in);
+                    menuItem_signout.setVisible(false);
                 }
 
             }

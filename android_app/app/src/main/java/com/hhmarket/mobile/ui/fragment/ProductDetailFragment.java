@@ -6,6 +6,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 
@@ -20,7 +21,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.ProductDetailFragmentBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
@@ -76,6 +79,16 @@ public class ProductDetailFragment extends Fragment {
         mBinding.setOverallRating( mProduct.getReviewNumber());
         mBinding.setClickListenerReview(mProductClickListener);
         mBinding.setRatingNumber(mProduct.getReviewNumber());
+
+        // if user logged in already, visible "See Review" button
+
+        MainActivity currentActivity = (MainActivity) getActivity();
+        if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1) {
+            mBinding.review.setVisibility(View.VISIBLE);
+        }
+        else {
+            mBinding.review.setVisibility(View.GONE);
+        }
 
         ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -214,7 +227,11 @@ public class ProductDetailFragment extends Fragment {
         @Override
         public void onClick(ProductDetail product) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
-                ((MainActivity) getActivity()).showReview(mProduct);
+                MainActivity currentActivity = (MainActivity)getActivity();
+                if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1)
+                    currentActivity.showReview(mProduct);
+                else
+                    Toast.makeText(currentActivity, "Please log in first !", Toast.LENGTH_SHORT).show();
             }
         }
     };

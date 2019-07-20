@@ -56,8 +56,8 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
         toolbar = (Toolbar) view.findViewById(R.id.toolbarDialog);
         RecyclerView lv = (RecyclerView ) view.findViewById(R.id.products_list);
         ProductDetailColorListAdapter adapter = new ProductDetailColorListAdapter(clickListener);
-        //adapter.setProductList(producdetail.get(currentItem));
-        adapter.setProductList(productList);
+        adapter.setProductList(producdetail.get(currentItem));
+        //adapter.setProductList(productList);
         lv.setAdapter(adapter);
         return view;
     }

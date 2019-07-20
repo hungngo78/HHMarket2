@@ -163,8 +163,8 @@ public class ProductDetailFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_color));
         fragment.setArguments(args);
+        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
         fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize());
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
 
@@ -175,8 +175,8 @@ public class ProductDetailFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_size));
         fragment.setArguments(args);
-        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        //fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), currentItem.getColor());
+        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
+        fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), currentItem.getColor(), producdetail.getProductDetails());
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
 

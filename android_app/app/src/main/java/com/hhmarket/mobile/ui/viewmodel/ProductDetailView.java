@@ -29,7 +29,7 @@ public class ProductDetailView {
 
     private void processProductDetailColorAdapter() {
         for (int i = 0; i <productDetails.size(); i++) {
-            List<ProductDetail> itemList ;
+            List<ProductDetail> itemList = new ArrayList<ProductDetail>();
 
             if (listDataColor.containsKey(productDetails.get(i).getColor())) {
                 itemList = listDataColor.get(productDetails.get(i).getColor());
@@ -41,11 +41,13 @@ public class ProductDetailView {
 
 
             if (listDataSize.containsKey(productDetails.get(i).getSize())) {
-                itemList = listDataSize.get(productDetails.get(i).getColor());
+                itemList = listDataSize.get(productDetails.get(i).getSize());
             } else {
                 itemList = new ArrayList<ProductDetail>();
             }
+
             itemList.add(productDetails.get(i));
+
             listDataSize.put(productDetails.get(i).getSize(), itemList);
 
         }

@@ -6,11 +6,11 @@ public class ComponentInjector {
 
     public static void init() {
         // build magic box
-        magicBox = DaggerMagicBox.builder()
-                .apiModule(new ApiModule())
-                .userRepositoryModule(new UserRepositoryModule())
-                .productionRepositoryModule(new ProductionRepositoryModule())
-                .reviewRepositoryModule(new ReviewRepositoryModule())
-                .build();
+        magicBox = DaggerMagicBox.builder().build();
+
+                //.apiModule(new ApiModule())
+                //.userRepositoryModule(new UserRepositoryModule())
+                //.productionRepositoryModule(new ProductionRepositoryModule())
+                //.reviewRepositoryModule(new ReviewRepositoryModule())
     }
 }

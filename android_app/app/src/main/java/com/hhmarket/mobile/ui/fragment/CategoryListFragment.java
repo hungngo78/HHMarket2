@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.List;
 
@@ -21,13 +22,20 @@ import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.ui.activity.MainActivity;
 import com.hhmarket.mobile.ui.adapter.CategoryListAdapter;
 import com.hhmarket.mobile.di.ComponentInjector;
+import com.hhmarket.mobile.ui.adapter.ImageViewPagerAdapter;
 import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import com.hhmarket.mobile.utils.HHMarketConstants;
+
+import me.relex.circleindicator.CircleIndicator;
 
 public class CategoryListFragment extends Fragment {
     private CategoryListViewModel mViewModel;
     private CategoryListAdapter mAdapter;
     private FragmentCategoryListBinding mBinding;
+
+    private ViewPager mPager;
+    private ImageViewPagerAdapter mImageViewPagerAdapter;
+    private CircleIndicator mIndicator;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,13 @@ public class CategoryListFragment extends Fragment {
         // adapter
         mAdapter = new CategoryListAdapter(mCategoryClickListener);
         mBinding.categoriesList.setAdapter(mAdapter);
+
+        // set up promotion images
+        mPager = mBinding.itemImage;
+        mIndicator = mBinding.circle;
+        mImageViewPagerAdapter = new ImageViewPagerAdapter(getActivity(), HHMarketConstants.getPromotionImageList());
+        mPager.setAdapter(mImageViewPagerAdapter);
+        mIndicator.setViewPager(mPager);
 
         return mBinding.getRoot();
     }

@@ -21,4 +21,15 @@ public class HHMarketConstants {
     public final static String KEY_TITLE_DIALOG = "title_dialog";
     public final static String KEY_STRING_DATA ="key_string_data";
     public final static String KEY_PRODUCT = "product";
+
+    public static String[] getPromotionImageList(){
+        String[] imageList = new String[5];
+        imageList[0] = HHMarketConstants.S3_BUCKET_URL + "promotion1.png";
+        imageList[1] = HHMarketConstants.S3_BUCKET_URL  + "promotion2.png";
+        imageList[2] = HHMarketConstants.S3_BUCKET_URL  + "promotion3.png";
+        imageList[3] = HHMarketConstants.S3_BUCKET_URL  + "promotion4.png";
+        imageList[4] = HHMarketConstants.S3_BUCKET_URL  + "promotion5.png";
+
+        return imageList;
+    }
 }

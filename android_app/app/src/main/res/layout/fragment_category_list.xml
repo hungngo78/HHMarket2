@@ -11,28 +11,58 @@
         <import type="android.view.View"/>
     </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/cardview_light_background"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/loading_tv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="@string/loading_categories"
-            android:textAlignment="center"
-            app:visibleGone="@{isLoading}"/>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/categories_list"
-            android:contentDescription="@string/cd_categories_list"
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="LinearLayoutManager"
-            app:visibleGone="@{!isLoading}"
-            tools:context=".ui.activity.MainActivity"
-            tools:listitem="@layout/category_item"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/cardview_light_background">
+            <TextView
+                android:id="@+id/loading_tv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/loading_categories"
+                android:textAlignment="center"
+                app:visibleGone="@{isLoading}"/>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/item_image"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/loading_tv"
+                app:layout_constraintTop_toTopOf="parent" />
+            <me.relex.circleindicator.CircleIndicator
+                android:id="@+id/circle"
+                app:ci_width="5dp"
+                app:ci_height="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                app:ci_drawable="@drawable/circleindicator_round"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_image"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/categories_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="24dp"
+                android:contentDescription="@string/cd_categories_list"
+                app:layoutManager="LinearLayoutManager"
+                app:layout_constraintTop_toBottomOf="@+id/circle"
+                app:visibleGone="@{!isLoading}"
+                tools:context=".ui.activity.MainActivity"
+                tools:layout_editor_absoluteX="0dp"
+                tools:listitem="@layout/category_item" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

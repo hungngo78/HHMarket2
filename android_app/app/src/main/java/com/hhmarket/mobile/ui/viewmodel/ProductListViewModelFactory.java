@@ -6,8 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.hhmarket.mobile.db.repository.DataRepository;
-
 public class ProductListViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     @NonNull

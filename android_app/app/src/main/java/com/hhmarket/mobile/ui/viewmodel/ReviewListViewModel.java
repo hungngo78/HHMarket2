@@ -7,9 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hhmarket.mobile.api.repository.ProductAPIRepository;
 import com.hhmarket.mobile.api.repository.ReviewAPIRepository;
-import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.Review;
 
 import java.util.List;

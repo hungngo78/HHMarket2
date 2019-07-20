@@ -27,13 +27,10 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import com.hhmarket.mobile.AppExecutors;
-import com.hhmarket.mobile.db.dao.ProductDao;
 import com.hhmarket.mobile.db.dao.UserDao;
-import com.hhmarket.mobile.db.entity.ProductEntity;
-import com.hhmarket.mobile.db.entity.ProductFtsEntity;
 import com.hhmarket.mobile.db.entity.UserEntity;
 
-@Database(entities = {ProductEntity.class, ProductFtsEntity.class,UserEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UserEntity.class}, version = 1, exportSchema = false)
 //@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -42,7 +39,6 @@ public abstract class AppDatabase extends RoomDatabase {
     @VisibleForTesting
     public static final String DATABASE_NAME = "hh-market-db";
 
-    public abstract ProductDao productDao();
     public abstract UserDao userDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
@@ -98,7 +94,6 @@ public abstract class AppDatabase extends RoomDatabase {
         mIsDatabaseCreated.postValue(true);
     }
 
-
     private static void addDelay() {
         try {
             Thread.sleep(4000);
@@ -109,6 +104,4 @@ public abstract class AppDatabase extends RoomDatabase {
     public LiveData<Boolean> getDatabaseCreated() {
         return mIsDatabaseCreated;
     }
-
-
 }

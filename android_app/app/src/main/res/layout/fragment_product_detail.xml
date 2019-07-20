@@ -37,7 +37,7 @@ xmlns:tools="http://schemas.android.com/tools"
         type="android.widget.ArrayAdapter" />
     <variable
         name="imageAdapter"
-        type="com.hhmarket.mobile.ui.adapter.ViewPagerAdapter" />
+        type="com.hhmarket.mobile.ui.adapter.ImageViewPagerAdapter" />
 </data>
 
     <ScrollView

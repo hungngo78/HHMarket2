@@ -1,4 +1,4 @@
-package com.hhmarket.mobile.ui.activity.ui.login;
+package com.hhmarket.mobile.ui.activity;
 
 import android.app.Activity;
 
@@ -29,11 +29,8 @@ import android.widget.Toast;
 import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 
-import com.hhmarket.mobile.di.ApiModule;
 import com.hhmarket.mobile.di.LoginInjector;
-import com.hhmarket.mobile.di.UserRepositoryModule;
 import com.hhmarket.mobile.model.User;
-import com.hhmarket.mobile.ui.viewmodel.CategoryListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 
@@ -55,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
 
         // allow inject repository into LoginViewModel
-        ComponentInjector.magicBox.injectIntoLogin(loginViewModel);
+        ComponentInjector.magicBox.inject(loginViewModel);
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);

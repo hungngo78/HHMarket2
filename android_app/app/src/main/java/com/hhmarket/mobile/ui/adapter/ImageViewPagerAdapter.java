@@ -12,11 +12,11 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.hhmarket.mobile.R;
 
-public class ViewPagerAdapter extends PagerAdapter {
+public class ImageViewPagerAdapter extends PagerAdapter {
 
     private Context context;
     private String []imageList;
-    public ViewPagerAdapter(Context context, String []imageList) {
+    public ImageViewPagerAdapter(Context context, String []imageList) {
         this.context = context;
         this.imageList = imageList;
     }

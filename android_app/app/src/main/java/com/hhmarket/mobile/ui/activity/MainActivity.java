@@ -27,14 +27,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,7 +55,6 @@ import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.User;
-import com.hhmarket.mobile.ui.activity.ui.login.LoginActivity;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
 import com.hhmarket.mobile.ui.fragment.ProductDetailFragment;
 import com.hhmarket.mobile.ui.fragment.ProductListFragment;
@@ -80,7 +75,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_activity);
+        setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -120,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         LoginViewModelFactory mViewModelFactory = LoginInjector.provideViewModelFactory(this);
         loginViewModel = ViewModelProviders.of(this, mViewModelFactory).get(LoginViewModel.class);
         // allow inject repository into LoginViewModel
-        ComponentInjector.magicBox.injectIntoLogin(loginViewModel);
+        ComponentInjector.magicBox.inject(loginViewModel);
 
         navigationView.setCheckedItem(R.id.nav_home);
         Fragment fragment = new CategoryListFragment();

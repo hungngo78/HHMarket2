@@ -10,7 +10,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class CategoryRepositoryModule {
+public class ProductionRepositoryModule {
     @Provides
     @Singleton
     public ProductionAPIRepository providePostRepository(ApiEndpoints apiService) {

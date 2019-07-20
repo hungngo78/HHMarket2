@@ -90,7 +90,7 @@ public class ReviewListFragment extends Fragment {
                 getActivity().getApplication(), mProduct.getProductId().toString());
         mViewModel = ViewModelProviders.of(this, factory).get(ReviewListViewModel.class);
 
-        ComponentInjector.magicBox.injectIntoReviewListViewModel(mViewModel);
+        ComponentInjector.magicBox.inject(mViewModel);
 
         mViewModel.getReviewsfromAPI();
         subscribeUi();

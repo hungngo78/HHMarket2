@@ -6,14 +6,9 @@ import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
-import com.hhmarket.mobile.db.entity.ProductEntity;
 import com.hhmarket.mobile.db.entity.UserEntity;
-import com.hhmarket.mobile.model.User;
-
-import java.util.List;
 
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 
 @Dao
 public interface UserDao {

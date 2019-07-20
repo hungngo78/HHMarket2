@@ -1,7 +1,6 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.Nullable;
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.CategoryItemBinding;
 import com.hhmarket.mobile.model.Category;
-import com.hhmarket.mobile.model.CategoryClickListener;
+import com.hhmarket.mobile.model.ClickListener;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,9 +18,9 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
     List<? extends Category> mCategoryList;
 
     @Nullable
-    private final CategoryClickListener mCategoryClickListener;
+    private final ClickListener mCategoryClickListener;
 
-    public CategoryListAdapter(@Nullable CategoryClickListener clickCallback) {
+    public CategoryListAdapter(@Nullable ClickListener clickCallback) {
         mCategoryClickListener = clickCallback;
         setHasStableIds(true);
     }

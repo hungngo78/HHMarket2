@@ -59,7 +59,7 @@ public class ProductListFragment extends Fragment {
                 getActivity().getApplication(), getArguments().getString(HHMarketConstants.KEY_CATEGORY_ID));
         mViewModel = ViewModelProviders.of(this, factory).get(ProductListViewModel.class);
 
-        ComponentInjector.magicBox.injectIntoProductListViewModel(mViewModel);
+        ComponentInjector.magicBox.inject(mViewModel);
 
         mViewModel.getProductsfromAPI();
 

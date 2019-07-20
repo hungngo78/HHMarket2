@@ -6,34 +6,26 @@ import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.app.Activity;
-import android.app.Dialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
 
-import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
-import com.hhmarket.mobile.databinding.ProductDetailFragmentBinding;
+import com.hhmarket.mobile.databinding.FragmentProductDetailBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
-import com.hhmarket.mobile.model.ProductClickListener;
 import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.ui.activity.MainActivity;
-import com.hhmarket.mobile.ui.adapter.ProductDetailColorListAdapter;
-import com.hhmarket.mobile.ui.adapter.ViewPagerAdapter;
+import com.hhmarket.mobile.ui.adapter.ImageViewPagerAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailView;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModelFactory;
@@ -48,13 +40,13 @@ import me.relex.circleindicator.CircleIndicator;
 public class ProductDetailFragment extends Fragment {
 
     private ProductDetailViewModel mViewModel;
-    private ProductDetailFragmentBinding mBinding;
+    private FragmentProductDetailBinding mBinding;
     private ProductDetailView producdetail;
     private ProductDetail currentItem;
     DialogProductFragment fragment;
     private String []arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
     private ArrayAdapter<String> adapter;
-    private ViewPagerAdapter imageUrlAdapter;
+    private ImageViewPagerAdapter imageUrlAdapter;
     private Product  mProduct;
     ViewPager pager;
     CircleIndicator indicator;
@@ -71,7 +63,7 @@ public class ProductDetailFragment extends Fragment {
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
         // Inflate the layout for this fragment
         mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
-        mBinding = ProductDetailFragmentBinding.inflate(inflater, container, false);
+        mBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
         mBinding.setOverallRating( mProduct.getReviewNumber());
@@ -94,7 +86,7 @@ public class ProductDetailFragment extends Fragment {
         ProductDetailViewModelFactory factory = new ProductDetailViewModelFactory(
                 getActivity().getApplication(), mProduct.getProductId().toString());
         mViewModel = ViewModelProviders.of(this, factory).get(ProductDetailViewModel.class);
-        ComponentInjector.magicBox.injectIntoProductDetailModel(mViewModel);
+        ComponentInjector.magicBox.inject(mViewModel);
         mViewModel.getProductDetailfromAPI();
         subscribeUi();
     }
@@ -103,7 +95,7 @@ public class ProductDetailFragment extends Fragment {
         if (imageUrlAdapter != null) {
             imageUrlAdapter.setImageList(currentItem.getImageList());
         } else
-            imageUrlAdapter = new ViewPagerAdapter(getContext(),currentItem.getImageList());
+            imageUrlAdapter = new ImageViewPagerAdapter(getContext(),currentItem.getImageList());
 
         pager.setAdapter(imageUrlAdapter);
         //mBinding.setImageAdapter(imageUrlAdapter);

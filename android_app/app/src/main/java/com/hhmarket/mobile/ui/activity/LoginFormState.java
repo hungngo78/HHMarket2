@@ -1,4 +1,4 @@
-package com.hhmarket.mobile.ui.activity.ui.login;
+package com.hhmarket.mobile.ui.activity;
 
 import androidx.annotation.Nullable;
 

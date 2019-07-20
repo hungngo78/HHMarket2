@@ -14,8 +14,8 @@ import com.hhmarket.mobile.api.repository.UserAPIRepository;
 import com.hhmarket.mobile.db.entity.UserEntity;
 import com.hhmarket.mobile.db.repository.UserDataSource;
 import com.hhmarket.mobile.model.User;
-import com.hhmarket.mobile.ui.activity.ui.login.LoginFormState;
-import com.hhmarket.mobile.ui.activity.ui.login.LoginResult;
+import com.hhmarket.mobile.ui.activity.LoginFormState;
+import com.hhmarket.mobile.ui.activity.LoginResult;
 
 import javax.inject.Inject;
 

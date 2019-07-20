@@ -7,7 +7,7 @@
     <data>
         <variable
             name="clickListener"
-            type="com.hhmarket.mobile.model.CategoryClickListener"/>
+            type="com.hhmarket.mobile.model.ClickListener"/>
         <variable
             name="category"
             type="com.hhmarket.mobile.model.Category"/>

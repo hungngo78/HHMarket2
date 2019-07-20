@@ -13,20 +13,17 @@ import com.hhmarket.mobile.ui.viewmodel.ReviewListViewModel;
 import dagger.Component;
 
 @Singleton
-@Component (modules = { ApiModule.class, CategoryRepositoryModule.class,
-        ProductRepositoryModule.class, UserRepositoryModule.class,
-        ReviewRepositoryModule.class, ProductDetailRepositoryModule.class })
+@Component (modules = { ApiModule.class, ProductionRepositoryModule.class,
+        UserRepositoryModule.class, ReviewRepositoryModule.class })
 
 public interface MagicBox {
     // allow to inject into our viewmodel classes
     // method name not important
+    void inject(LoginViewModel model);
+
     void inject(CategoryListViewModel model);
-    void injectIntoProductListViewModel(ProductListViewModel model);
-    void injectIntoReviewListViewModel(ReviewListViewModel model);
+    void inject(ProductListViewModel model);
+    void inject(ProductDetailViewModel model);
+    void inject(ReviewListViewModel model);
     void inject(ReviewAddingFragment frag);
-
-    void injectIntoLogin(LoginViewModel model);
-
-    void injectIntoProductDetailModel(ProductDetailViewModel model);
-
 }

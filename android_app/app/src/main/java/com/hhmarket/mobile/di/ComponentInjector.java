@@ -8,10 +8,9 @@ public class ComponentInjector {
         // build magic box
         magicBox = DaggerMagicBox.builder()
                 .apiModule(new ApiModule())
-                .categoryRepositoryModule(new CategoryRepositoryModule())
-                .productRepositoryModule(new ProductRepositoryModule())
-                .productDetailRepositoryModule(new ProductDetailRepositoryModule())
                 .userRepositoryModule(new UserRepositoryModule())
+                .productionRepositoryModule(new ProductionRepositoryModule())
+                .reviewRepositoryModule(new ReviewRepositoryModule())
                 .build();
     }
 }

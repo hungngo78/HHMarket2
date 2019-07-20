@@ -15,10 +15,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import java.util.List;
 
-import com.hhmarket.mobile.databinding.CategoryListFragmentBinding;
-
+import com.hhmarket.mobile.databinding.FragmentCategoryListBinding;
 import com.hhmarket.mobile.model.Category;
-import com.hhmarket.mobile.model.CategoryClickListener;
+import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.ui.activity.MainActivity;
 import com.hhmarket.mobile.ui.adapter.CategoryListAdapter;
 import com.hhmarket.mobile.di.ComponentInjector;
@@ -28,7 +27,7 @@ import com.hhmarket.mobile.utils.HHMarketConstants;
 public class CategoryListFragment extends Fragment {
     private CategoryListViewModel mViewModel;
     private CategoryListAdapter mAdapter;
-    private CategoryListFragmentBinding mBinding;
+    private FragmentCategoryListBinding mBinding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -40,8 +39,8 @@ public class CategoryListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        //mBinding = DataBindingUtil.inflate(inflater, R.layout.category_list_fragment, container, false);
-        mBinding = CategoryListFragmentBinding.inflate(inflater, container, false);
+        //mBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_category_list, container, false);
+        mBinding = FragmentCategoryListBinding.inflate(inflater, container, false);
         getActivity().setTitle(HHMarketConstants.TAG_HOME);
         // adapter
         mAdapter = new CategoryListAdapter(mCategoryClickListener);
@@ -84,7 +83,7 @@ public class CategoryListFragment extends Fragment {
         });
     }
 
-    private final CategoryClickListener mCategoryClickListener = new CategoryClickListener() {
+    private final ClickListener mCategoryClickListener = new ClickListener<Category>() {
         @Override
         public void onClick(Category category) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {

@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.hhmarket.mobile.api.repository.ProductAPIRepository;
+import com.hhmarket.mobile.api.repository.ProductionAPIRepository;
 import com.hhmarket.mobile.model.Product;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import retrofit2.Response;
 
 public class ProductListViewModel extends AndroidViewModel {
     @Inject
-    public ProductAPIRepository mRepository;
+    public ProductionAPIRepository mRepository;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<Product>> mObservableProducts;

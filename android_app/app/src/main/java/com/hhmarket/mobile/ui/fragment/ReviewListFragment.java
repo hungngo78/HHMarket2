@@ -63,13 +63,14 @@ public class ReviewListFragment extends Fragment {
         });
 
         // if user logged in already, visible "See Review" button
+        /*
         ReviewActivity currentActivity = (ReviewActivity) getActivity();
         if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1) {
             mBinding.button.setVisibility(View.VISIBLE);
         }
         else {
             mBinding.button.setVisibility(View.GONE);
-        }
+        }*/
 
         // adapter
         mAdapter = new ReviewListAdapter();

@@ -22,9 +22,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     }
 
     public void setImageList(String []imageList) {
-
         this.imageList = imageList;
-
     }
 
     @NonNull
@@ -33,10 +31,9 @@ public class ViewPagerAdapter extends PagerAdapter {
         View view = LayoutInflater.from(context).inflate(R.layout.product_image_item, null);
         ImageView imageView = view.findViewById(R.id.image);
         imageView.setTag(R.id.image, position);
-        Glide
-                    .with(context)
-                    .load(imageList[position])
-                    .into(imageView);
+        Glide.with(context)
+             .load(imageList[position])
+             .into(imageView);
 
         container.addView(view);
         return view;

@@ -20,12 +20,15 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.Fragment;
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     public final static int REQUEST_LOGIN = 1000;
     private MenuItem menuItem_signin;
     private MenuItem menuItem_signout;
+    private int exit_count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +151,23 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(getSupportFragmentManager().getBackStackEntryCount() <= 0) {
+                exit_count += 1;
+                Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(exit_count == 2) {
+                            finish();
+                        } else
+                            exit_count = 0;
+                    }
+                }, 2000);
+            } else {
+                super.onBackPressed();
+            }
         }
+
     }
 
     @Override
@@ -310,4 +329,6 @@ public class MainActivity extends AppCompatActivity
 
         this.startActivity(intent);
     }
+
+
 }

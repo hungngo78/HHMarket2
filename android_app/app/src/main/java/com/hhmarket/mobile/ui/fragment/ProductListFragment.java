@@ -34,7 +34,7 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(HHMarketConstants.TAG_PRODUCTS);
+
     }
 
     @Override
@@ -46,7 +46,7 @@ public class ProductListFragment extends Fragment {
         // adapter
         mAdapter = new ProductListAdapter(mClickListener);
         mBinding.productsList.setAdapter(mAdapter);
-
+        getActivity().setTitle(HHMarketConstants.TAG_PRODUCTS);
 
         return mBinding.getRoot();
     }

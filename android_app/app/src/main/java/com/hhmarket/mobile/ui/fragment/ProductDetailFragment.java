@@ -64,8 +64,6 @@ public class ProductDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
-
-
     }
 
     @Override
@@ -80,16 +78,6 @@ public class ProductDetailFragment extends Fragment {
         mBinding.setClickListenerReview(mProductClickListener);
         mBinding.setRatingNumber(mProduct.getReviewNumber());
 
-        // if user logged in already, visible "See Review" button
-
-        MainActivity currentActivity = (MainActivity) getActivity();
-        if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1) {
-            mBinding.review.setVisibility(View.VISIBLE);
-        }
-        else {
-            mBinding.review.setVisibility(View.GONE);
-        }
-
         ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, lst);
@@ -100,7 +88,6 @@ public class ProductDetailFragment extends Fragment {
         return mBinding.getRoot();
     }
 
-
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -110,25 +97,20 @@ public class ProductDetailFragment extends Fragment {
         ComponentInjector.magicBox.injectIntoProductDetailModel(mViewModel);
         mViewModel.getProductDetailfromAPI();
         subscribeUi();
-
     }
 
     public void setViewPagerAdaper() {
-
         if (imageUrlAdapter != null) {
             imageUrlAdapter.setImageList(currentItem.getImageList());
         } else
             imageUrlAdapter = new ViewPagerAdapter(getContext(),currentItem.getImageList());
 
-
         pager.setAdapter(imageUrlAdapter);
         //mBinding.setImageAdapter(imageUrlAdapter);
         indicator = (CircleIndicator) mBinding.getRoot().getRootView().findViewById(R.id.circle);
         indicator.setViewPager(pager);
-
-
-
     }
+
     public void createAmountSpinner(){
         if (currentItem.getAmount() == 0) {
             arr = new String[]{"0"};
@@ -146,7 +128,6 @@ public class ProductDetailFragment extends Fragment {
         adapter.clear();
         adapter.addAll(arr);
         mBinding.setAmountAdapter(adapter);
-
     }
 
     private void subscribeUi() {
@@ -170,7 +151,6 @@ public class ProductDetailFragment extends Fragment {
     }
 
     private void showFullScreenColorDialog() {
-
         fragment = new DialogProductFragment(clickListener);
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_color));
@@ -179,10 +159,9 @@ public class ProductDetailFragment extends Fragment {
         fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails(), false);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
-
     }
-    private void showFullScreenSizeDialog() {
 
+    private void showFullScreenSizeDialog() {
         fragment = new DialogProductFragment(clickListener);
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_size));
@@ -191,9 +170,7 @@ public class ProductDetailFragment extends Fragment {
         fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), producdetail.getProductDetailColorAdapter(), currentItem.getColor(), producdetail.getProductDetails(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
-
     }
-
 
 
     private ClickListener<ProductDetail> clickListener = new ClickListener<ProductDetail>() {
@@ -228,10 +205,7 @@ public class ProductDetailFragment extends Fragment {
         public void onClick(ProductDetail product) {
             if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
                 MainActivity currentActivity = (MainActivity)getActivity();
-                if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1)
-                    currentActivity.showReview(mProduct);
-                else
-                    Toast.makeText(currentActivity, "Please log in first !", Toast.LENGTH_SHORT).show();
+                currentActivity.showReview(mProduct);
             }
         }
     };

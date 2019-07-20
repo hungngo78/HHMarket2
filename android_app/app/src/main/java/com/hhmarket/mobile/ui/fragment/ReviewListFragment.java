@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.databinding.FragmentReviewListBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.Product;
@@ -52,9 +54,22 @@ public class ReviewListFragment extends Fragment {
         mBinding.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((ReviewActivity)getActivity()).changePage(1);
+                ReviewActivity currentActivity = (ReviewActivity)getActivity();
+                if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1)
+                    currentActivity.changePage(1);
+                else
+                    Toast.makeText(currentActivity, "Please log in first !", Toast.LENGTH_SHORT).show();
             }
         });
+
+        // if user logged in already, visible "See Review" button
+        ReviewActivity currentActivity = (ReviewActivity) getActivity();
+        if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1) {
+            mBinding.button.setVisibility(View.VISIBLE);
+        }
+        else {
+            mBinding.button.setVisibility(View.GONE);
+        }
 
         // adapter
         mAdapter = new ReviewListAdapter();

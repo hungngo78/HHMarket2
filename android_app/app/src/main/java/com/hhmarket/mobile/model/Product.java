@@ -18,6 +18,7 @@ public class Product implements Parcelable {
         picture = parcel.readString();
         color = parcel.readString();
         overallRating = parcel.readFloat();
+        reviewNumber = parcel.readInt();
     }
 
     @Override
@@ -35,6 +36,7 @@ public class Product implements Parcelable {
         dest.writeString(picture);
         dest.writeString(color);
         dest.writeFloat(overallRating);
+        dest.writeInt(reviewNumber);
     }
 /*
     {

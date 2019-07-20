@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -152,7 +153,33 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setTitle(getResources().getString(R.string.menu_sign_in));
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
+
+            if (actionBar != null)
+                actionBar.setTitle(getResources().getString(R.string.menu_about));
+        }
+
+        super.onBackPressed();
+
+    }
     private void updateUiWithUser(User model) {
         String welcome = getString(R.string.welcome) + model.getFullname() + " nickname: " + model.getUsername();
         // TODO : initiate successful logged in experience

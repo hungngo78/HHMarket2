@@ -33,7 +33,7 @@ public class CategoryListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(HHMarketConstants.TAG_HOME);
+
     }
 
     @Override
@@ -42,13 +42,14 @@ public class CategoryListFragment extends Fragment {
         // Inflate the layout for this fragment
         //mBinding = DataBindingUtil.inflate(inflater, R.layout.category_list_fragment, container, false);
         mBinding = CategoryListFragmentBinding.inflate(inflater, container, false);
-
+        getActivity().setTitle(HHMarketConstants.TAG_HOME);
         // adapter
         mAdapter = new CategoryListAdapter(mCategoryClickListener);
         mBinding.categoriesList.setAdapter(mAdapter);
 
         return mBinding.getRoot();
     }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

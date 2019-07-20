@@ -63,12 +63,12 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
         // Inflate the layout for this fragment
         mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
         mBinding = ProductDetailFragmentBinding.inflate(inflater, container, false);

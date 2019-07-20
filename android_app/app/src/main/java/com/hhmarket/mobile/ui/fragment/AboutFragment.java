@@ -82,7 +82,7 @@ public class AboutFragment extends Fragment {
                     ((AboutActivity)getActivity()).showTermsFragment();
                 } else {
                    // show privacy url
-                    String url = "http://www.stackoverflow.com";
+                    String url = "https://developer.android.com/";
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     i.setData(Uri.parse(url));
                     startActivity(i);

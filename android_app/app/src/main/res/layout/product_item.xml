@@ -81,6 +81,7 @@
             android:layout_marginTop="10dp"
             android:text="@{`$` + product.minPrice}"
             android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/holo_orange_dark"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
             app:layout_constraintTop_toBottomOf="@+id/ratingBar"
             app:visibleGone="@{hasDetails}"

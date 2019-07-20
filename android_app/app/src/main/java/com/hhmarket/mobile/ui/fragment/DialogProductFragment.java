@@ -18,8 +18,13 @@ import com.hhmarket.mobile.model.ProductDetail;
 import com.hhmarket.mobile.ui.adapter.ProductDetailColorListAdapter;
 import com.hhmarket.mobile.utils.HHMarketConstants;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
 
 public class DialogProductFragment extends androidx.fragment.app.DialogFragment {
 
@@ -28,6 +33,8 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
     private List<ProductDetail> productList;
     private  String currentItem;
     private ClickListener<ProductDetail> clickListener;
+    private List<ProductDetail> list;
+    private boolean isSize;
 
     private Toolbar toolbar;
 
@@ -37,10 +44,42 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
 
     }
 
-    public void setDataDisplay(Map<String,List<ProductDetail>> productDetailList, String currentItem, List<ProductDetail> productList) {
+    // productDetailCheckList -> color, productDetailList -> size
+    // currentItem -> current size
+    public void setDataDisplay(Map<String,List<ProductDetail>> productDetailCheckList, Map<String,List<ProductDetail>> productDetailList,
+                               String currentItem, List<ProductDetail> productList,boolean isSize) {
         producdetail = productDetailList;
         this.currentItem = currentItem;
         this.productList = productList;
+        Map<String, ProductDetail> clor = new HashMap<>();
+        this.isSize = isSize;
+        list = new ArrayList<ProductDetail>();
+        Set<String> keyColor = productDetailCheckList.keySet(); // list all of colors
+        Iterator<String> a = keyColor.iterator();
+
+        Set<String> keySize = productDetailList.keySet(); // list all of sizes
+        Iterator<String> b = keySize.iterator();
+
+        List<ProductDetail> itemSameSize = productDetailList.get(currentItem);
+        for( int i = 0; i< itemSameSize.size() ; i++) {
+            ProductDetail item = itemSameSize.get(i);
+            item.setAvailable(true);
+            list.add(item);
+            if (isSize)
+                clor.put(item.getSize(),item);
+            else
+                clor.put(item.getColor(),item);
+        }
+        while(a.hasNext()){
+            String corKey = a.next();
+            if(!clor.containsKey(corKey)) {
+                ProductDetail item  = productDetailCheckList.get(corKey).get(0);
+                item.setAvailable(false);
+                list.add(item);
+
+            }
+        }
+
     }
 
     @Override
@@ -56,8 +95,7 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
         toolbar = (Toolbar) view.findViewById(R.id.toolbarDialog);
         RecyclerView lv = (RecyclerView ) view.findViewById(R.id.products_list);
         ProductDetailColorListAdapter adapter = new ProductDetailColorListAdapter(clickListener);
-        adapter.setProductList(producdetail.get(currentItem));
-        //adapter.setProductList(productList);
+        adapter.setProductList(list,isSize);
         lv.setAdapter(adapter);
         return view;
     }
@@ -66,7 +104,7 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setNavigationOnClickListener(v -> dismiss());
-        if (savedInstanceState != null){
+        if (getArguments() != null){
             toolbar.setTitle("" + getArguments().getString(HHMarketConstants.KEY_TITLE_DIALOG));
         } else {
             toolbar.setTitle("Select");

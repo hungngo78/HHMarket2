@@ -61,7 +61,7 @@ public class ProductDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
-        mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
+
 
     }
 
@@ -69,11 +69,13 @@ public class ProductDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
         mBinding = ProductDetailFragmentBinding.inflate(inflater, container, false);
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
-        mBinding.setOverallRating( getArguments().getFloat(HHMarketConstants.KEY_STRING_DATA));
+        mBinding.setOverallRating( mProduct.getReviewNumber());
         mBinding.setClickListenerReview(mProductClickListener);
+        mBinding.setRatingNumber(mProduct.getReviewNumber());
 
         ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
         adapter = new ArrayAdapter<String>(getActivity(),
@@ -90,13 +92,10 @@ public class ProductDetailFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         ProductDetailViewModelFactory factory = new ProductDetailViewModelFactory(
-                getActivity().getApplication(), getArguments().getString(HHMarketConstants.KEY_PRODUCT_ID));
+                getActivity().getApplication(), mProduct.getProductId().toString());
         mViewModel = ViewModelProviders.of(this, factory).get(ProductDetailViewModel.class);
-
         ComponentInjector.magicBox.injectIntoProductDetailModel(mViewModel);
-
         mViewModel.getProductDetailfromAPI();
-
         subscribeUi();
 
     }
@@ -164,7 +163,7 @@ public class ProductDetailFragment extends Fragment {
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_color));
         fragment.setArguments(args);
         //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
+        fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails(), false);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
 
@@ -176,27 +175,13 @@ public class ProductDetailFragment extends Fragment {
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_size));
         fragment.setArguments(args);
         //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), currentItem.getColor(), producdetail.getProductDetails());
+        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), producdetail.getProductDetailColorAdapter(), currentItem.getColor(), producdetail.getProductDetails(), true);
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
 
     }
 
 
-    private void showColorDialog(){
-        Dialog dialog = new Dialog(this.getActivity());
-        int width = ViewGroup.LayoutParams.MATCH_PARENT;
-        int height = ViewGroup.LayoutParams.MATCH_PARENT;
-        dialog.getWindow().setLayout(width, height);
-        dialog.setContentView(R.layout.dialog_productdetail_list);
-        RecyclerView lv = (RecyclerView ) dialog.findViewById(R.id.products_list);
-        ProductDetailColorListAdapter adapter = new ProductDetailColorListAdapter(clickListener);
-        adapter.setProductList(producdetail.getProductDetailSizeAdapter().get(currentItem.getSize()));
-        lv.setAdapter(adapter);
-        dialog.setCancelable(true);
-        dialog.setTitle("Select Size");
-        dialog.show();
-    }
 
     private ClickListener<ProductDetail> clickListener = new ClickListener<ProductDetail>() {
         @Override

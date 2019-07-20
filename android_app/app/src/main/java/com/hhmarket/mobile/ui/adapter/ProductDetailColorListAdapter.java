@@ -20,7 +20,7 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
     List<? extends ProductDetail> mProductList;
     @Nullable
     private final ClickListener mClickListener;
-
+    private boolean isSize;
     public ProductDetailColorListAdapter(@Nullable ClickListener clickCallback) {
         mClickListener = clickCallback;
         setHasStableIds(true);
@@ -29,8 +29,9 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
 
 
 
-    public void setProductList(final List<? extends ProductDetail> productList) {
+    public void setProductList(final List<? extends ProductDetail> productList, boolean isSize) {
         if (productList == null) return;
+        this.isSize = isSize;
         if (mProductList == null) {
             mProductList = productList;
             notifyItemRangeInserted(0, productList.size());
@@ -76,6 +77,7 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
         ProductDetailListviewColorItemBinding binding = (ProductDetailListviewColorItemBinding.inflate(
                 LayoutInflater.from(parent.getContext()), parent, false));
         binding.setClickListener(mClickListener);
+        binding.setIsSize(isSize);
         return new ProductDetailColorListAdapter.ProductDetailColorListViewHolder(binding);
     }
 

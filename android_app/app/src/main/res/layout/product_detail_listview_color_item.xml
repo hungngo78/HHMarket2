@@ -5,19 +5,24 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="com.hhmarket.mobile.R"/>
+        <import type="android.view.View"/>
         <variable
             name="clickListener"
             type="com.hhmarket.mobile.model.ClickListener"/>
         <variable
             name="product"
             type="com.hhmarket.mobile.model.ProductDetail"/>
-
+        <variable
+            name="isSize"
+            type="boolean" />
 
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:backgroundResource="@{product.isAvailable ? 0 : R.color.comment_light_background}"
         android:onClick="@{() ->  clickListener.onClick(product)}">
 
         <ImageView
@@ -33,17 +38,32 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/product_item_title"
+            android:id="@+id/product_item_color"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/margin_small"
-            android:text="@{product.color + ' '  + product.size }"
+            android:text="@{product.isAvailable? product.color : isSize? `` : product.color}"
+
             android:textAppearance="?attr/textAppearanceListItem"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
             app:layout_constraintTop_toTopOf="parent"
+            tools:text="Radio Flyer" />
+        <TextView
+            android:id="@+id/product_item_size"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:text="@{product.isAvailable? product.size : isSize? product.size : ``}"
+
+            android:textAppearance="?attr/textAppearanceListItem"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/product_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_color"
             tools:text="Radio Flyer" />
 
         <TextView
@@ -52,13 +72,17 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
+            android:visibility="@{product.isAvailable?View.VISIBLE : View.GONE}"
             android:text="@{`$` + product.gePrice()}"
             android:textAppearance="?attr/textAppearanceListItem"
+            android:textColor="@android:color/holo_orange_dark"
             app:layout_constraintStart_toEndOf="@+id/product_item_image"
-            app:layout_constraintTop_toBottomOf="@+id/product_item_title"
+            app:layout_constraintTop_toBottomOf="@+id/product_item_size"
+            app:layout_constraintBottom_toTopOf="@+id/line"
             tools:text="$44.99" />
         <View
             android:layout_width="match_parent"
+            android:id="@+id/line"
             android:layout_height="0.5dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"

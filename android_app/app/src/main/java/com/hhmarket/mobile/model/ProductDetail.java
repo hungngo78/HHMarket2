@@ -58,6 +58,16 @@ public class ProductDetail {
     @Expose
     private Integer  amount;
 
+    private boolean isAvailable = false;
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
+    }
+
     public String []getImageList() {
         String[] images = picture.split(",");
         if (images.length != 0)

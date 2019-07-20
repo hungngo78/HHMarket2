@@ -44,7 +44,7 @@
             android:layout_marginStart="@dimen/margin_small"
             android:padding="5dp"
             android:textColor="@android:color/white"
-            android:background="@color/colorAccent"
+            android:background="@drawable/background_title_category"
             android:layout_marginTop="@dimen/margin_small"
             android:text="@{category.name}"
             android:textAppearance="?attr/textAppearanceListItem"

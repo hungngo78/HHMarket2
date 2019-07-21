@@ -110,6 +110,7 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
             toolbar.setTitle("Select");
         }
 
+        toolbar.setTitleTextColor(getContext().getColor(android.R.color.white));
         toolbar.setOnMenuItemClickListener(item -> {
             dismiss();
             return true;

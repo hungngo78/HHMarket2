@@ -152,12 +152,12 @@ public class MainActivity extends AppCompatActivity
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if(exit_count == 2) {
+                        if(exit_count >= 2) {
                             finish();
                         } else
                             exit_count = 0;
                     }
-                }, 2000);
+                }, 4000);
             } else {
                 super.onBackPressed();
             }

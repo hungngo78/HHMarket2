@@ -89,8 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                     updateUiWithUser(loginResult.getSuccess());
 
                     // store userId, userName in android.app.Application
-                    ((HHMarketApp) getApplication()).setUserId(loginResult.getSuccess().userId);
-                    ((HHMarketApp) getApplication()).setUserName(loginResult.getSuccess().userName);
+                    ((HHMarketApp) getApplication()).setLoggedUserId(loginResult.getSuccess().userId);
+                    ((HHMarketApp) getApplication()).setLoggedUserName(loginResult.getSuccess().userName);
                 }
 
                 //Complete and destroy login activity once successful

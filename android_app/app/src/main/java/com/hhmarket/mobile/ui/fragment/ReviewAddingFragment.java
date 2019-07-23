@@ -80,7 +80,7 @@ public class ReviewAddingFragment extends Fragment {
         // get UserName of logged account , and put on the nick_name TextView
         ReviewActivity currentActivity = (ReviewActivity) getActivity();
         EditText nickNameView = mBinding.includeReviewInput.findViewById(R.id.review_item_user);
-        nickNameView.setText(((HHMarketApp)currentActivity.getApplication()).getUserName());
+        nickNameView.setText(((HHMarketApp)currentActivity.getApplication()).getLoggedUserName());
 
         EditText titleView = mBinding.includeReviewInput.findViewById(R.id.review_item_title);
         EditText contentView = mBinding.includeReviewInput.findViewById(R.id.review_item_content);
@@ -91,7 +91,7 @@ public class ReviewAddingFragment extends Fragment {
                 Review review = new Review();
                 review.setProductId(mProduct.getProductId());
                 ReviewActivity currentActivity = (ReviewActivity) getActivity();
-                review.setUserId(((HHMarketApp)currentActivity.getApplication()).getUserId());
+                review.setUserId(((HHMarketApp)currentActivity.getApplication()).getLoggedUserId());
                 review.setOverallRating(mBinding.ratingBar.getRating());
                 review.setTitle(titleView.getText().toString());
                 review.setContent(contentView.getText().toString());

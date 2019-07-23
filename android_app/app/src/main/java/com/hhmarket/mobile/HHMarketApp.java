@@ -47,16 +47,17 @@ public class HHMarketApp extends Application {
         ComponentInjector.init();
     }
 
-    public void setUserId(int _userId) {
+    // I wanted to use method name  getUserId, but it conflicts with somethings in system
+    public void setLoggedUserId(int _userId) {
         this.userId = _userId;
     }
-    public int getUserId() {
+    public int getLoggedUserId() {
         return this.userId;
     }
-    public void setUserName(String _userName) {
+    public void setLoggedUserName(String _userName) {
         this.userName = _userName;
     }
-    public String getUserName() {
+    public String getLoggedUserName() {
         return this.userName;
     }
 

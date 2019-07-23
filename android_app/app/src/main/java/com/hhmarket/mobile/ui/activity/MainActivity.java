@@ -227,8 +227,8 @@ public class MainActivity extends AppCompatActivity
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // remove global variable in HHMarketApp
-                            ((HHMarketApp)getApplication()).setUserId(-1);
-                            ((HHMarketApp)getApplication()).setUserName("");
+                            ((HHMarketApp)getApplication()).setLoggedUserId(-1);
+                            ((HHMarketApp)getApplication()).setLoggedUserName("");
 
                             // remove logged information
                             loginViewModel.deleteAllUser();
@@ -267,8 +267,8 @@ public class MainActivity extends AppCompatActivity
                     menuItem_signin.setTitle(user.getFullname());
                     menuItem_signout.setVisible(true);
 
-                    ((HHMarketApp) getApplication()).setUserId(userEntity.userId);
-                    ((HHMarketApp) getApplication()).setUserName(userEntity.userName);
+                    ((HHMarketApp) getApplication()).setLoggedUserId(userEntity.userId);
+                    ((HHMarketApp) getApplication()).setLoggedUserName(userEntity.userName);
                 } else {
                     menuItem_signin.setTitle(R.string.menu_sign_in);
                     menuItem_signout.setVisible(false);

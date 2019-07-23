@@ -55,7 +55,7 @@ public class ReviewListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ReviewActivity currentActivity = (ReviewActivity)getActivity();
-                if (((HHMarketApp)currentActivity.getApplication()).getUserId() != -1)
+                if (((HHMarketApp)currentActivity.getApplication()).getLoggedUserId() != -1)
                     currentActivity.changePage(1);
                 else
                     Toast.makeText(currentActivity, "Please log in first !", Toast.LENGTH_SHORT).show();

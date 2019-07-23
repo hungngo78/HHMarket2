@@ -19,6 +19,7 @@ package com.hhmarket.mobile.db;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.room.Database;
+import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -30,7 +31,7 @@ import com.hhmarket.mobile.AppExecutors;
 import com.hhmarket.mobile.db.dao.UserDao;
 import com.hhmarket.mobile.db.entity.UserEntity;
 
-@Database(entities = {UserEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {UserEntity.class}, version = 2, exportSchema = false)
 //@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
@@ -54,7 +55,13 @@ public abstract class AppDatabase extends RoomDatabase {
         }
         return sInstance;
     }
-
+//    static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+//        @Override
+//        public void migrate(SupportSQLiteDatabase database) {
+//            database.execSQL("ALTER TABLE user "
+//                    + " ADD COLUMN last_update INTEGER");
+//        }
+//    };
     /**
      * Build the database. {@link Builder#build()} only sets up the database configuration and
      * creates a new instance of the database.
@@ -78,7 +85,11 @@ public abstract class AppDatabase extends RoomDatabase {
                         });
                     }
                 })
-            .build();
+                //when change database, delete table old datata
+
+                .fallbackToDestructiveMigration()
+       // .addMigrations(MIGRATION_1_2)
+        .build();
     }
 
     /**

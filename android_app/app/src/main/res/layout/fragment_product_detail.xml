@@ -21,6 +21,9 @@ xmlns:tools="http://schemas.android.com/tools"
         name="productDetail"
         type="com.hhmarket.mobile.model.ProductDetail"/>
     <variable
+        name="clickListenerAddToCart"
+        type="com.hhmarket.mobile.model.ClickListener" />
+    <variable
         name="isLoading"
         type="boolean" />
     <variable
@@ -205,6 +208,7 @@ xmlns:tools="http://schemas.android.com/tools"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/add_to_cart"
+                android:onClick="@{() -> clickListenerAddToCart.onClick(productDetail)}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintLeft_toLeftOf="parent"

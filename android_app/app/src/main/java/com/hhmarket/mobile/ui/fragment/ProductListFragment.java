@@ -31,6 +31,7 @@ public class ProductListFragment extends Fragment {
     private FragmentProductListBinding mBinding;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

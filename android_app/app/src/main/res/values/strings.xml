@@ -80,5 +80,8 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="write_your_name">Write your name</string>
     <string name="submit_review">SUBMIT REVIEW</string>
     <string name="exit_app">Press one more time to exit app</string>
+    <string name="delete">Delete</string>
+    <string name="add_cart_successfull">Added item to cart!</string>
+    <string name="request_login">You need to login first!</string>
 
 </resources>

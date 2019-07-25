@@ -49,6 +49,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 
+import com.hhmarket.mobile.databinding.FragmentShoppingCartBinding;
 import com.hhmarket.mobile.db.entity.UserEntity;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.di.LoginInjector;
@@ -58,6 +59,7 @@ import com.hhmarket.mobile.model.User;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
 import com.hhmarket.mobile.ui.fragment.ProductDetailFragment;
 import com.hhmarket.mobile.ui.fragment.ProductListFragment;
+import com.hhmarket.mobile.ui.fragment.ShoppingCartListFragment;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
@@ -199,7 +201,8 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = new CategoryListFragment();
             displaySelectedFragment(fragment);
         } else if (id == R.id.nav_shopping_cart) {
-            Toast.makeText(this, "Shopping Cart", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Shopping Cart", Toast.LENGTH_SHORT).show();
+            showShoppingCardScreen();
         } else if (id == R.id.nav_purchased_history) {
             Toast.makeText(this, "Purchased History", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_user_profile) {
@@ -325,5 +328,13 @@ public class MainActivity extends AppCompatActivity
         this.startActivity(intent);
     }
 
+    public void showShoppingCardScreen() {
+
+        ShoppingCartListFragment shoppingCartListFragment = new ShoppingCartListFragment();
+        getSupportFragmentManager().beginTransaction().addToBackStack("shoppingCart")
+                .replace(R.id.frame, shoppingCartListFragment, null).commit();
+
+
+    }
 
 }

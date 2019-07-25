@@ -9,12 +9,13 @@ import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductListViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ReviewListViewModel;
+import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
 
 import dagger.Component;
 
 @Singleton
 @Component (modules = { ApiModule.class, ProductionRepositoryModule.class,
-        UserRepositoryModule.class, ReviewRepositoryModule.class })
+        UserRepositoryModule.class, ReviewRepositoryModule.class, ShoppingCartRepositoryModule.class})
 
 public interface MagicBox {
     // allow to inject into our viewmodel classes
@@ -26,4 +27,5 @@ public interface MagicBox {
     void inject(ProductDetailViewModel model);
     void inject(ReviewListViewModel model);
     void inject(ReviewAddingFragment frag);
+    void inject(ShoppingCartModel model);
 }

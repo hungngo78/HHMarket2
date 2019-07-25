@@ -17,10 +17,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.FragmentProductDetailBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
+import com.hhmarket.mobile.di.MagicBox;
+import com.hhmarket.mobile.model.CartItem;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.ProductDetail;
@@ -29,6 +33,8 @@ import com.hhmarket.mobile.ui.adapter.ImageViewPagerAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailView;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModel;
 import com.hhmarket.mobile.ui.viewmodel.ProductDetailViewModelFactory;
+import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
+import com.hhmarket.mobile.ui.viewmodel.ShoppingCartViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
 
 import java.util.ArrayList;
@@ -52,9 +58,17 @@ public class ProductDetailFragment extends Fragment {
     CircleIndicator indicator;
     ActionBar actionBar;
 
+    private ShoppingCartModel shoppingCartModel;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        ShoppingCartViewModelFactory shoppingCartViewModelFactory = new ShoppingCartViewModelFactory(getActivity().getApplication(),
+                ((HHMarketApp)getActivity().getApplication()).getLoggedUserId());
+
+        shoppingCartModel = ViewModelProviders.of(this,shoppingCartViewModelFactory)
+                .get(ShoppingCartModel.class);
+        ComponentInjector.magicBox.inject(shoppingCartModel);
     }
 
     @Override
@@ -66,6 +80,7 @@ public class ProductDetailFragment extends Fragment {
         mBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
+        mBinding.setClickListenerAddToCart(clickListenerAddToCart);
         mBinding.setOverallRating( mProduct.getReviewNumber());
         mBinding.setClickListenerReview(mProductClickListener);
         mBinding.setRatingNumber(mProduct.getReviewNumber());
@@ -201,6 +216,39 @@ public class ProductDetailFragment extends Fragment {
             }
         }
     };
+
+    private final ClickListener<ProductDetail> clickListenerAddToCart = new ClickListener<ProductDetail>() {
+        @Override
+        public void onClick(ProductDetail product) {
+            if (getLifecycle().getCurrentState().isAtLeast(Lifecycle.State.STARTED)) {
+                MainActivity currentActivity = (MainActivity)getActivity();
+                // add to cart
+
+                int user = ((HHMarketApp)getActivity().getApplication()).getLoggedUserId();
+                if(user <= 0) {
+                    Toast.makeText(getActivity(), getString(R.string.request_login), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String amount = (String)mBinding.amount.getSelectedItem();
+                System.out.println("amount = " + amount);
+                shoppingCartModel.addShoppingCartItemFromAPI(product.getProductDetailsId().toString(),
+                        Integer.parseInt(amount),product.gePrice(),0);
+                shoppingCartModel.addShoppingCartItem().observe(getViewLifecycleOwner(), new Observer<CartItem>() {
+                    @Override
+                    public void onChanged(CartItem cartItem) {
+
+                        if (cartItem != null) {
+                            Toast.makeText(getContext(), getActivity().getString(R.string.add_cart_successfull), Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                });
+
+            }
+        }
+    };
+
 
 
 //    @Nullable

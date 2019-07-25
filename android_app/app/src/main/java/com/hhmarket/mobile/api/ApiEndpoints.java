@@ -27,6 +27,9 @@ public interface ApiEndpoints {
     @GET("category/get_products_by_category/{categoryId}")
     Call<List<Product>> getAllProducts(@Path("categoryId") String categoryId);
 
+    @GET("category/searching")
+    Call<List<Product>> searchProducts(@Query("criteria") String criteria);
+
     @GET("review/get_reviews_by_productId/{productId}")
     Call<List<Review>> getAllReviews(@Path("productId") String productId);
 

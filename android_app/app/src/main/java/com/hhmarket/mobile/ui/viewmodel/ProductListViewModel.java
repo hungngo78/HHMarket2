@@ -30,8 +30,25 @@ public class ProductListViewModel extends AndroidViewModel {
     private MutableLiveData<List<Product>> productsResponse;
 
     private String mCategoryId;
+    private String mCriteria;
 
-    public ProductListViewModel(Application application, String _categoryId) {
+    private Callback<List<Product>> mCallback = new Callback<List<Product>>() {
+        @Override
+        public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
+            //Log.i("-------onResponse--------", response.body().toString());
+            productsResponse.postValue(response.body());
+            isLoading.postValue(false);
+        }
+
+        @Override
+        public void onFailure(Call<List<Product>> call, Throwable t) {
+            //Log.i("-------onFailure--------", "-----------------------------");
+            apiError.postValue(t);
+            isLoading.postValue(false);
+        }
+    };
+
+    public ProductListViewModel(Application application, String _categoryId, String _criteria) {
         super(application);
 
         /* LiveData -> MutableLiveData -> MediatorLiveData */
@@ -48,26 +65,15 @@ public class ProductListViewModel extends AndroidViewModel {
         mObservableProducts.addSource(productsResponse, mObservableProducts::setValue);
 
         mCategoryId = _categoryId;
+        mCriteria = _criteria;
     }
 
     public void getProductsfromAPI() {
-        Callback<List<Product>> callback = new Callback<List<Product>>() {
-            @Override
-            public void onResponse(Call<List<Product>> call, Response<List<Product>> response) {
-                //Log.i("-------onResponse--------", response.body().toString());
-                productsResponse.postValue(response.body());
-                isLoading.postValue(false);
-            }
+        mRepository.getProducts(mCategoryId, mCallback);
+    }
 
-            @Override
-            public void onFailure(Call<List<Product>> call, Throwable t) {
-                //Log.i("-------onFailure--------", "-----------------------------");
-                apiError.postValue(t);
-                isLoading.postValue(false);
-            }
-        };
-
-        mRepository.getProducts(mCategoryId, callback);
+    public void searchProductsfromAPI() {
+        mRepository.searchProducts(mCriteria, mCallback);
     }
 
     /**

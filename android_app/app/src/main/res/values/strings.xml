@@ -81,4 +81,6 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="submit_review">SUBMIT REVIEW</string>
     <string name="exit_app">Press one more time to exit app</string>
 
+    <!-- Search -->
+    <string name="search_hint">Search products</string>
 </resources>

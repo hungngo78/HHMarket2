@@ -2,6 +2,7 @@ package com.hhmarket.mobile.ui.activity;
 
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.ActionBar;
@@ -70,11 +71,35 @@ public class ReviewActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+        int id = item.getItemId();
+
+        switch (id) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
-        }
+
+            //noinspection SimplifiableIfStatement
+            case R.id.action_settings:
+                return true;
+
+
+            // tap on search menu item, initialize search dialog
+            case R.id.action_search:
+                // start search dialog
+                super.onSearchRequested();
+                return true;
+            }
+
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        return true;
+    }
+
+
 }

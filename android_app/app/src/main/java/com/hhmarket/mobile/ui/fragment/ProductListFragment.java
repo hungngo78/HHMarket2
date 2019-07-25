@@ -54,16 +54,29 @@ public class ProductListFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        String category_id = getArguments().getString(HHMarketConstants.KEY_CATEGORY_ID);
+        String criteria = getArguments().getString(HHMarketConstants.KEY_SEARCH_CRITERIA);
+
         // create ViewModel & allow inject repository
         ProductListViewModelFactory factory = new ProductListViewModelFactory(
-                getActivity().getApplication(), getArguments().getString(HHMarketConstants.KEY_CATEGORY_ID));
+                getActivity().getApplication(), category_id, criteria);
         mViewModel = ViewModelProviders.of(this, factory).get(ProductListViewModel.class);
-
         ComponentInjector.magicBox.inject(mViewModel);
 
-        mViewModel.getProductsfromAPI();
+        if (category_id!= null && !category_id.equals("")) {
+            mViewModel.getProductsfromAPI();
+        }
+        else if (criteria!= null && !criteria.equals("")) {
+            mViewModel.searchProductsfromAPI();
+        }
 
         subscribeUi();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        //No call for super(). Bug on API Level > 11.
     }
 
     private void subscribeUi() {

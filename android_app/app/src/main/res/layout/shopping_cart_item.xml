@@ -10,9 +10,7 @@
         <variable
             name="cartItem"
             type="com.hhmarket.mobile.model.CartItemDetail" />
-        <variable
-            name="amountAdapter"
-            type="android.widget.ArrayAdapter"/>
+
 
         <variable
             name="clickListenerDelete"
@@ -90,7 +88,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="8dp"
-            android:adapter="@{amountAdapter}"
+
             app:layout_constraintEnd_toStartOf="@+id/delete"
             app:layout_constraintHorizontal_bias="0.49"
             app:layout_constraintStart_toStartOf="parent"

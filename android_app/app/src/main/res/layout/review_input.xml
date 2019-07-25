@@ -15,7 +15,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
         android:hint="@string/write_your_review"
-        android:inputType="textMultiLine | textAutoCorrect"
+        android:inputType="textMultiLine|textAutoCorrect"
         android:lines="5"
         android:minLines="1"
         android:gravity="top|left"

@@ -2,16 +2,21 @@ package com.hhmarket.mobile.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.ShoppingCartItemBinding;
+import com.hhmarket.mobile.model.CartItem;
 import com.hhmarket.mobile.model.CartItemDetail;
 import com.hhmarket.mobile.model.ClickListener;
+import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -19,18 +24,26 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ShoppingCartViewHolder> {
+    private Context context;
 
+    private ShoppingCartModel mViewModel;
 
     public List<CartItemDetail> mCartItemList;
     public ClickListener<CartItemDetail> mClickListenerDelete;
+
+    private Spinner mSpinner;
     private ArrayList<String> arr = new ArrayList<String>(Arrays.asList(new String[]{"1","2","3","4","5","6","7","8","9","10"}));
-    private Context context ;
+
+
     public ShoppingCartAdapter(Context context, ClickListener<CartItemDetail> clickListenerDelete){
         this.context = context;
         mClickListenerDelete = clickListenerDelete;
-
-
     }
+
+    public void setViewModel(ShoppingCartModel viewModel) {
+        mViewModel = viewModel;
+    }
+
     public void createAmountSpinner(CartItemDetail currentItem, ShoppingCartItemBinding binding, ArrayAdapter adapter){
         if (currentItem.getTotalAmountProduction() == 0) {
             arr = new ArrayList<String>();
@@ -52,8 +65,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
         adapter.clear();
         adapter.addAll(arr);
-        binding.setAmountAdapter(adapter);
-        binding.amount.setSelection(selection);
+        //binding.setAmountAdapter(adapter);
+        binding.amount.setAdapter(adapter);
+        binding.amount.setSelection(selection, false);
     }
     public void setShoppingCartItem(final List<CartItemDetail> cartItemList){
 
@@ -103,6 +117,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public ShoppingCartAdapter.ShoppingCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ShoppingCartItemBinding shoppingCartItemBinding = ShoppingCartItemBinding.inflate(LayoutInflater.from(
                 parent.getContext()), parent, false);
+
         return new ShoppingCartViewHolder(shoppingCartItemBinding);
     }
 
@@ -116,7 +131,22 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         createAmountSpinner(cartItem, holder.binding, adapter);
 
+        // handle user change quantity
+        CartItemDetail currentCartItemDetail = holder.binding.getCartItem();
+        mSpinner = holder.binding.amount;
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                int selectedItem =  Integer.parseInt(parent.getItemAtPosition(position).toString());
+                if (selectedItem != currentCartItemDetail.getAmount())
+                   mViewModel.updateShoppingCartItemFromAPI(currentCartItemDetail.getCartDetailsId(), selectedItem);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     @Override

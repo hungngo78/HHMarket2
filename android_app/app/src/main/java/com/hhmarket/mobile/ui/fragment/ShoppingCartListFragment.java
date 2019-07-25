@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hhmarket.mobile.HHMarketApp;
+import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.FragmentShoppingCartBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
 import com.hhmarket.mobile.model.CartItem;
@@ -32,7 +35,6 @@ public class ShoppingCartListFragment extends Fragment {
     private ShoppingCartModel mViewModel;
     private ShoppingCartAdapter mAdapder;
 
-
     public ShoppingCartListFragment() {
 
     }
@@ -46,8 +48,8 @@ public class ShoppingCartListFragment extends Fragment {
 
         mAdapder = new ShoppingCartAdapter(getActivity(), clickListenerDelete);
         mBinding.shoppingCartList.setAdapter(mAdapder);
-        return mBinding.getRoot();
 
+        return mBinding.getRoot();
     }
 
     @Override
@@ -59,6 +61,8 @@ public class ShoppingCartListFragment extends Fragment {
 
         mViewModel = ViewModelProviders.of(this,shoppingCartViewModelFactory).get(ShoppingCartModel.class);
         ComponentInjector.magicBox.inject(mViewModel);
+
+        mAdapder.setViewModel(mViewModel);
 
         mViewModel.getShoppingCartItemListFromAPI();
 
@@ -77,14 +81,19 @@ public class ShoppingCartListFragment extends Fragment {
 
             }
         });
+
+        mViewModel.updateQuantityShoppingCart().observe(this, new Observer<CartItem>() {
+            @Override
+            public void onChanged(CartItem cartItem) {
+                Toast.makeText(getActivity(), "updated Quantity successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private ClickListener<CartItemDetail> clickListenerDelete = new ClickListener<CartItemDetail>(){
 
         @Override
         public void onClick(CartItemDetail object) {
-
-
 
         }
     };

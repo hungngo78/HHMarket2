@@ -75,6 +75,9 @@ public interface ApiEndpoints {
     Call<CartItem> updateQuantityCartItem(@Body RequestBody bodyJson);
 
     @POST("shopping/order/{userId}")
+    @Headers({
+            "Content-Type: application/json;charset=utf-8"
+    })
     Call<Order> order(@Path("userId") int userId);
 
 

@@ -11,6 +11,15 @@
         <variable
             name="shoppingCartAdaper"
             type="com.hhmarket.mobile.ui.adapter.ShoppingCartAdapter" />
+        <variable
+            name="total_price"
+            type="float" />
+        <variable
+            name="total_amount"
+            type="int" />
+        <variable
+            name="clickListenerOrder"
+            type="com.hhmarket.mobile.model.ClickListener" />
     </data>
 
 
@@ -34,11 +43,14 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/shopping_cart_list"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
+
                 android:layout_marginTop="24dp"
                 android:contentDescription="@string/cd_categories_list"
                 app:layoutManager="LinearLayoutManager"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/totalInfo"
                 app:visibleGone="@{!isLoading}"
                 tools:context=".ui.activity.MainActivity"
                 tools:layout_editor_absoluteX="0dp"
@@ -47,30 +59,44 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/totalInfo"
+                app:visibleGone="@{!isLoading}"
                 app:layout_constraintTop_toBottomOf="@+id/shopping_cart_list"
                 app:layout_constraintBottom_toBottomOf="parent">
 
                 <TextView
                     android:id="@+id/total_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/loading_categories"
-                    android:textAlignment="center"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
-                    app:visibleGone="@{isLoading}"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="53dp"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:text="@{`Total: $` + total_price}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:textSize="20sp"
+                    app:layout_constraintBottom_toTopOf="@+id/total_amount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
                 <TextView
                     android:id="@+id/total_amount"
                     android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:text="@{`Quantity: ` + total_amount}"
+                    android:textAlignment="viewStart"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/delete"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+                <Button
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:text="@string/loading_categories"
-                    android:textAlignment="center"
-                    app:visibleGone="@{isLoading}"
+                    android:text="@string/order"
+                    android:id="@+id/delete"
+                    android:onClick="@{() -> clickListenerOrder.onClick(shoppingCartAdaper)}"
+                    app:layout_constraintTop_toBottomOf="@+id/total_amount"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/total_price"
-                    />
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginBottom="16dp"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -16,7 +16,10 @@
 
         <variable
             name="clickListenerDelete"
-            type="com.hhmarket.mobile.model.ClickListener" />
+            type="com.hhmarket.mobile.model.ClickListenerOnAdapter" />
+        <variable
+            name="position"
+            type="int" />
 
     </data>
 

@@ -1,7 +1,9 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.hhmarket.mobile.databinding.ShoppingCartItemBinding;
 import com.hhmarket.mobile.model.CartItemDetail;
 import com.hhmarket.mobile.model.ClickListener;
+import com.hhmarket.mobile.model.ClickListenerOnAdapter;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -22,12 +25,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
 
     public List<CartItemDetail> mCartItemList;
-    public ClickListener<CartItemDetail> mClickListenerDelete;
     private ArrayList<String> arr = new ArrayList<String>(Arrays.asList(new String[]{"1","2","3","4","5","6","7","8","9","10"}));
     private Context context ;
-    public ShoppingCartAdapter(Context context, ClickListener<CartItemDetail> clickListenerDelete){
+    private ClickListenerOnAdapter<CartItemDetail> deleteClickListenerFromFragement;
+    public ShoppingCartAdapter(Context context, ClickListenerOnAdapter deleteClickListener){
+        deleteClickListenerFromFragement = deleteClickListener;
         this.context = context;
-        mClickListenerDelete = clickListenerDelete;
 
 
     }
@@ -46,14 +49,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             }
         }
 
-        int selection = currentItem.getAmount();
-        if (currentItem.getTotalAmountProduction() < currentItem.getAmount())
-            selection = currentItem.getTotalAmountProduction();
-
         adapter.clear();
         adapter.addAll(arr);
         binding.setAmountAdapter(adapter);
-        binding.amount.setSelection(selection);
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                binding.amount.setSelection(currentItem.getAmount(), false);
+            }
+        }, 100);
+
     }
     public void setShoppingCartItem(final List<CartItemDetail> cartItemList){
 
@@ -103,7 +107,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public ShoppingCartAdapter.ShoppingCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ShoppingCartItemBinding shoppingCartItemBinding = ShoppingCartItemBinding.inflate(LayoutInflater.from(
                 parent.getContext()), parent, false);
-        return new ShoppingCartViewHolder(shoppingCartItemBinding);
+        return new ShoppingCartViewHolder(shoppingCartItemBinding, mClickListenerDelete);
     }
 
     @Override
@@ -114,10 +118,35 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         ArrayAdapter adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_dropdown_item_1line, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mClickListenerDelete.setPosition(position);
+        holder.binding.setPosition(position);
         createAmountSpinner(cartItem, holder.binding, adapter);
+        holder.binding.setClickListenerDelete(mClickListenerDelete);
+        System.out.println("position = " + position);
 
 
     }
+
+    public void delete(int position) { //removes the row
+        if (position < 0 || position >= mCartItemList.size()) {
+            return;
+        }
+        // call to server
+        deleteClickListenerFromFragement.setPosition(position);
+        deleteClickListenerFromFragement.onClick(mCartItemList.get(position));
+
+    }
+    public void deleteOnScreen(int position) {
+        if (position < 0 || position >= mCartItemList.size()) {
+            return;
+        }
+        mCartItemList.remove(position);
+        notifyItemRemoved(position);
+        notifyDataSetChanged();
+
+    }
+
+
 
     @Override
     public int getItemCount() {
@@ -129,14 +158,37 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         return mCartItemList != null? mCartItemList.get(position).getCartDetailsId():0;
     }
 
-    static class ShoppingCartViewHolder extends RecyclerView.ViewHolder {
+    static class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
         final ShoppingCartItemBinding binding;
 
-        public ShoppingCartViewHolder(ShoppingCartItemBinding binding) {
+        public ShoppingCartViewHolder(ShoppingCartItemBinding binding, ClickListenerOnAdapter clickListenerOnAdapter) {
             super(binding.getRoot());
             this.binding = binding;
+
         }
+
+
     }
 
 
+    public ClickListenerOnAdapter<CartItemDetail> mClickListenerDelete = new ClickListenerOnAdapter<CartItemDetail>(){
+
+        int mPosition = -1;
+        @Override
+        public void onClick(CartItemDetail object) {
+
+            delete(getPosition());
+
+        }
+        public void setPosition(int position){
+            mPosition = position;
+        }
+
+        @Override
+        public int getPosition() {
+            return mPosition;
+        }
+
+
+    };
 }

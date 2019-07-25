@@ -83,5 +83,11 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="delete">Delete</string>
     <string name="add_cart_successfull">Added item to cart!</string>
     <string name="request_login">You need to login first!</string>
+    <string name="order">Order</string>
+    <string name="order_successful">You ordered successfull!</string>
+    <string name="order_fail">Order is failed. Please try again!</string>
+    <string name="delete_successfull">Delete successfull!</string>
+    <string name="delete_fail">Delete is failed. Please try again!</string>
+
 
 </resources>

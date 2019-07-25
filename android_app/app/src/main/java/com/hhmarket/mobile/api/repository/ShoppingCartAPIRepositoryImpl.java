@@ -64,6 +64,7 @@ public class ShoppingCartAPIRepositoryImpl implements ShoppingCartAPIRepository{
         jsonObject.addProperty("Amount", amount);
         RequestBody body =
                 RequestBody.create(MediaType.parse("application/json"), jsonObject.toString());
+        System.out.println("delete :" + body);
         Call<CartItem> call = apiEndpoints.updateQuantityCartItem(body);
         call.enqueue(callback);
     }

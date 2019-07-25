@@ -67,6 +67,7 @@ public class ShoppingCartModel extends AndroidViewModel {
                     responeCartItem.postValue(response.body());
                 } else {
                     Log.i(TAG, "can not get data from API");
+                    responeCartItem.postValue(null);
                 }
                 isLoading.postValue(false);
             }
@@ -76,6 +77,7 @@ public class ShoppingCartModel extends AndroidViewModel {
 
                 apiError.postValue(t);
                 isLoading.postValue(false);
+                responeCartItem.postValue(null);
 
             }
         };
@@ -89,7 +91,9 @@ public class ShoppingCartModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<CartItem> call, Response<CartItem> response) {
                 if(response.isSuccessful()) {
-                    updateCardItemMutableLiveData.postValue(response.body());
+                    updateCardItemMutableLiveData.postValue(new CartItem());
+                } else {
+                    updateCardItemMutableLiveData.postValue(null);
                 }
                     isLoading.postValue(false);
             }
@@ -99,6 +103,7 @@ public class ShoppingCartModel extends AndroidViewModel {
 
                 apiError.postValue(t);
                 isLoading.postValue(false);
+                updateCardItemMutableLiveData.postValue(null);
 
             }
         };

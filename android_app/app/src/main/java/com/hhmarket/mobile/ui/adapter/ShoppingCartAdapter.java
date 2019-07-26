@@ -121,7 +121,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     public ShoppingCartAdapter.ShoppingCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ShoppingCartItemBinding shoppingCartItemBinding = ShoppingCartItemBinding.inflate(LayoutInflater.from(
                 parent.getContext()), parent, false);
-        return new ShoppingCartViewHolder(shoppingCartItemBinding, mClickListenerDelete);
+        return new ShoppingCartViewHolder(shoppingCartItemBinding);
     }
 
     @Override
@@ -132,12 +132,27 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         ArrayAdapter adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_dropdown_item_1line, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ClickListenerOnAdapter<CartItemDetail> mClickListenerDelete ;
+        mClickListenerDelete = new ClickListenerOnAdapter<CartItemDetail>(){
+
+            int mPosition = -1;
+            @Override
+            public void onClick(CartItemDetail object) {
+                delete(getPosition());
+            }
+            public void setPosition(int position){
+                mPosition = position;
+            }
+
+            @Override
+            public int getPosition() {
+                return mPosition;
+            }
+        };
         mClickListenerDelete.setPosition(position);
         holder.binding.setPosition(position);
         createAmountSpinner(cartItem, holder.binding, adapter);
         holder.binding.setClickListenerDelete(mClickListenerDelete);
-        System.out.println("position = " + position);
-
 
         // handle user change quantity
         CartItemDetail currentCartItemDetail = holder.binding.getCartItem();
@@ -188,27 +203,12 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     static class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
         final ShoppingCartItemBinding binding;
 
-        public ShoppingCartViewHolder(ShoppingCartItemBinding binding, ClickListenerOnAdapter clickListenerOnAdapter) {
+        public ShoppingCartViewHolder(ShoppingCartItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
     }
 
 
-    public ClickListenerOnAdapter<CartItemDetail> mClickListenerDelete = new ClickListenerOnAdapter<CartItemDetail>(){
 
-        int mPosition = -1;
-        @Override
-        public void onClick(CartItemDetail object) {
-            delete(getPosition());
-        }
-        public void setPosition(int position){
-            mPosition = position;
-        }
-
-        @Override
-        public int getPosition() {
-            return mPosition;
-        }
-    };
 }

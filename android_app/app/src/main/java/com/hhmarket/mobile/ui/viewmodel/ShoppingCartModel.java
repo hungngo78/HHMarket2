@@ -94,7 +94,7 @@ public class ShoppingCartModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<CartItem> call, Response<CartItem> response) {
                 if(response.isSuccessful()) {
-                    updateCardItemMutableLiveData.postValue(new CartItem());
+                    updateCardItemMutableLiveData.postValue(response.body());
                 } else {
                     updateCardItemMutableLiveData.postValue(null);
                 }

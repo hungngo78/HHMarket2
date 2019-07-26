@@ -32,15 +32,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     public List<CartItemDetail> mCartItemList;
 
-    private ClickListenerOnAdapter<CartItemDetail> deleteClickListenerFromFragement;
+    private ClickListenerOnAdapter<CartItemDetail> mSelectClickListener;
 
     private Spinner mSpinner;
     private ArrayList<String> arr = new ArrayList<String>(Arrays.asList(new String[]{"1","2","3","4","5","6","7","8","9","10"}));
 
 
-    public ShoppingCartAdapter(Context context, ClickListenerOnAdapter deleteClickListener){
+    public ShoppingCartAdapter(Context context, ClickListenerOnAdapter selectClickListener){
         this.context = context;
-        deleteClickListenerFromFragement = deleteClickListener;
+        mSelectClickListener = selectClickListener;
     }
 
     public void setViewModel(ShoppingCartModel viewModel) {
@@ -125,9 +125,9 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ShoppingCartAdapter.ShoppingCartViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ShoppingCartAdapter.ShoppingCartViewHolder holder, int positionItem) {
 
-        CartItemDetail cartItem = mCartItemList.get(position);
+        CartItemDetail cartItem = mCartItemList.get(positionItem);
         holder.binding.setCartItem(cartItem);
         ArrayAdapter adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_dropdown_item_1line, arr);
@@ -149,8 +149,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 return mPosition;
             }
         };
-        mClickListenerDelete.setPosition(position);
-        holder.binding.setPosition(position);
+        mClickListenerDelete.setPosition(positionItem);
+        holder.binding.setPosition(positionItem);
         createAmountSpinner(cartItem, holder.binding, adapter);
         holder.binding.setClickListenerDelete(mClickListenerDelete);
 
@@ -163,6 +163,7 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
                 int selectedItem = Integer.parseInt(parent.getItemAtPosition(position).toString());
                 if (selectedItem != currentCartItemDetail.getAmount())
                     mViewModel.updateShoppingCartItemFromAPI(currentCartItemDetail.getCartDetailsId(), selectedItem);
+                    mSelectClickListener.setPosition(positionItem);
             }
 
             @Override
@@ -176,8 +177,8 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             return;
         }
         // call to server
-        deleteClickListenerFromFragement.setPosition(position);
-        deleteClickListenerFromFragement.onClick(mCartItemList.get(position));
+        mSelectClickListener.setPosition(position);
+        mSelectClickListener.onClick(mCartItemList.get(position));
     }
 
     public void deleteOnScreen(int position) {

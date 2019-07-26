@@ -53,7 +53,7 @@ public class ShoppingCartListFragment extends Fragment {
 
         mBinding = FragmentShoppingCartBinding.inflate(LayoutInflater.from(container.getContext()), container, false);
 
-        mAdapder = new ShoppingCartAdapter(getActivity(), mDeleteClickListener);
+        mAdapder = new ShoppingCartAdapter(getActivity(), mSelectClickListener);
         mBinding.shoppingCartList.setAdapter(mAdapder);
 
         mBinding.setClickListenerOrder(mOrderClickListener);
@@ -95,7 +95,15 @@ public class ShoppingCartListFragment extends Fragment {
         mViewModel.updateQuantityShoppingCart().observe(this, new Observer<CartItem>() {
             @Override
             public void onChanged(CartItem cartItem) {
+                if (cartItem==null) {
+                    Toast.makeText(getActivity(), "updated Quantity fail", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Toast.makeText(getActivity(), "updated Quantity successfully", Toast.LENGTH_SHORT).show();
+                if (mSelectClickListener.getPosition() >= 0 && mSelectClickListener.getPosition() < mAdapder.getItemCount()) {
+                    mAdapder.mCartItemList.get(mSelectClickListener.getPosition()).setAmount(cartItem.getAmount());
+                    calculateTotal();
+                }
             }
         });
 
@@ -105,10 +113,21 @@ public class ShoppingCartListFragment extends Fragment {
 
                 if(cartDetailId.intValue() >= 0) {
                     Toast.makeText(getActivity(), getString(R.string.delete_successfull), Toast.LENGTH_SHORT).show();
-                    mAdapder.deleteOnScreen(mDeleteClickListener.getPosition());
+                    mAdapder.deleteOnScreen(mSelectClickListener.getPosition());
                     calculateTotal();
                 } else {
                     Toast.makeText(getActivity(), getString(R.string.delete_fail), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        mViewModel.orderCartItem().observe(getActivity(), new Observer<Order>() {
+            @Override
+            public void onChanged(Order order) {
+                if (order != null && order.getOrderId() > 0) {
+                    Toast.makeText(getActivity(), getString(R.string.order_successful), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.order_fail), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -134,7 +153,7 @@ public class ShoppingCartListFragment extends Fragment {
         }
 
     }
-    private ClickListenerOnAdapter<CartItemDetail> mDeleteClickListener = new ClickListenerOnAdapter<CartItemDetail>() {
+    private ClickListenerOnAdapter<CartItemDetail> mSelectClickListener = new ClickListenerOnAdapter<CartItemDetail>() {
 
         int mPosition;
         @Override
@@ -157,19 +176,11 @@ public class ShoppingCartListFragment extends Fragment {
     private ClickListener<ShoppingCartAdapter> mOrderClickListener = new ClickListener<ShoppingCartAdapter>() {
         @Override
         public void onClick(ShoppingCartAdapter object) {
-            if (mAdapder.getItemCount() > 0) {
+            if (mAdapder.getItemCount() > 0 && mBinding.getTotalAmount() > 0 && mBinding.getTotalPrice() > 0) {
                 mViewModel.orderCartItemFromAPI();
-                mViewModel.orderCartItem().observe(getActivity(), new Observer<Order>() {
-                    @Override
-                    public void onChanged(Order order) {
-                        if (order != null && order.getOrderId() > 0) {
-                            Toast.makeText(getActivity(), getString(R.string.order_successful), Toast.LENGTH_SHORT).show();
 
-                        } else {
-                            Toast.makeText(getActivity(), getString(R.string.order_fail), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+            } else{
+                Toast.makeText(getActivity(), "No item", Toast.LENGTH_SHORT).show();
             }
         }
     };

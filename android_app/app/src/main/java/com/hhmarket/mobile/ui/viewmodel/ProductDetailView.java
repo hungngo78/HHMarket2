@@ -15,7 +15,6 @@ public class ProductDetailView {
     private Map<String,List<ProductDetail>>  listDataSize  = new HashMap<>();
 
     public ProductDetailView(List<ProductDetail> list){
-
         if (list == null) {
             this.productDetails = new ArrayList<>();
         } else {
@@ -23,9 +22,7 @@ public class ProductDetailView {
         }
 
         processProductDetailColorAdapter();
-
     }
-
 
     private void processProductDetailColorAdapter() {
         for (int i = 0; i <productDetails.size(); i++) {
@@ -49,9 +46,7 @@ public class ProductDetailView {
             itemList.add(productDetails.get(i));
 
             listDataSize.put(productDetails.get(i).getSize(), itemList);
-
         }
-
     }
 
     public List<ProductDetail> getProductDetails() {
@@ -65,7 +60,4 @@ public class ProductDetailView {
     public Map<String,List<ProductDetail>> getProductDetailSizeAdapter() {
         return listDataSize;
     }
-
-
-
 }

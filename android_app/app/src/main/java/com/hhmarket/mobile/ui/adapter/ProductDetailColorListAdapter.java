@@ -18,20 +18,24 @@ import java.util.Objects;
 
 public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductDetailColorListAdapter.ProductDetailColorListViewHolder> {
     List<? extends ProductDetail> mProductList;
+
     @Nullable
+    // handle user click on one item in dialog
     private final ClickListener mClickListener;
     private boolean isSize;
+
+
     public ProductDetailColorListAdapter(@Nullable ClickListener clickCallback) {
         mClickListener = clickCallback;
         setHasStableIds(true);
-
     }
 
-
-
     public void setProductList(final List<? extends ProductDetail> productList, boolean isSize) {
-        if (productList == null) return;
+        if (productList == null)
+            return;
+
         this.isSize = isSize;
+
         if (mProductList == null) {
             mProductList = productList;
             notifyItemRangeInserted(0, productList.size());
@@ -86,7 +90,6 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
         ProductDetail product = mProductList.get(position);
         holder.binding.setProduct(product);
         holder.binding.executePendingBindings();
-
     }
 
     @Override
@@ -109,6 +112,4 @@ public class ProductDetailColorListAdapter extends RecyclerView.Adapter<ProductD
             this.binding = binding;
         }
     }
-
-
 }

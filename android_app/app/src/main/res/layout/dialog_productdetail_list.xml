@@ -23,6 +23,7 @@
                 app:navigationIcon="@android:drawable/ic_menu_close_clear_cancel" />
 
         </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/products_list"
             android:contentDescription="@string/cd_product_list"

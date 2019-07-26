@@ -45,18 +45,28 @@ public class ProductDetailFragment extends Fragment {
 
     private ProductDetailViewModel mViewModel;
     private FragmentProductDetailBinding mBinding;
-    private ProductDetailView producdetail;
+
+    // There are 2 dialogFragments used in this screen: color and size picking up dialogs
+    private DialogProductFragment fragment;
+
+    // holding data displayed in color and size picking up dialogs
+    private ProductDetailView productDetailView;
     private ProductDetail currentItem;
-    DialogProductFragment fragment;
+
+    // quantity combobox
     private String []arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
     private ArrayAdapter<String> adapter;
-    private ImageViewPagerAdapter imageUrlAdapter;
+
+    // Product object received from MainActivity
     private Product  mProduct;
 
-    ViewPager pager;
-    CircleIndicator indicator;
+    // Image viewpager, which is a slide representing all images of this product
+    private ViewPager pager;
+    private ImageViewPagerAdapter imageUrlAdapter;
+    private CircleIndicator indicator;
 
     private ShoppingCartModel shoppingCartModel;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,9 +84,12 @@ public class ProductDetailFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
 
-        // Inflate the layout for this fragment
+        // get Product object from MainActivity
         mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
+
+        // Inflate the layout for this fragment
         mBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
+
         mBinding.setClickListenerColor(clickListenerColor);
         mBinding.setClickListenerSize(clickListenerSize);
         mBinding.setClickListenerAddToCart(clickListenerAddToCart);
@@ -84,11 +97,13 @@ public class ProductDetailFragment extends Fragment {
         mBinding.setClickListenerReview(mProductClickListener);
         mBinding.setRatingNumber(mProduct.getReviewNumber());
 
+        /* quantity combobox */
         ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
         adapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_dropdown_item_1line, lst);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+        // Image viewpager, which is a slide representing all images of this product
         pager = (ViewPager) mBinding.getRoot().getRootView().findViewById(R.id.item_image);
 
         return mBinding.getRoot();
@@ -109,47 +124,23 @@ public class ProductDetailFragment extends Fragment {
         subscribeUi();
     }
 
-    public void setViewPagerAdaper() {
-        if (imageUrlAdapter != null) {
-            imageUrlAdapter.setImageList(currentItem.getImageList());
-        } else
-            imageUrlAdapter = new ImageViewPagerAdapter(getContext(),currentItem.getImageList());
-
-        pager.setAdapter(imageUrlAdapter);
-
-        indicator = (CircleIndicator) mBinding.getRoot().getRootView().findViewById(R.id.circle);
-        indicator.setViewPager(pager);
-    }
-
-    public void createAmountSpinner(){
-        if (currentItem.getAmount() == 0) {
-            arr = new String[]{"0"};
-        } else
-        if (currentItem.getAmount().intValue() >= 10) {
-            arr = new String[]{"1","2","3","4","5","6","7","8","9","10"};
-        } else {
-            arr = new String[currentItem.getAmount()];
-            for(int i = 0; i < currentItem.getAmount(); i++) {
-
-                arr[i] = ""+i;
-            }
-        }
-        ArrayList<String> lst = new ArrayList<String>(Arrays.asList(arr));
-        adapter.clear();
-        adapter.addAll(arr);
-        mBinding.setAmountAdapter(adapter);
-    }
-
     private void subscribeUi() {
         mViewModel.getProductDetail().observe(this, new Observer<List<ProductDetail>>() {
             @Override
             public void onChanged(@Nullable List<ProductDetail> _productDetail) {
                 if (_productDetail != null) {
-                    producdetail  = new ProductDetailView(_productDetail);
+                    // from the list of productdetails, get the first item to display
+                    productDetailView  = new ProductDetailView(_productDetail);
                     currentItem = _productDetail.get(0);
+
+                    // bind above productdetails onto UI
                     mBinding.setProductDetail(currentItem);
                     mBinding.setIsLoading(false);
-                    createAmountSpinner();
+
+                    // populate quantity combobox
+                    populateAmountSpinner();
+
+                    // setup adapter, indicator for ImageViewPager ( of current image )
                     setViewPagerAdaper();
                 } else {
                     mBinding.setIsLoading(true);
@@ -160,37 +151,83 @@ public class ProductDetailFragment extends Fragment {
         });
     }
 
+    private void setViewPagerAdaper() {
+        if (imageUrlAdapter != null) {
+            imageUrlAdapter.setImageList(currentItem.getImageList());
+        } else {
+            imageUrlAdapter = new ImageViewPagerAdapter(getContext(), currentItem.getImageList());
+        }
+
+        pager.setAdapter(imageUrlAdapter);
+
+        indicator = (CircleIndicator) mBinding.getRoot().getRootView().findViewById(R.id.circle);
+        indicator.setViewPager(pager);
+    }
+
+    private void populateAmountSpinner(){
+        if (currentItem.getAmount() == 0) {
+            arr = new String[]{"0"};
+        } else {
+            if (currentItem.getAmount().intValue() >= 10) {
+                arr = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
+            } else {
+                arr = new String[currentItem.getAmount()];
+                for (int i = 0; i < currentItem.getAmount(); i++) {
+
+                    arr[i] = "" + i;
+                }
+            }
+        }
+
+        adapter.clear();
+        adapter.addAll(arr);
+
+        mBinding.setAmountAdapter(adapter);
+    }
+
     private void showFullScreenColorDialog() {
-        fragment = new DialogProductFragment(clickListener);
+        fragment = new DialogProductFragment(onDialogItemClickListener);
+
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_color));
         fragment.setArguments(args);
-        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        fragment.setDataDisplay(producdetail.getProductDetailColorAdapter(), producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails(), false);
+        fragment.setDataDisplay(productDetailView.getProductDetailColorAdapter(),
+                            productDetailView.getProductDetailSizeAdapter(), currentItem.getSize(),
+                     false);
+
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
     }
 
     private void showFullScreenSizeDialog() {
-        fragment = new DialogProductFragment(clickListener);
+        fragment = new DialogProductFragment(onDialogItemClickListener);
+
         Bundle args = new Bundle();
         args.putString(HHMarketConstants.KEY_TITLE_DIALOG, getString(R.string.title_dialog_size));
         fragment.setArguments(args);
-        //fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), currentItem.getSize(), producdetail.getProductDetails());
-        fragment.setDataDisplay(producdetail.getProductDetailSizeAdapter(), producdetail.getProductDetailColorAdapter(), currentItem.getColor(), producdetail.getProductDetails(), true);
+        fragment.setDataDisplay(productDetailView.getProductDetailSizeAdapter(),
+                        productDetailView.getProductDetailColorAdapter(), currentItem.getColor(),
+                 true);
+
         FragmentTransaction ft = getActivity().getSupportFragmentManager().beginTransaction();
         fragment.show(ft, DialogProductFragment.TAG);
     }
 
-
-    private ClickListener<ProductDetail> clickListener = new ClickListener<ProductDetail>() {
+    private ClickListener<ProductDetail> onDialogItemClickListener = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail object) {
-            // update current information
+            // close dialog
             fragment.dismiss();
+
+            /* update current information */
+            // update current product details item
             currentItem = object;
             mBinding.setProductDetail(object);
-            createAmountSpinner();
+
+            // re-populate quantity combobox
+            populateAmountSpinner();
+
+            // re-setup adapter, indicator for ImageViewPager ( of current image )
             setViewPagerAdaper();
         }
     };
@@ -199,7 +236,6 @@ public class ProductDetailFragment extends Fragment {
         public void onClick(ProductDetail object) {
             // choose item size
             showFullScreenSizeDialog();
-
         }
     };
     private ClickListener<ProductDetail> clickListenerColor = new ClickListener<ProductDetail>() {
@@ -209,7 +245,6 @@ public class ProductDetailFragment extends Fragment {
             showFullScreenColorDialog();
         }
     };
-
     private final ClickListener<ProductDetail> mProductClickListener = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail product) {
@@ -219,7 +254,6 @@ public class ProductDetailFragment extends Fragment {
             }
         }
     };
-
     private final ClickListener<ProductDetail> clickListenerAddToCart = new ClickListener<ProductDetail>() {
         @Override
         public void onClick(ProductDetail product) {
@@ -246,7 +280,6 @@ public class ProductDetailFragment extends Fragment {
                         }
                     }
                 });
-
             }
         }
     };

@@ -12,15 +12,17 @@ public class ProductListViewModelFactory extends ViewModelProvider.NewInstanceFa
     private final Application mApplication;
 
     private final String mCategoryId;
+    private final String mCriteria;
 
-    public ProductListViewModelFactory(@NonNull Application application, String categoryId) {
+    public ProductListViewModelFactory(@NonNull Application application, String categoryId, String criteria) {
         mApplication = application;
         mCategoryId = categoryId;
+        mCriteria = criteria;
     }
 
     @Override
     public <T extends ViewModel> T create(Class<T> modelClass) {
         //noinspection unchecked
-        return (T) new ProductListViewModel(mApplication, mCategoryId);
+        return (T) new ProductListViewModel(mApplication, mCategoryId, mCriteria);
     }
 }

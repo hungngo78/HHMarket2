@@ -32,8 +32,10 @@ public class ShoppingCartModel extends AndroidViewModel {
     private MediatorLiveData<List<CartItemDetail>> mObserverCartListMutableLiveData;
     private MutableLiveData<Order> orderMutableLiveData;
     private MutableLiveData<CartItem> updateCardItemMutableLiveData;
+    private MutableLiveData<Integer> removeCardItemMutableLiveData;
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<Throwable> apiError;
+
 
     private int mUserId;
     private final String TAG = "ShoppingCartModel";
@@ -48,6 +50,7 @@ public class ShoppingCartModel extends AndroidViewModel {
         responeCartItem = new MutableLiveData<>();
         orderMutableLiveData = new MutableLiveData<>();
         updateCardItemMutableLiveData = new MutableLiveData<>();
+        removeCardItemMutableLiveData = new MutableLiveData<>();
         isLoading = new MediatorLiveData<>();
         apiError  = new MediatorLiveData<>();
 
@@ -109,6 +112,35 @@ public class ShoppingCartModel extends AndroidViewModel {
         };
 
         mShoppingCartAPIRepository.updateShoppingCartItem(cartDetailId,amount, callback);
+
+    }
+    public void removeShoppingCartItemFromAPI(int cartDetailId) {
+
+        Callback<Integer> callback = new Callback<Integer>() {
+            @Override
+            public void onResponse(Call<Integer> call, Response<Integer> response) {
+                System.out.println("response.isSuccessful() -> " + response.isSuccessful());
+                System.out.println("response.body -> " + response.body());
+                if(response.isSuccessful()) {
+                    removeCardItemMutableLiveData.postValue(response.body());
+                } else {
+                    removeCardItemMutableLiveData.postValue(null);
+                }
+                isLoading.postValue(false);
+            }
+
+            @Override
+            public void onFailure(Call<Integer> call, Throwable t) {
+
+                System.out.println("onFailure");
+                apiError.postValue(t);
+                isLoading.postValue(false);
+                removeCardItemMutableLiveData.postValue(null);
+
+            }
+        };
+
+        mShoppingCartAPIRepository.removeShoppingCartItem(cartDetailId, callback);
 
     }
 
@@ -176,6 +208,8 @@ public class ShoppingCartModel extends AndroidViewModel {
     public LiveData<Order> orderCartItem() {
         return orderMutableLiveData;
     }
+
+    public LiveData<Integer> removeCardItem() {return  removeCardItemMutableLiveData;}
 
 
 }

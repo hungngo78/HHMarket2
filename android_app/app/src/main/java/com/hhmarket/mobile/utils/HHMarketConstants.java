@@ -19,6 +19,7 @@ public class HHMarketConstants {
 
     public final static String KEY_CATEGORY_ID = "category_id";
     public final static String KEY_PRODUCT_ID = "product_id";
+    public final static String KEY_SEARCH_CRITERIA = "criteria";
     public final static String KEY_TITLE_DIALOG = "title_dialog";
     public final static String KEY_STRING_DATA ="key_string_data";
     public final static String KEY_PRODUCT = "product";

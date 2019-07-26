@@ -78,4 +78,12 @@ public class ShoppingCartAPIRepositoryImpl implements ShoppingCartAPIRepository{
 
 
     }
+
+    @Override
+    public void removeShoppingCartItem(int cart_detail_id, Callback<Integer> callback) {
+
+        Call<Integer> call = apiEndpoints.removeShoppingCartItem(cart_detail_id);
+        call.enqueue(callback);
+
+    }
 }

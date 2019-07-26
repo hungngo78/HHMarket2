@@ -90,4 +90,6 @@ Because the content created by users is public to other users, a DMCA notice cla
     <string name="delete_fail">Delete is failed. Please try again!</string>
 
 
+    <!-- Search -->
+    <string name="search_hint">Search products</string>
 </resources>

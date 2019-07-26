@@ -15,5 +15,6 @@ public interface ShoppingCartAPIRepository {
     void addShoppingCartItem(int userId, String ProductDetailsId, int amount, float ExtendedPrice, int Type, Callback<CartItem> callback);
     void updateShoppingCartItem(int CartDetailsId, int amount, Callback<CartItem> callback);
     void orderList(int userId, Callback<Order> callback);
+    void removeShoppingCartItem(int cart_detail_id, Callback<Integer> callback);
 
 }

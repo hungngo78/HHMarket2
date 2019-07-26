@@ -14,6 +14,7 @@ import com.hhmarket.mobile.model.User;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -31,6 +32,9 @@ public interface ApiEndpoints {
 
     @GET("category/get_products_by_category/{categoryId}")
     Call<List<Product>> getAllProducts(@Path("categoryId") String categoryId);
+
+    @GET("category/searching")
+    Call<List<Product>> searchProducts(@Query("criteria") String criteria);
 
     @GET("review/get_reviews_by_productId/{productId}")
     Call<List<Review>> getAllReviews(@Path("productId") String productId);
@@ -80,6 +84,12 @@ public interface ApiEndpoints {
     })
     Call<Order> order(@Path("userId") int userId);
 
+
+    @DELETE("shopping/remove_from_shopping_cart/{cart_details_id}")
+    @Headers({
+            "Content-Type: application/json;charset=utf-8"
+    })
+    Call<Integer> removeShoppingCartItem(@Path("cart_details_id") int cart_details_id);
 
 }
 

@@ -17,14 +17,25 @@
 package com.hhmarket.mobile.ui.activity;
 
 import android.app.Activity;
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SearchRecentSuggestions;
+import android.text.Layout;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -37,6 +48,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -56,6 +68,7 @@ import com.hhmarket.mobile.di.LoginInjector;
 import com.hhmarket.mobile.model.Category;
 import com.hhmarket.mobile.model.Product;
 import com.hhmarket.mobile.model.User;
+import com.hhmarket.mobile.search.RecentQuerySuggestionProvider;
 import com.hhmarket.mobile.ui.fragment.CategoryListFragment;
 import com.hhmarket.mobile.ui.fragment.ProductDetailFragment;
 import com.hhmarket.mobile.ui.fragment.ProductListFragment;
@@ -63,6 +76,8 @@ import com.hhmarket.mobile.ui.fragment.ShoppingCartListFragment;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModel;
 import com.hhmarket.mobile.ui.viewmodel.LoginViewModelFactory;
 import com.hhmarket.mobile.utils.HHMarketConstants;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -78,6 +93,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -119,13 +135,41 @@ public class MainActivity extends AppCompatActivity
         // allow inject repository into LoginViewModel
         ComponentInjector.magicBox.inject(loginViewModel);
 
+        checkLogin();
+
         navigationView.setCheckedItem(R.id.nav_home);
         Fragment fragment = new CategoryListFragment();
         displaySelectedFragment(fragment);
-
-        checkLogin();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        handleSearch();
+    }
+
+    private void handleSearch() {
+        Intent intent = getIntent();
+
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            showProductList(query);
+
+            // save to recent query suggestion
+            //SearchRecentSuggestions suggestions = new SearchRecentSuggestions(this,
+            //            RecentQuerySuggestionProvider.AUTHORITY, RecentQuerySuggestionProvider.MODE);
+            //suggestions.saveRecentQuery(query, null);
+        }
+        else if(Intent.ACTION_VIEW.equals(intent.getAction())) {
+
+            String selectedSuggestion =  intent.getDataString();
+            //execution comes here when an item is selected from search suggestions
+            //you can continue from here with user selected search item
+            //Toast.makeText(this, "selected search suggestion "+selectedSuggestion,
+                    //Toast.LENGTH_SHORT).show();
+            showProductList(selectedSuggestion);
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -184,6 +228,13 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        // tap on search menu item, initialize search dialog
+        if (id ==  R.id.action_search) {
+            // start search dialog
+            super.onSearchRequested();
             return true;
         }
 
@@ -301,15 +352,35 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack("product")
+                //.add(R.id.frame, fragment, null).commit();
                 .replace(R.id.frame, fragment, null).commit();
+        /*
+        44. Difference between adding/replacing fragment in backstack?
+    •	replace removes the existing fragment and adds a new fragment. This means when you press back button the fragment that got replaced
+           will be created with its onCreateView being invoked.
+    •	add retains the existing fragments and adds a new fragment that means existing fragment will be active and they wont be in ‘paused’ state
+          hence when a back button is pressed onCreateView is not called for the existing fragment(the fragment which was there
+          before new fragment was added).
+    •	In terms of fragment’s life cycle events onPause, onResume, onCreateView and other life cycle events will be invoked in case of replace
+          but they wont be invoked in case of add.
+         */
     }
-    /*
-    44. Difference between adding/replacing fragment in backstack?
-•	replace removes the existing fragment and adds a new fragment. This means when you press back button the fragment that got replaced will be created with its onCreateView being invoked.
-•	add retains the existing fragments and adds a new fragment that means existing fragment will be active and they wont be in ‘paused’ state hence when a back button is pressed onCreateView is not called for the existing fragment(the fragment which was there before new fragment was added).
-•	In terms of fragment’s life cycle events onPause, onResume, onCreateView and other life cycle events will be invoked in case of replace but they wont be invoked in case of add.
 
-     */
+    public void showProductList(String criteria) {
+        ProductListFragment fragment = new ProductListFragment();
+        Bundle args = new Bundle();
+        args.putString(HHMarketConstants.KEY_SEARCH_CRITERIA, criteria);
+        fragment.setArguments(args);
+
+        //getSupportFragmentManager().findFragmentByTag()
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("product")
+                .add(R.id.frame, fragment, null).commitAllowingStateLoss();
+                //.replace(R.id.frame, fragment, null).commit();
+        getSupportFragmentManager().executePendingTransactions();
+    }
 
     public void showProductDetail(Product product) {
         ProductDetailFragment fragment = new ProductDetailFragment();
@@ -319,7 +390,6 @@ public class MainActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().addToBackStack("productDetail")
                 .replace(R.id.frame, fragment, null).commit();
     }
-
 
     public void showReview(Product product) {
         Intent intent = new Intent(this, ReviewActivity.class);
@@ -336,5 +406,4 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
 }

@@ -34,4 +34,10 @@ public class ProductionAPIRepositoryImpl implements ProductionAPIRepository {
         Call<List<ProductDetail>> call = apiService.getProductDetail(productId);
         call.enqueue(callback);
     }
+
+    @Override
+    public void searchProducts(String criteria, Callback<List<Product>> callback) {
+        Call<List<Product>> call = apiService.searchProducts(criteria);
+        call.enqueue(callback);
+    }
 }

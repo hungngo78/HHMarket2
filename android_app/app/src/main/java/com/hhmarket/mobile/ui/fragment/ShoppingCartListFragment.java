@@ -98,6 +98,20 @@ public class ShoppingCartListFragment extends Fragment {
                 Toast.makeText(getActivity(), "updated Quantity successfully", Toast.LENGTH_SHORT).show();
             }
         });
+
+        mViewModel.removeCardItem().observe(getActivity(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer cartDetailId) {
+
+                if(cartDetailId.intValue() >= 0) {
+                    Toast.makeText(getActivity(), getString(R.string.delete_successfull), Toast.LENGTH_SHORT).show();
+                    mAdapder.deleteOnScreen(mDeleteClickListener.getPosition());
+                    calculateTotal();
+                } else {
+                    Toast.makeText(getActivity(), getString(R.string.delete_fail), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     void calculateTotal(){
@@ -125,20 +139,8 @@ public class ShoppingCartListFragment extends Fragment {
         int mPosition;
         @Override
         public void onClick(CartItemDetail object) {
-            mViewModel.updateShoppingCartItemFromAPI(object.getCartDetailsId(), 0);
-            mViewModel.updateQuantityShoppingCart().observe(getActivity(), new Observer<CartItem>() {
-                @Override
-                public void onChanged(CartItem cartItem) {
-                    
-                    if(cartItem != null) {
-                        Toast.makeText(getActivity(), getString(R.string.delete_successfull), Toast.LENGTH_SHORT).show();
-                        mAdapder.deleteOnScreen(getPosition());
-                        calculateTotal();
-                    } else {
-                        Toast.makeText(getActivity(), getString(R.string.delete_fail), Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
+            mViewModel.removeShoppingCartItemFromAPI(object.getCartDetailsId());
+
             
         }
 

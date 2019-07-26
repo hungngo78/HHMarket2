@@ -40,25 +40,26 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
         this.mOnDialogItemClickListener = clickListener;
     }
 
-    // productDetailColorList -> color,
-    // productDetailSizeList -> size
+    // productDetailCheckList -> color,
+    // productDetailList -> size
     // currentItem -> current size
-    public void setDataDisplay(Map<String,List<ProductDetail>> productDetailColorList,
-                               Map<String,List<ProductDetail>> productDetailSizeList,
+    public void setDataDisplay(Map<String,List<ProductDetail>> productDetailCheckList,
+                               Map<String,List<ProductDetail>> productDetailList,
                                String currentItem, boolean isSize) {
 
-
+        // bien tam luu tru tat ca color cua size hien hanh ( size dc chon ben ngoai )
         Map<String, ProductDetail> clor = new HashMap<>();
         this.isSize = isSize;
         list = new ArrayList<ProductDetail>();
 
-        Set<String> keyColor = productDetailColorList.keySet(); // list all of colors
+        Set<String> keyColor = productDetailCheckList.keySet(); // list all of colors
         Iterator<String> a = keyColor.iterator();
 
-        Set<String> keySize = productDetailSizeList.keySet(); // list all of sizes
+        Set<String> keySize = productDetailList.keySet(); // list all of sizes
         Iterator<String> b = keySize.iterator();
 
-        List<ProductDetail> itemSameSize = productDetailSizeList.get(currentItem);
+        // lay tat ca san pham cua size hien hanh ( size dang dc chon ben ngoai )
+        List<ProductDetail> itemSameSize = productDetailList.get(currentItem);
         for( int i = 0; i< itemSameSize.size() ; i++) {
             ProductDetail item = itemSameSize.get(i);
             item.setAvailable(true);
@@ -66,13 +67,14 @@ public class DialogProductFragment extends androidx.fragment.app.DialogFragment 
             if (isSize)
                 clor.put(item.getSize(),item);
             else
-                clor.put(item.getColor(),item);
+                clor.put(item.getColor(),item); // cho vao Hash clor tat ca color cua size hien hanh
         }
+
 
         while(a.hasNext()){
             String corKey = a.next();
-            if(!clor.containsKey(corKey)) {
-                ProductDetail item  = productDetailColorList.get(corKey).get(0);
+            if(!clor.containsKey(corKey)) {     // nhung color ko nam trong clor, có nghĩa là ko có hàng
+                ProductDetail item  = productDetailCheckList.get(corKey).get(0);
                 item.setAvailable(false);
                 list.add(item);
             }

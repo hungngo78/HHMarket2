@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.ShoppingCartItemBinding;
 import com.hhmarket.mobile.model.CartItemDetail;
+import com.hhmarket.mobile.model.OnAdapterItemModifyListener;
 import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
 
 import java.util.ArrayList;
@@ -34,9 +35,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
     private Spinner mSpinner;
     private ArrayList<String> arr = new ArrayList<String>(Arrays.asList(new String[]{"1","2","3","4","5","6","7","8","9","10"}));
 
+    // delete cartItem listener
+    OnAdapterItemModifyListener<CartItemDetail>  mDeleteCartItemListener;
 
-    public ShoppingCartAdapter(Context context){
+    public ShoppingCartAdapter(Context context, OnAdapterItemModifyListener<CartItemDetail> deleteCartItemListener){
         this.context = context;
+
+        mDeleteCartItemListener = deleteCartItemListener;
     }
 
     public void setViewModel(ShoppingCartModel viewModel) {
@@ -95,23 +100,11 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         CartItemDetail cartItem = mCartItemList.get(positionItem);
         holder.binding.setCartItem(cartItem);
 
+        // set position for current bound cartItem
+        holder.binding.setItemPosition(positionItem);
+
         /* delete cart item */
-        holder.binding.deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // update onto server
-                mViewModel.removeShoppingCartItemOntoAPI(cartItem.getCartDetailsId());
-
-                // remove in data set mCartItemList
-                mCartItemList.remove(positionItem);
-
-                /* Notify all observers (recycler view) to update UI */
-                // Notify any registered observers (recycler view) that the item previously located at this position has been removed
-                notifyItemRemoved(positionItem);
-                // Notify any registered observers that the data set has been changed
-                notifyDataSetChanged();
-            }
-        });
+        holder.binding.setDeleteBtnclickListener(mDeleteCartItemListener);
 
         /* quantity combobox */
         // prepare adapter
@@ -151,13 +144,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         return mCartItemList != null? mCartItemList.get(position).getCartDetailsId():0;
     }
 
-    static class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
-        final ShoppingCartItemBinding binding;
+    public void removeCartItemOnUI (int positionItem) {
+        // remove in data set mCartItemList
+        mCartItemList.remove(positionItem);
 
-        public ShoppingCartViewHolder(ShoppingCartItemBinding binding) {
-            super(binding.getRoot());
-            this.binding = binding;
-        }
+        /* Notify all observers (recycler view) to update UI */
+        // Notify any registered observers (recycler view) that the item previously located at this position has been removed
+        notifyItemRemoved(positionItem);
+        // Notify any registered observers that the data set has been changed
+        notifyDataSetChanged();
     }
 
     private void populateAmountSpinner(CartItemDetail currentItem, ShoppingCartItemBinding binding, ArrayAdapter adapter){
@@ -180,5 +175,15 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
         binding.amount.setAdapter(adapter);
         binding.amount.setSelection(currentItem.getAmount(), false);
+    }
+
+
+    static class ShoppingCartViewHolder extends RecyclerView.ViewHolder{
+        final ShoppingCartItemBinding binding;
+
+        public ShoppingCartViewHolder(ShoppingCartItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
     }
 }

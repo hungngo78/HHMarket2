@@ -20,6 +20,7 @@ import com.hhmarket.mobile.di.Order;
 import com.hhmarket.mobile.model.CartItem;
 import com.hhmarket.mobile.model.CartItemDetail;
 import com.hhmarket.mobile.model.ClickListener;
+import com.hhmarket.mobile.model.OnAdapterItemModifyListener;
 import com.hhmarket.mobile.ui.adapter.ShoppingCartAdapter;
 import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
 import com.hhmarket.mobile.ui.viewmodel.ShoppingCartViewModelFactory;
@@ -33,6 +34,23 @@ public class ShoppingCartListFragment extends Fragment {
     private FragmentShoppingCartBinding mBinding;
     private ShoppingCartModel mViewModel;
     private ShoppingCartAdapter mAdapder;
+
+    private OnAdapterItemModifyListener<CartItemDetail> mDeleteCartItemListener =
+            new OnAdapterItemModifyListener<CartItemDetail>() {
+                int mPosition = -1;
+
+                @Override
+                public void onModify(CartItemDetail object, int pos) {
+                    // update onto server
+                    mViewModel.removeShoppingCartItemOntoAPI(object.getCartDetailsId());
+
+                    mPosition = pos;
+                }
+
+                public int getModifiedPosition() {
+                    return this.mPosition;
+                }
+            };
 
     private ClickListener<ShoppingCartAdapter> mOrderClickListener = new ClickListener<ShoppingCartAdapter>() {
         @Override
@@ -49,6 +67,7 @@ public class ShoppingCartListFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(HHMarketConstants.TAG_SHOPPING_CART);
+
         ShoppingCartViewModelFactory shoppingCartViewModelFactory = new ShoppingCartViewModelFactory(
                 getActivity().getApplication(), ((HHMarketApp)getActivity().getApplication()).getLoggedUserId());
 
@@ -59,7 +78,7 @@ public class ShoppingCartListFragment extends Fragment {
         mBinding = FragmentShoppingCartBinding.inflate(LayoutInflater.from(container.getContext()), container, false);
 
         // set up adapter for recycler view
-        mAdapder = new ShoppingCartAdapter(getActivity());
+        mAdapder = new ShoppingCartAdapter(getActivity(), mDeleteCartItemListener);
         mBinding.shoppingCartList.setAdapter(mAdapder);
 
         // set OnClickListener for "Order" button
@@ -117,7 +136,11 @@ public class ShoppingCartListFragment extends Fragment {
         mViewModel.removeCardItem().observe(getActivity(), new Observer<Integer>() {
             @Override
             public void onChanged(Integer cartDetailId) {
-                if(cartDetailId.intValue() >= 0) {
+                if(cartDetailId != null && cartDetailId.intValue() >= 0) {
+                    // ask mAdapter to remove this item in its dataset and notify to RecyclerView
+                    if (mDeleteCartItemListener.getModifiedPosition() >= 0)
+                        mAdapder.removeCartItemOnUI(mDeleteCartItemListener.getModifiedPosition());
+
                     Toast.makeText(getActivity(), getString(R.string.delete_successfull), Toast.LENGTH_SHORT).show();
 
                     // update total price, total amount

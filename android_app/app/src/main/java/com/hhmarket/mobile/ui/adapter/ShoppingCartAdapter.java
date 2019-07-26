@@ -1,7 +1,6 @@
 package com.hhmarket.mobile.ui.adapter;
 
 import android.content.Context;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,68 +14,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.hhmarket.mobile.databinding.ShoppingCartItemBinding;
 import com.hhmarket.mobile.model.CartItemDetail;
-import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.ui.viewmodel.ShoppingCartModel;
-import com.hhmarket.mobile.model.ClickListenerOnAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import retrofit2.http.HEAD;
 
 public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapter.ShoppingCartViewHolder> {
     private Context context;
 
+    // viewmodel, used to update quantity, remove cart item onto API
     private ShoppingCartModel mViewModel;
 
+    // data set of this adapter
     public List<CartItemDetail> mCartItemList;
 
-    private ClickListenerOnAdapter<CartItemDetail> mSelectClickListener;
-
+    // quantity combobox
     private Spinner mSpinner;
     private ArrayList<String> arr = new ArrayList<String>(Arrays.asList(new String[]{"1","2","3","4","5","6","7","8","9","10"}));
 
 
-    public ShoppingCartAdapter(Context context, ClickListenerOnAdapter selectClickListener){
+    public ShoppingCartAdapter(Context context){
         this.context = context;
-        mSelectClickListener = selectClickListener;
     }
 
     public void setViewModel(ShoppingCartModel viewModel) {
         mViewModel = viewModel;
     }
 
-    public void createAmountSpinner(CartItemDetail currentItem, ShoppingCartItemBinding binding, ArrayAdapter adapter){
-        if (currentItem.getTotalAmountProduction() == 0) {
-            arr = new ArrayList<String>();
-            arr.add("0");
-        } else
-        if (currentItem.getTotalAmountProduction() >= 10) {
-            arr = new ArrayList<String>(Arrays.asList(new String[]{"0","1","2","3","4","5","6","7","8","9","10"}));
-        } else {
-            arr = new ArrayList<String>();
-            for(int i = 0; i <= currentItem.getTotalAmountProduction(); i++) {
-
-                arr.add(""+ i);
-            }
-        }
-
-        adapter.clear();
-        adapter.addAll(arr);
-
-        binding.amount.setAdapter(adapter);
-        binding.amount.setSelection(currentItem.getAmount(), false);
-
-        /*binding.setAmountAdapter(adapter);
-        new Handler().postDelayed(new Runnable() {
-            public void run() {
-                binding.amount.setSelection(currentItem.getAmount(), false);
-            }
-        }, 100);*/
-    }
     public void setShoppingCartItem(final List<CartItemDetail> cartItemList){
-
         if (this.mCartItemList == null) {
             this.mCartItemList = cartItemList;
             notifyItemRangeInserted(0, mCartItemList.size());
@@ -115,7 +82,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         }
     }
 
-
     @NonNull
     @Override
     public ShoppingCartAdapter.ShoppingCartViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -126,33 +92,33 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ShoppingCartAdapter.ShoppingCartViewHolder holder, int positionItem) {
-
         CartItemDetail cartItem = mCartItemList.get(positionItem);
         holder.binding.setCartItem(cartItem);
+
+        /* delete cart item */
+        holder.binding.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // update onto server
+                mViewModel.removeShoppingCartItemOntoAPI(cartItem.getCartDetailsId());
+
+                // remove in data set mCartItemList
+                mCartItemList.remove(positionItem);
+
+                /* Notify all observers (recycler view) to update UI */
+                // Notify any registered observers (recycler view) that the item previously located at this position has been removed
+                notifyItemRemoved(positionItem);
+                // Notify any registered observers that the data set has been changed
+                notifyDataSetChanged();
+            }
+        });
+
+        /* quantity combobox */
+        // prepare adapter
         ArrayAdapter adapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_dropdown_item_1line, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        ClickListenerOnAdapter<CartItemDetail> mClickListenerDelete ;
-        mClickListenerDelete = new ClickListenerOnAdapter<CartItemDetail>(){
-
-            int mPosition = -1;
-            @Override
-            public void onClick(CartItemDetail object) {
-                delete(getPosition());
-            }
-            public void setPosition(int position){
-                mPosition = position;
-            }
-
-            @Override
-            public int getPosition() {
-                return mPosition;
-            }
-        };
-        mClickListenerDelete.setPosition(positionItem);
-        holder.binding.setPosition(positionItem);
-        createAmountSpinner(cartItem, holder.binding, adapter);
-        holder.binding.setClickListenerDelete(mClickListenerDelete);
+        populateAmountSpinner(cartItem, holder.binding, adapter);
 
         // handle user change quantity
         CartItemDetail currentCartItemDetail = holder.binding.getCartItem();
@@ -160,10 +126,13 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int selectedItem = Integer.parseInt(parent.getItemAtPosition(position).toString());
-                if (selectedItem != currentCartItemDetail.getAmount())
-                    mViewModel.updateShoppingCartItemFromAPI(currentCartItemDetail.getCartDetailsId(), selectedItem);
-                    mSelectClickListener.setPosition(positionItem);
+                int changedQuantity = Integer.parseInt(parent.getItemAtPosition(position).toString());
+                if (changedQuantity != currentCartItemDetail.getAmount()) {
+                    mViewModel.updateShoppingCartItemOntoAPI(currentCartItemDetail.getCartDetailsId(), changedQuantity);
+
+                    // update quantity of current item in mCartItemList
+                    mCartItemList.get(positionItem).setAmount(changedQuantity);
+                }
             }
 
             @Override
@@ -171,25 +140,6 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
             }
         });
     }
-
-    public void delete(int position) { //removes the row
-        if (position < 0 || position >= mCartItemList.size()) {
-            return;
-        }
-        // call to server
-        mSelectClickListener.setPosition(position);
-        mSelectClickListener.onClick(mCartItemList.get(position));
-    }
-
-    public void deleteOnScreen(int position) {
-        if (position < 0 || position >= mCartItemList.size()) {
-            return;
-        }
-        mCartItemList.remove(position);
-        notifyItemRemoved(position);
-        notifyDataSetChanged();
-    }
-
 
     @Override
     public int getItemCount() {
@@ -210,6 +160,25 @@ public class ShoppingCartAdapter extends RecyclerView.Adapter<ShoppingCartAdapte
         }
     }
 
+    private void populateAmountSpinner(CartItemDetail currentItem, ShoppingCartItemBinding binding, ArrayAdapter adapter){
+        if (currentItem.getTotalAmountProduction() == 0) {
+            arr = new ArrayList<String>();
+            arr.add("0");
+        } else
+        if (currentItem.getTotalAmountProduction() >= 10) {
+            arr = new ArrayList<String>(Arrays.asList(new String[]{"0","1","2","3","4","5","6","7","8","9","10"}));
+        } else {
+            arr = new ArrayList<String>();
+            for(int i = 0; i <= currentItem.getTotalAmountProduction(); i++) {
 
+                arr.add(""+ i);
+            }
+        }
 
+        adapter.clear();
+        adapter.addAll(arr);
+
+        binding.amount.setAdapter(adapter);
+        binding.amount.setSelection(currentItem.getAmount(), false);
+    }
 }

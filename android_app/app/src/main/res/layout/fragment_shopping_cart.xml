@@ -19,7 +19,7 @@
             type="int" />
         <variable
             name="clickListenerOrder"
-            type="com.hhmarket.mobile.model.ClickListener" />
+            type="com.hhmarket.mobile.model.ClickListener"/>
     </data>
 
 
@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cardview_light_background">
+
             <TextView
                 android:id="@+id/loading_tv"
                 android:layout_width="match_parent"
@@ -55,6 +56,7 @@
                 tools:context=".ui.activity.MainActivity"
                 tools:layout_editor_absoluteX="0dp"
                 tools:listitem="@layout/shopping_cart_item" />
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,6 +89,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/delete"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

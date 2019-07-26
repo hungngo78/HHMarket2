@@ -1,6 +1,5 @@
 package com.hhmarket.mobile.ui.fragment;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.Observer;
@@ -23,7 +22,6 @@ import com.hhmarket.mobile.HHMarketApp;
 import com.hhmarket.mobile.R;
 import com.hhmarket.mobile.databinding.FragmentProductDetailBinding;
 import com.hhmarket.mobile.di.ComponentInjector;
-import com.hhmarket.mobile.di.MagicBox;
 import com.hhmarket.mobile.model.CartItem;
 import com.hhmarket.mobile.model.ClickListener;
 import com.hhmarket.mobile.model.Product;
@@ -54,9 +52,9 @@ public class ProductDetailFragment extends Fragment {
     private ArrayAdapter<String> adapter;
     private ImageViewPagerAdapter imageUrlAdapter;
     private Product  mProduct;
+
     ViewPager pager;
     CircleIndicator indicator;
-    ActionBar actionBar;
 
     private ShoppingCartModel shoppingCartModel;
     @Override
@@ -75,6 +73,7 @@ public class ProductDetailFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         getActivity().setTitle(HHMarketConstants.TAG_PRODUCT_DETAILS);
+
         // Inflate the layout for this fragment
         mProduct = (Product) getArguments().getParcelable(HHMarketConstants.KEY_PRODUCT);
         mBinding = FragmentProductDetailBinding.inflate(inflater, container, false);
@@ -98,11 +97,15 @@ public class ProductDetailFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         ProductDetailViewModelFactory factory = new ProductDetailViewModelFactory(
                 getActivity().getApplication(), mProduct.getProductId().toString());
+
         mViewModel = ViewModelProviders.of(this, factory).get(ProductDetailViewModel.class);
         ComponentInjector.magicBox.inject(mViewModel);
+
         mViewModel.getProductDetailfromAPI();
+
         subscribeUi();
     }
 
@@ -113,7 +116,7 @@ public class ProductDetailFragment extends Fragment {
             imageUrlAdapter = new ImageViewPagerAdapter(getContext(),currentItem.getImageList());
 
         pager.setAdapter(imageUrlAdapter);
-        //mBinding.setImageAdapter(imageUrlAdapter);
+
         indicator = (CircleIndicator) mBinding.getRoot().getRootView().findViewById(R.id.circle);
         indicator.setViewPager(pager);
     }
@@ -232,7 +235,7 @@ public class ProductDetailFragment extends Fragment {
 
                 String amount = (String)mBinding.amount.getSelectedItem();
                 System.out.println("amount = " + amount);
-                shoppingCartModel.addShoppingCartItemFromAPI(product.getProductDetailsId().toString(),
+                shoppingCartModel.addShoppingCartItemOntoAPI(product.getProductDetailsId().toString(),
                         Integer.parseInt(amount),product.gePrice(),0);
                 shoppingCartModel.addShoppingCartItem().observe(getViewLifecycleOwner(), new Observer<CartItem>() {
                     @Override
@@ -241,22 +244,10 @@ public class ProductDetailFragment extends Fragment {
                         if (cartItem != null) {
                             Toast.makeText(getContext(), getActivity().getString(R.string.add_cart_successfull), Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 });
 
             }
         }
     };
-
-
-
-//    @Nullable
-//    private final ProductClickListener mProductClickListener;
-//
-//    public ProductListAdapter(@Nullable ProductClickListener clickCallback) {
-//        mProductClickListener = clickCallback;
-//        setHasStableIds(true);
-//    }
-
 }

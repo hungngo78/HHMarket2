@@ -31,11 +31,14 @@ public class ShoppingCartModel extends AndroidViewModel {
     private MutableLiveData<List<CartItemDetail>> responeCartItem;
     private MediatorLiveData<List<CartItemDetail>> mObserverCartListMutableLiveData;
     private MutableLiveData<Order> orderMutableLiveData;
+
+    // result of updating quantity
     private MutableLiveData<CartItem> updateCardItemMutableLiveData;
+    // result of deleting item from cart
     private MutableLiveData<Integer> removeCardItemMutableLiveData;
+
     private MutableLiveData<Boolean> isLoading;
     private MutableLiveData<Throwable> apiError;
-
 
     private int mUserId;
     private final String TAG = "ShoppingCartModel";
@@ -57,7 +60,6 @@ public class ShoppingCartModel extends AndroidViewModel {
         mObserverCartListMutableLiveData.setValue(null);
 
         mObserverCartListMutableLiveData.addSource(responeCartItem, mObserverCartListMutableLiveData::setValue);
-
     }
 
     public void getShoppingCartItemListFromAPI(){
@@ -88,7 +90,7 @@ public class ShoppingCartModel extends AndroidViewModel {
         mShoppingCartAPIRepository.getShoppingCartList(mUserId, callback);
     }
 
-    public void updateShoppingCartItemFromAPI(int cartDetailId, int amount) {
+    public void updateShoppingCartItemOntoAPI(int cartDetailId, int amount) {
 
         Callback<CartItem> callback = new Callback<CartItem>() {
             @Override
@@ -98,24 +100,22 @@ public class ShoppingCartModel extends AndroidViewModel {
                 } else {
                     updateCardItemMutableLiveData.postValue(null);
                 }
-                    isLoading.postValue(false);
+                isLoading.postValue(false);
             }
 
             @Override
             public void onFailure(Call<CartItem> call, Throwable t) {
-
                 apiError.postValue(t);
                 isLoading.postValue(false);
                 updateCardItemMutableLiveData.postValue(null);
-
             }
         };
 
-        mShoppingCartAPIRepository.updateShoppingCartItem(cartDetailId,amount, callback);
+        mShoppingCartAPIRepository.updateShoppingCartItem(cartDetailId, amount, callback);
 
     }
-    public void removeShoppingCartItemFromAPI(int cartDetailId) {
 
+    public void removeShoppingCartItemOntoAPI(int cartDetailId) {
         Callback<Integer> callback = new Callback<Integer>() {
             @Override
             public void onResponse(Call<Integer> call, Response<Integer> response) {
@@ -124,7 +124,7 @@ public class ShoppingCartModel extends AndroidViewModel {
                 if(response.isSuccessful()) {
                     removeCardItemMutableLiveData.postValue(response.body());
                 } else {
-                    removeCardItemMutableLiveData.postValue(null);
+                    removeCardItemMutableLiveData.postValue(-1);
                 }
                 isLoading.postValue(false);
             }
@@ -144,7 +144,7 @@ public class ShoppingCartModel extends AndroidViewModel {
 
     }
 
-    public void addShoppingCartItemFromAPI(String productDetailsId, int amount, float extendedPrice, int type) {
+    public void addShoppingCartItemOntoAPI(String productDetailsId, int amount, float extendedPrice, int type) {
 
         Callback<CartItem> callback = new Callback<CartItem>() {
             @Override
@@ -168,7 +168,7 @@ public class ShoppingCartModel extends AndroidViewModel {
         mShoppingCartAPIRepository.addShoppingCartItem(mUserId,productDetailsId, amount, extendedPrice, type, callback);
     }
 
-    public void orderCartItemFromAPI() {
+    public void orderCartItemOntoAPI() {
         Callback<Order> callback = new Callback<Order>() {
             @Override
             public void onResponse(Call<Order> call, Response<Order> response) {
@@ -201,6 +201,7 @@ public class ShoppingCartModel extends AndroidViewModel {
     public LiveData<CartItem> updateQuantityShoppingCart() {
         return updateCardItemMutableLiveData;
     }
+
     public LiveData<Boolean> isLoading() {
         return isLoading;
     }

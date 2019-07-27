@@ -205,16 +205,39 @@ public class ProductionService {
 		for  (Product p: products) {
 			HttpSearchProduction searchProduction = new HttpSearchProduction();
 			searchProduction.setProductId(p.getProductId());
-			searchProduction.setName(p.getName());
+			searchProduction.setProductionName(p.getName());
 			searchProduction.setDescription(p.getDescription());
 			
-			List<ProductDetails> productDetails = p.getProductDetailsList();
+			/*List<ProductDetails> productDetails = p.getProductDetailsList();
 			if (productDetails != null && productDetails.size() > 0) {
 				ProductDetails details = productDetails.get(0);
 				searchProduction.setPrice(details.getPrice());
 				searchProduction.setColor(details.getColor());
 				searchProduction.setPicture(details.getPicture());
+			}*/
+			
+			// get min and max prices of this product
+			HttpProductPrices productPrices = productDetailsRepository.getMinMaxPrice(p.getProductId());
+			float minPrice = 0;
+			float maxPrice = 0;
+			if (productPrices != null) {
+				minPrice = productPrices.getMinPrice();
+				maxPrice = productPrices.getMaxPrice();				
+			} 
+			searchProduction.setMinPrice(minPrice);
+			searchProduction.setMaxPrice(maxPrice);
+			
+			// get default color and picture of this product
+			ProductDetails productDetails = productDetailsRepository.findByProductIdAndPrice(p.getProductId(), minPrice);
+			String color = "";
+			String picture = "";
+			if (productDetails != null) {
+				color = productDetails.getColor();
+				picture = productDetails.getPicture();
 			}
+			searchProduction.setColor(color);
+			searchProduction.setPicture(picture);
+			
 			
 			searchProduction.setCategoryName(p.getCategory().getName());
 			searchProduction.setCategoryDescription(p.getCategory().getDescription());

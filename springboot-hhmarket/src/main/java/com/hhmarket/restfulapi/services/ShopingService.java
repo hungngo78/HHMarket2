@@ -200,19 +200,32 @@ public class ShopingService {
 	@Transactional 
 	public CartDetails updateQuantity(HttpShopingItem shopingItem) {
 		// if amount is equal to 0, remove item from shopping cart
-		if (shopingItem.Amount == 0) {
-			this.cartDetailsRepository.deleteByCartDetailsId(shopingItem.CartDetailsId);
-		} else { // update quantity of given item in shopping cart 
+		//if (shopingItem.Amount == 0) {
+		//	this.cartDetailsRepository.deleteByCartDetailsId(shopingItem.CartDetailsId);
+		//} else { // update quantity of given item in shopping cart 
 			Optional<CartDetails> currentCartDetails = this.cartDetailsRepository.findById(shopingItem.CartDetailsId);
 			if (currentCartDetails.isPresent()) {
 				currentCartDetails.get().setAmount(shopingItem.Amount);
 				
 				return this.cartDetailsRepository.save(currentCartDetails.get());
 			}
-		}
+		//}
 		
 		return null;
 	}
+	
+	@Transactional 
+	public int removeFromShoppingCart(int cartDetailsId) {
+		Optional<CartDetails> currentCartDetails = this.cartDetailsRepository.findById(cartDetailsId);
+		if (currentCartDetails.isPresent()) {
+			this.cartDetailsRepository.deleteByCartDetailsId(cartDetailsId);
+			
+			return cartDetailsId;
+		} 
+		else
+			return -1;
+	}
+	
 	
 	/* ----------------------------------------- Order, OrderDetails ----------------------------------------- */
 	@Transactional 

@@ -2,12 +2,15 @@ package com.hhmarket.restfulapi.pojo;
 
 public class HttpSearchProduction {
 	private int productId;
-	private String name;
+	//private String name;
+	private String productionName;	
     private String description;
     
     private String picture;
     private String color;
-    private float price;
+    //private float price;
+    private float 	minPrice;
+    private float 	maxPrice;
     
     private String categoryName;
     private String categoryDescription;
@@ -26,12 +29,19 @@ public class HttpSearchProduction {
 		this.productId = id;
 	}
 	
-	public String getName() {
+	/*public String getName() {
         return name;
     }
 
     public void setName(final String name) {
         this.name = name;
+    }*/
+	public String getProductionName() {
+        return productionName;
+    }
+
+    public void setProductionName(final String name) {
+        this.productionName = name;
     }
     
     public String getDescription() {
@@ -53,11 +63,23 @@ public class HttpSearchProduction {
     public void setColor(String color) {
     	this.color = color;
     }
-    public float getPrice() {
+    /*public float getPrice() {
     	return this.price;
     }
     public void setPrice(float price) {
     	this.price = price;
+    }*/
+    public float getMinPrice() {
+    	return this.minPrice;
+    }
+    public void setMinPrice(float price) {
+    	this.minPrice = price;
+    }
+    public float getMaxPrice() {
+    	return this.maxPrice;
+    }
+    public void setMaxPrice(float price) {
+    	this.maxPrice = price;
     }
     
     public String getCategoryName() {

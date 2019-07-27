@@ -89,7 +89,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 	}
 	
 	// It will cache result and key name will be "product.byCategoryId"
-	@Cacheable(value = "product.byCategoryId")			
+	//@Cacheable(value = "product.byCategoryId")			
 	public List<Product> findByCategoryId(int categoryId) {
 		TypedQuery<Product> query = entityManager.createQuery("SELECT p FROM Product p WHERE p.category.categoryId = :categoryId", Product.class);
 		query.setParameter("categoryId", categoryId);
@@ -99,9 +99,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 	}
 	
 	// It will clear cache when new product save to database
-	@Caching(evict = {@CacheEvict(value = "product.byCategoryId", allEntries=true),
-					  @CacheEvict(value = "product.byName", allEntries=true),
-					  @CacheEvict(value = "product.byId", allEntries=true)})			
+	@Caching(evict = {@CacheEvict(value = "product.byName", allEntries=true),
+					  @CacheEvict(value = "product.byId", allEntries=true)})
+					  //@CacheEvict(value = "product.byCategoryId", allEntries=true)}		
 	public void save(Product entity) {
 		entityManager.persist(entity);
 	}

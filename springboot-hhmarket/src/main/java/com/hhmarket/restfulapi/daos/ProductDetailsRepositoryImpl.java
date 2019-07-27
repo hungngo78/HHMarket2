@@ -39,7 +39,7 @@ public class ProductDetailsRepositoryImpl implements ProductDetailsRepository {
 		ProductDetails result = null;
 		
 		TypedQuery<ProductDetails> query = entityManager.createQuery("SELECT pDt FROM ProductDetails pDt "
-				+ "WHERE pDt.product.productId = :productId and pDt.price = :price", ProductDetails.class);
+				+ "WHERE pDt.product.productId = :productId and FORMAT(pDt.price,2) = FORMAT(:price, 2)", ProductDetails.class);
 		query.setParameter("productId", productId);
 		query.setParameter("price", price);
 		List<ProductDetails> resultList = query.getResultList();

@@ -166,22 +166,30 @@
         table.innerHTML = ' ';
         for (var r = 0; r < imageList.length; r++) {
             if (r == 0) {
-                //var largeImage = document.getElementById("largeImageId");
-                $("#largeImageId").attr("src", '/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r]);
                 //var largeImage = $("#largeImageId");
                 //largeImage.src = '/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r];
+
+                //var largeImage = document.getElementById("largeImageId");
+                //$("#largeImageId").attr("src", '/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r]);
+                $("#largeImageId").attr("src", modelPro.S3BucketURL + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r]);                
             }
             var row = table.insertRow(r);
             row.setAttribute("class", "productdetail_image_rectangle");
             row.setAttribute("align", "center");
+
             //row.insertCell(0).innerHTML = '<img align="middle" class="productdetail_image" src="/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r] + '">';
-            row.insertCell(0).innerHTML = '<img align="middle" class="productdetail_image" src="/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r] + '" onmouseover="prev(\'' + imageList[r] + '\',\'' + modelPro.ProductId + '\',\'' + modelPro.Color + '\')" >';
+            //row.insertCell(0).innerHTML = '<img align="middle" class="productdetail_image" src="/assets/production/' + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r] + '" onmouseover="prev(\'' + imageList[r] + '\',\'' + modelPro.ProductId + '\',\'' + modelPro.Color + '\')" >';
+            row.insertCell(0).innerHTML = '<img align="middle" class="productdetail_image"' + 
+                'src = "' + modelPro.S3BucketURL + modelPro.ProductId + '/' + modelPro.Color + '/' + imageList[r] + '"' +
+                'onmouseover="prev(\'' + imageList[r] + '\',\'' + modelPro.ProductId + '\',\'' + modelPro.Color + '\',\'' + modelPro.S3BucketURL + '\')" >';
         }
     }
-    function prev(image, productId, color) {
+    function prev(image, productId, color, s3bucketURL) {
         // sai: $("#largeImageId").src = '/assets/production/' + productId + '/' + color + '/' + image;
-        $("#largeImageId").attr("src", '/assets/production/' + productId + '/' + color + '/' + image);
+        //$("#largeImageId").attr("src", '/assets/production/' + productId + '/' + color + '/' + image);
+        $("#largeImageId").attr("src", s3bucketURL + productId + '/' + color + '/' + image);
     }
+
     function displaySize(color) {
         var sizeList = document.getElementById("sizeID").options;  
         var sizeText = "undefined";

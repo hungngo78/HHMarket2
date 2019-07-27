@@ -1,6 +1,7 @@
+using HHMarketWebApp.Services;
+
 namespace HHMarketWebApp.ViewModels
 {
-
     public class CartDetailItem
     {
         public int CartDetailsId { get; set; }
@@ -18,6 +19,8 @@ namespace HHMarketWebApp.ViewModels
         public decimal Price { get; set; }
 
         public string Picture { get; set; }
+
+        public string S3BucketURL = Constant.S3_BUCKET_URL + "Production/";
 
         public string ProductName { get; set; }
 

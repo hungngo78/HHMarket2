@@ -39,7 +39,8 @@
                                         <tr id="item/@item.CartDetailsId" style="height:0px;">
                                             <td width="15%">
                                                 <a href="../Production/ProductDetail?id=@item.ProductID">
-                                                    <img id="image/@item.ProductDetailsId" src="/assets/common_img/no_image.png" alt="Mainstays Faux Leather Bucket Accent Chair" width="100">
+                                                    <img id="image/@item.ProductDetailsId" 
+                                                         src="/assets/common_img/no_image.png" alt="Mainstays Faux Leather Bucket Accent Chair" width="100">
                                                 </a>
                                             </td>
                                             <td width="50%" style="vertical-align:top">
@@ -314,12 +315,10 @@
                 for (var i = 0; i < shoppingCart.length; i++) {
                     var image = document.getElementById("image/" + shoppingCart[i].ProductDetailsId);
                     var pict = shoppingCart[i].Picture.split(',');
-                    if (pict != null && pict != "undefined" && pict.length > 0) {
-                        //alert('src: ' + + '/assets/production/' + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
-                        image.setAttribute("src", '/assets/production/' + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
-                    } //else {
-                        //alert("AA: " + pict);
-                    //}
+                    if (pict != null && pict != "undefined" && pict.length > 0) {                        
+                        //image.setAttribute("src", '/assets/production/' + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
+                        image.setAttribute("src", shoppingCart[i].S3BucketURL + shoppingCart[i].ProductID + '/' + shoppingCart[i].Color + '/' + pict[0]);
+                    } 
                 }
             }
 

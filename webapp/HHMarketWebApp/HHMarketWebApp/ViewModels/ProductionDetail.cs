@@ -1,4 +1,5 @@
 using System.Collections;
+using HHMarketWebApp.Services;
 
 namespace HHMarketWebApp.ViewModels
 {
@@ -19,6 +20,8 @@ namespace HHMarketWebApp.ViewModels
         public string Size { get; set; }
 
         public string Picture { get; set; }
+
+        public string S3BucketURL = Constant.S3_BUCKET_URL + "Production/";
 
         public decimal Price { get; set; }
 

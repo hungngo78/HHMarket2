@@ -78,6 +78,7 @@
    
 
     $(document).ready(function () {
+        //alert("document ready");
         var pros = @Html.Raw(Json.Encode(listItem));
 
         for (var r = 0; r < pros.length; r++) 
@@ -91,7 +92,8 @@
         var imageList = product.Picture.split(',');
         //alert(product.ProductId);
         var Img = document.getElementById(product.ProductId);
-        Img.src = '/assets/production/' + product.ProductId + '/' + product.Color + '/' + imageList[0];
+        //Img.src = '/assets/production/' + product.ProductId + '/' + product.Color + '/' + imageList[0];
+        Img.src = product.S3BucketURL + product.ProductId + '/' + product.Color + '/' + imageList[0];        
         //alert(Img.src);
     }
 </script>

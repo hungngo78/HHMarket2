@@ -301,9 +301,10 @@ namespace HHMarketWebApp.Controllers
                 {                 
                     ShoppingService service = new ShoppingService();
                     model.Amount = 0;
-                    CartDetailItem cartDetailItem = await service.updateQuantity(model);
+                    //CartDetailItem cartDetailItem = await service.updateQuantity(model);
+                    int cartDetailId = await service.removeCartItem(model.CartDetailsId);
 
-                    if (cartDetailItem == null)
+                    if (cartDetailId <= 0)
                     {
                         return this.Json(new
                         {

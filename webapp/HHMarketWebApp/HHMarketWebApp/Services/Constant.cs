@@ -8,9 +8,11 @@ namespace HHMarketWebApp.Services
     public class Constant
     {
         // local service
-        public const String BASE_URL = "http://localhost:8080/";
+        //public const String BASE_URL = "http://localhost:8080/";
         // on cloud service
-        // public const String BASE_URL = "http://http://ec2-34-238-44-113.compute-1.amazonaws.com:80/";
+        public const String BASE_URL = "http://ec2-34-238-44-113.compute-1.amazonaws.com/";
+
+        public const String S3_BUCKET_URL = "https://hungngobucket1.s3-us-west-1.amazonaws.com/";
 
         // Acount
         public const String AUTHENTICATION_URL = "account/login?";
@@ -38,6 +40,7 @@ namespace HHMarketWebApp.Services
         public const String GET_CART_ITEM_URL = "shopping/get_cart_item/";
         public const String POST_CART_ITEM_URL = "shopping/add_shoping_item";
         public const String PUT_UPDATE_QUANTITY_URL = "shopping/update_quantity";
+        public const String DELETE_CART_ITEM_URL = "shopping/remove_from_shopping_cart/";
         public const String POST_ORDER_URL = "shopping/order/";
 
         // Search

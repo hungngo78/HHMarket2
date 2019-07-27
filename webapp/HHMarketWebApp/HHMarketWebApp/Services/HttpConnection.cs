@@ -252,6 +252,18 @@ namespace HHMarketWebApp.Services
             return cartItem;
         }
 
+        public async Task<int> deleteCartItemAsync(string path)
+        {
+            int cartItemId = -1;
+            HttpResponseMessage response = await client.DeleteAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                // Deserialize the updated product from the response body.
+                cartItemId = await response.Content.ReadAsAsync<int>();
+            }
+            return cartItemId;
+        }
+
         public async Task<Order> postOrderAsync(string path)
         {
             Order order = null;

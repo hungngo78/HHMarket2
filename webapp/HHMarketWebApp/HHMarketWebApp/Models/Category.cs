@@ -5,6 +5,7 @@ namespace HHMarketWebApp.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using HHMarketWebApp.Services;
 
     [Table("Category")]
     public partial class Category
@@ -24,6 +25,10 @@ namespace HHMarketWebApp.Models
         [Required]
         [StringLength(200)]
         public string Picture { get; set; }
+
+        public string PictureURL () {
+            return Constant.S3_BUCKET_URL + "Category/" + CategoryId.ToString() + "/" + Picture;
+        }
 
         [Required]
         [StringLength(200)]

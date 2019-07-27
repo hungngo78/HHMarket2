@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using HHMarketWebApp.Services;
 
 namespace HHMarketWebApp.ViewModels
 {
@@ -20,5 +21,8 @@ namespace HHMarketWebApp.ViewModels
         public string Picture { get; set; }
 
         public string Color { get; set; }
+
+        public string S3BucketURL = Constant.S3_BUCKET_URL + "Production/";
+        
     }
 }

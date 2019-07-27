@@ -52,7 +52,8 @@
             <a href="../Production/Index?categoryId=@item.CategoryId&page=1">
             <!--a href="../Production/ReviewProduction?id=2"-->
                 <div class="Rectangle">
-                    <img src="~/assets/@Html.DisplayFor(model =>item.Picture)" style="padding-top:10px; padding-bottom:10px" class="product_img" alt="No Image" />
+                    <!--img src="~/assets/@Html.DisplayFor(model =>item.Picture)" style="padding-top:10px; padding-bottom:10px" class="product_img" alt="No Image" /-->
+                    <img src="@item.PictureURL()" style="padding-top:10px; padding-bottom:10px" class="product_img" alt="No Image" />
                     <div class="TempoCategoryTile-content">
                         <p class="product_lb">@Html.DisplayFor(modelItem => item.Name)</p>
                     </div>

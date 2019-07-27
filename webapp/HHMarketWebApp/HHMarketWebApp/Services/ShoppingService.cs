@@ -60,6 +60,12 @@ namespace HHMarketWebApp.Services
             String url = Constant.PUT_UPDATE_QUANTITY_URL;
             return await http.putCartItemAsync(url, item);
         }
+        public async Task<int> removeCartItem(int cart_details_Id)
+        {
+            HttpConnection http = new HttpConnection();
+            String url = Constant.DELETE_CART_ITEM_URL + cart_details_Id.ToString();
+            return await http.deleteCartItemAsync(url);
+        }
 
         public async Task<Order> order(int userId)
         {

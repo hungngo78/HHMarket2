@@ -1,4 +1,4 @@
-#-------------------------------------------------- Account ------------------------------------------------
+﻿#-------------------------------------------------- Account ------------------------------------------------
 1. login
  - Description: authenticate user 
  - http://localhost:8080/account/login?username={username}&password={password}
@@ -14,10 +14,10 @@
       "email": "hung@yahoo.com",
       "firstName": "Hung Tran Minh",
       "lastName": "Ngo",
-      "address": "6311 Willow Cir",
+      "address": "621 Beach Blvd",
       "city": "Westminster",
       "state": "CA",
-      "zipCode": "92683"
+      "zipCode": "92563"
    }
 
 2. add
@@ -32,10 +32,10 @@
        "Email": "hung@yahoo.com",
        "FirstName": "Hung Tran Minh",
        "LastName": "Ngo",
-       "Address": "6311 Willow Cir",
+       "Address": "621 Beach Blvd",
        "City": "Westminster",
        "State": "CA",
-       "ZipCode": "92683"
+       "ZipCode": "92563"
    }
  - Response: 
    {
@@ -45,10 +45,10 @@
       "email": "hung@yahoo.com",
       "firstName": "Hung Tran Minh",
       "lastName": "Ngo",
-      "address": "6311 Willow Cir",
+      "address": "621 Beach Blvd",
       "city": "Westminster",
       "state": "CA",
-      "zipCode": "92683"
+      "zipCode": "92563"
    }
    
 3. update
@@ -63,10 +63,10 @@
        "Email": "hung@yahoo.com",
        "FirstName": "Hung Tran Minh",
        "LastName": "Ngo",
-       "Address": "6311 Willow Cir",
+       "Address": "621 Beach Blvd",
        "City": "Westminster",
        "State": "CA",
-       "ZipCode": "92683"
+       "ZipCode": "92563"
    }
  - Response: 
    {
@@ -76,10 +76,10 @@
       "email": "hung@yahoo.com",
       "firstName": "Hung Tran Minh",
       "lastName": "Ngo",
-      "address": "6311 Willow Cir",
+      "address": "621 Beach Blvd",
       "city": "Westminster",
       "state": "CA",
-      "zipCode": "92683"
+      "zipCode": "92563"
    }
 
 4. get
@@ -143,7 +143,9 @@
         "minPrice": 8,
         "maxPrice": 20,
         "picture": "image1.jpg,image2.jpg,image3.jpg",
-        "color": "Navy"
+        "color": "Navy",
+	"reviewNumber": 20,
+        "overrallRating": "2.4"
     }
    ]
 
@@ -160,7 +162,9 @@
         "minPrice": 8,
         "maxPrice": 20,
         "picture": "image1.jpg,image2.jpg,image3.jpg",
-        "color": "Navy"
+        "color": "Navy",
+	"reviewNumber": 20,
+        "overrallRating": "2.4"
     }
     
 8. get_production_by_product_details_id
@@ -176,7 +180,9 @@
         "minPrice": 8,
         "maxPrice": 20,
         "picture": "image1.jpg,image2.jpg,image3.jpg",
-        "color": "Navy"
+        "color": "Navy",
+	"reviewNumber": 20,
+        "overrallRating": "2.4"
     }
 
 9.  get_product_title_by_id
@@ -361,7 +367,7 @@
  - Request body:
    {
 	   "CartDetailsId": 4,
-	   "Amount":50				-->  amount = 0 sẽ tương đương xóa item khỏi cart
+	   "Amount":50				
    } 
  - Response:
    {
@@ -371,9 +377,20 @@
        "type": 0
    }
   
-18. order
+18. remove cart item
+ - Description: update quantity of shopping item in cart
+ - http://localhost:8080/shopping/remove_from_shopping_cart/{cartDetailsId}
+ - Method: DELETE
+ - Path variable:  cartDetailsId
+ - Request body: Non  
+ - Response:
+   {
+       123
+   }
+
+19. order
  - Description: make the order
- - http://localhost:8080/shopping//order/{userId}
+ - http://localhost:8080/shopping/order/{userId}
  - Method: POST
  - Path variable:  userId
  - Request body: Non
@@ -388,7 +405,7 @@
    }
    
 #-------------------------------------------------- Review ------------------------------------------------  
-19. add_review_item
+20. add_review_item
  - Description: add new review
  - http://localhost:8080/review/add_review_item
  - Method: POST
@@ -411,7 +428,7 @@
        "reviewDate": "2019-06-03"
    }
     
-20. get_reviews_by_productId
+21. get_reviews_by_productId
  - Description: get all reviews of a given product
  - http://localhost:8080/review/get_reviews_by_productId/{productId}
  - Method: GET
@@ -438,7 +455,7 @@
     }
    ]
  
-21. get_rating_by_productId
+22. get_rating_by_productId
  - Description: get all rating of a given product
  - http://localhost:8080/review/get_rating_by_productId/{productId}
  - Method: GET
@@ -460,7 +477,7 @@
     
 
 #-------------------------------------------------- Search ------------------------------------------------  
-22. search
+23. search
  - Description: search products by categoryId and searching criteria
  - http://localhost:8080/category/searching?categoryId={categoryId}&criteria=samsung+clothing
  - Method: GET
@@ -471,11 +488,12 @@
    [
     {
         "productId": 1000,
-        "name": "Samsung galaxy 16GB",
+        "productionName": "Samsung galaxy 16GB",
         "description": "64GB, 4GB RAM, IP68 Water and Dust Proof, Camera: 12 MP, Front: 8 MP, Fast",
         "picture": "image1.jpg,image1_1.jpg,image1_2.jpg",
         "color": "Red",
-        "price": 48,
+        "minPrice": 8.0,
+	"maxPrice": 48.0,
         "categoryName": "Electric",
         "categoryDescription": "aa",
         "reviewNumber": 5,
@@ -483,7 +501,7 @@
     },
     {
         "productId": 1001,
-        "name": "Fruit of the Loom",
+        "productionName": "Fruit of the Loom",
         "description": "Fruit of the Loom Big Men's Dual Defense EverSoft Crew Sweatshirt",
         "picture": "image1.jpg,image2.jpg,image3.jpg",
         "color": "Navy",

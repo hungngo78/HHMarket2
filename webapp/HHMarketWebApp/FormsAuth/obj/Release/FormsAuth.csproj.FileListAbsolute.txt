@@ -1,0 +1,7 @@
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\bin\Release\FormsAuth.dll
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\bin\Release\FormsAuth.pdb
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\obj\Release\FormsAuth.Properties.Resources.resources
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\obj\Release\FormsAuth.csproj.GenerateResource.cache
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\obj\Release\FormsAuth.csproj.CoreCompileInputs.cache
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\obj\Release\FormsAuth.dll
+C:\Users\them\Documents\GitHub\hungngo78\Master3\DMNhatBan\webapp\HHMarketWebApp\FormsAuth\obj\Release\FormsAuth.pdb

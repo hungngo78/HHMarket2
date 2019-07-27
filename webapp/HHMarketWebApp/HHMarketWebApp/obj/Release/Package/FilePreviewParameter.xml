@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="HHMarketWebApp20190726111446" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\them\\Documents\\GitHub\\hungngo78\\Master3\\DMNhatBan\\webapp\\HHMarketWebApp\\HHMarketWebApp\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\them\\Documents\\GitHub\\hungngo78\\Master3\\DMNhatBan\\webapp\\HHMarketWebApp\\HHMarketWebApp\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="HHMarketWebApp.Models.DBModelContainer-Web.config Connection String" description="" value="HHMarketWebApp.Models.DBModelContainer_ConnectionString" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\them\\Documents\\GitHub\\hungngo78\\Master3\\DMNhatBan\\webapp\\HHMarketWebApp\\HHMarketWebApp\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='HHMarketWebApp.Models.DBModelContainer']/@connectionString" />
+  </parameter>
+</parameters>

@@ -20,7 +20,8 @@
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress>
     </Use64BitIISExpress>
-    <IISExpressSSLPort>44386</IISExpressSSLPort>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -201,10 +202,6 @@
     <Compile Include="Provider\MyMembershipProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="assets\aa.jpg" />
-    <Content Include="assets\aa1.jpg" />
-    <Content Include="assets\aa2.jpg" />
-    <Content Include="assets\aa3.jpg" />
     <Content Include="assets\nightsky.jpg" />
     <Content Include="assets\page1.jpg" />
     <Content Include="assets\page2.jpg" />
@@ -237,6 +234,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <None Include="Properties\PublishProfiles\HHMarketWebApp20190726111446 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -274,6 +272,7 @@
     <Content Include="Views\ShoppingCart\Index.cshtml" />
     <Content Include="Views\SearchProduction\Index.cshtml" />
     <Content Include="Views\Production\_PartialPage_ReviewList.cshtml" />
+    <Content Include="Views\MyLayoutPage\CartIcon.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -310,7 +309,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62341</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44386/</IISUrl>
+          <IISUrl>http://localhost:62341/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

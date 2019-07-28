@@ -1,2 +1,3 @@
 android_app/app/src/main/res/anim/slide_down.xml
 android_app/app/src/main/res/anim/slide_up.xml
+webapp/*
